@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.1, 2020-03-01T22:13:06. -->
+<!-- Written by QtCreator 4.11.1, 2020-03-04T16:36:27. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -64,9 +64,9 @@
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{7d66f6fb-e08e-4f0c-93f2-31b68a9ae218}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">PyQt</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">PyQt</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{19974db0-bb94-4fbb-a98a-57b1959b8d41}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">-1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
@@ -143,11 +143,11 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">logo</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/logo.png</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/logo.png</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{1ff61239-f813-4e31-a49c-b0252118760e}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\logo.png</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/main.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/main.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{470aa080-6749-48ba-a6ac-9f52440b49e5}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\main.py</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
@@ -219,11 +219,11 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/main.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/main.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">logo</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/logo.png</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/veroh/OneDrive - Universidad de Antioquia/Proyecto Banco de la republica/Trabajo de grado/Herramienta/HVA/GITLAB/interface/ViAT/logo.png</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Interpreter"></value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\main.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\logo.png</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

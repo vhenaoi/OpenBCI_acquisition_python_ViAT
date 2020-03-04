@@ -6,6 +6,6 @@ from PySide2.QtCore import QStringListModel, Qt, QUrl
 from PySide2.QtGui import QGuiApplication
 
 if __name__ == "__main__":
-    app = QApplication([])
+    app = QGuiApplication([])
     # ...
     sys.exit(app.exec_())

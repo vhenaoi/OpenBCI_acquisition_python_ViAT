@@ -1,10 +1,7 @@
-# In[Libraries]
 import pygame
 import time
-#from Mark import Mark
 import numpy as np
 from pylsl import StreamInfo, StreamOutlet
-
 from datetime import datetime
 
 class Stimulus(object):

@@ -1,3 +1,14 @@
+'Autor: Verónica Henao Isaza'
+
+'''Send Mark
+A data stream with Mark feature is created
+A stream inlet; Inlets are used to receive streaming data 
+(and meta-data) from the lab network.
+Pull_chunk; Pull a chunk of samples from the inlet.
+While pull samples and is not None.
+Mark == 99.0
+ '''
+ 
 from pylsl import StreamInlet, resolve_stream
 from datetime import datetime
 
@@ -5,7 +16,7 @@ from datetime import datetime
 if __name__ == '__main__':
     
     while True:
-        print('Creando el flujo')
+        print('Creating the flow')
         streams = resolve_stream('type', 'Markers')
         inlet = StreamInlet(streams[0])
         inlet.pull_chunk()
