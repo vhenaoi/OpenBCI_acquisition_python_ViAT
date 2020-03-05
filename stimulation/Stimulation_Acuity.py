@@ -4,6 +4,7 @@ import numpy as np
 from pylsl import StreamInfo, StreamOutlet
 from datetime import datetime
 
+
 class Stimulus(object):
     def __init__(self):
         self.__width = 1680
@@ -57,8 +58,7 @@ class Stimulus(object):
             time.sleep(4)
 
         self.__outlet.push_sample(np.array([99]))
-        pygame.quit()
-        
+        pygame.quit()                
 
 
 
