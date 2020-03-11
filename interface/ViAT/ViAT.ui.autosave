@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>823</width>
-    <height>0</height>
+    <width>1106</width>
+    <height>739</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>851</width>
-      <height>541</height>
+      <width>1101</width>
+      <height>711</height>
      </rect>
     </property>
     <property name="palette">
@@ -125,15 +125,15 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>851</width>
-       <height>541</height>
+       <width>1101</width>
+       <height>711</height>
       </rect>
      </property>
-     <widget class="QLabel" name="nombreLogo">
+     <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>240</y>
+        <x>320</x>
+        <y>270</y>
         <width>301</width>
         <height>20</height>
        </rect>
@@ -148,27 +148,27 @@
        <string>Visual Acuity Tool</string>
       </property>
      </widget>
-     <widget class="QLabel" name="logo">
+     <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>250</x>
         <y>0</y>
-        <width>371</width>
-        <height>241</height>
+        <width>381</width>
+        <height>301</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/prefijoNuevo/logo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="descripcion">
+     <widget class="QTextEdit" name="textEdit">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
         <x>220</x>
-        <y>270</y>
+        <y>300</y>
         <width>421</width>
         <height>71</height>
        </rect>
@@ -190,33 +190,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;La siguiente herramienta de aquisición tiene la capacidad de entregar resultados confiables acerca de la fisiología visual con respecto a una estimulación específica (Agudeza de Vernier), a partir de señales EEG adquiridas por medio de un dispositivo portable y de bajo costo (OpenBCI) utilizando el sistema 10-10.  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QWidget" name="verticalLayoutWidget">
+     <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>340</y>
-        <width>271</width>
-        <height>191</height>
+        <x>330</x>
+        <y>370</y>
+        <width>221</width>
+        <height>151</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="iniciarRegistro">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-         </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
+       </property>
+       <property name="leftMargin">
+        <number>16</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton">
          <property name="text">
           <string>Iniciar registro</string>
          </property>
@@ -225,47 +219,17 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="datosPacientes">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-         </property>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButton_3">
          <property name="text">
-          <string>Base de datos pacientes</string>
+          <string>Salir</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="salirInicio">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-         </property>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>Salir</string>
+          <string>Base de datos pacientes</string>
          </property>
         </widget>
        </item>
@@ -279,7 +243,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>823</width>
+     <width>1106</width>
      <height>21</height>
     </rect>
    </property>
