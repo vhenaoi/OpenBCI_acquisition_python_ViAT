@@ -25,7 +25,7 @@ class ViAT(QMainWindow):
         loadUi ('ViAT.ui',self)
         self.setup()
         self.show()
-    # Se configuran las seales y los slots de los botones.
+    # Se configuran las señales y los slots de los botones.
     def setup(self):
         # Se establecen los slots de los botones presentes en la ventana principal del sistema
         self.iniciarRegistro.clicked.connect(self.cargarRegistro)
@@ -54,15 +54,63 @@ class CargarRegistro(QMainWindow):
     # Se configuran las seales y los slots de los botones.
     def setup(self):
         # Se establecen los slots de los botones presentes en la ventana principal del sistema
-        self.infoHistoria.clicked.connect(self.infoHistoriaClinica)
         self.atras.clicked.connect(self.cargarInicio)
-        self.siguiente.clicked.connect(self.cargarAdquisicion)
-        pixmap = QPixmap('Logo.png')
+        self.siguiente.clicked.connect(self.adquisicionDatos)
+        pixmap = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap)
     def infoHistoriaClinica(self):
         pass
     def cargarInicio(self):
         self.__ventanaPadre.show()
         self.hide()
-    def cargarAdquisicion(self):
-        pass
+    def adquisicionDatos(self):
+        self.__registro=AdquisicionDatos(self)
+        self.__registro.show()
+        self.hide()
+
+class AdquisicionDatos(QMainWindow):
+    def __init__(self, vp):
+        super(AdquisicionDatos,self).__init__()
+        loadUi ('Adquisicion.ui',self)
+        self.setup()
+        self.show()
+        
+        self.__ventanaPadre = vp
+    def setup(self):
+        # Se establecen los slots de los botones presentes en la ventana principal del sistema
+        self.atras.clicked.connect(self.cargarInicio)
+        self.siguiente.clicked.connect(self.adquisicionAccion)
+        pixmap = QPixmap('M.png')
+        self.m.setPixmap(pixmap)
+        pixmap1 = QPixmap('blanclogo.png')
+        self.logo.setPixmap(pixmap1)
+    def cargarInicio(self):
+        self.__ventanaPadre.show()
+        self.hide()
+    def adquisicionAccion(self):
+        self.__registro=AdquisicionSignal(self)
+        self.__registro.show()
+        self.hide()
+
+class AdquisicionSignal(QMainWindow):
+    def __init__(self, vp):
+        super(AdquisicionDatos,self).__init__()
+        loadUi ('Adquisicion_accion.ui',self)
+        self.setup()
+        self.show()
+        
+        self.__ventanaPadre = vp
+    def setup(self):
+        # Se establecen los slots de los botones presentes en la ventana principal del sistema
+        self.atras.clicked.connect(self.cargarAdquisicion)
+        pixmap = QPixmap('M.png')
+        self.m.setPixmap(pixmap)
+        pixmap1 = QPixmap('blanclogo.png')
+        self.logo.setPixmap(pixmap1)
+#    def infoHistoriaClinica(self):
+#        pass
+#    def cargarInicio(self):
+#        self.__ventanaPadre.show()
+#        self.hide()
+#    def cargarAdquisicion(self):
+#        pass

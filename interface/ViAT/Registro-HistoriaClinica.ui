@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
+    <width>826</width>
     <height>597</height>
    </rect>
   </property>
@@ -164,8 +164,8 @@
        <rect>
         <x>60</x>
         <y>70</y>
-        <width>291</width>
-        <height>181</height>
+        <width>381</width>
+        <height>151</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout">
@@ -393,120 +393,6 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="epilepsiaPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Epilepsia * :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QComboBox" name="epilepsiaRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Epilepsia: Especifique si el paciente ha sufrido o sufre actualmente de epilesia&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
-    border: 1px solid gray;
-    border-radius: 8px;
-    padding: 1px 18px 1px 3px;
-    min-width: 6em;
-}
-
-QComboBox:editable {
-    background: white;
-}
-
-QComboBox:!editable, QComboBox::drop-down:editable {
-     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
-                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
-}
-
-/* QComboBox gets the &quot;on&quot; state when the popup is open */
-QComboBox:!editable:on, QComboBox::drop-down:editable:on {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
-                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
-}
-
-QComboBox:on { /* shift the text when the popup opens */
-    padding-top: 3px;
-    padding-left: 4px;
-}
-
-QComboBox::drop-down {
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    width: 15px;
-
-    border-left-width: 1px;
-    border-left-color: darkgray;
-    border-left-style: solid;
-    border-top-right-radius: 3px; 
-    border-bottom-right-radius: 3px;
-}
-
-
-QComboBox::down-arrow:on { /* shift the arrow when popup is open */
-    top: 1px;
-    left: 1px;
-}
-
-QComboBox QAbstractItemView {
-    border: 2px solid  darkgray;
-    selection-background-color: rgb(126, 126, 126);
-}
-
-
-</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Si</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>No</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLineEdit" name="idRespuesta_2">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ID Paciente: Coloque el número que identifica al paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="tepilepsiaPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Tipo de epilepsia:</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QPushButton" name="infoHistoria">
@@ -561,10 +447,10 @@ QPushButton:pressed {
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>270</y>
-        <width>311</width>
-        <height>211</height>
+        <x>460</x>
+        <y>130</y>
+        <width>327</width>
+        <height>351</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -601,8 +487,8 @@ QPushButton:pressed {
      <widget class="QWidget" name="verticalLayoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>240</y>
+        <x>60</x>
+        <y>230</y>
         <width>381</width>
         <height>152</height>
        </rect>
@@ -1208,9 +1094,9 @@ QComboBox QAbstractItemView {
      <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>60</x>
         <y>400</y>
-        <width>341</width>
+        <width>381</width>
         <height>80</height>
        </rect>
       </property>
@@ -1249,17 +1135,11 @@ QComboBox QAbstractItemView {
      <widget class="QLabel" name="logo">
       <property name="geometry">
        <rect>
-        <x>410</x>
-        <y>30</y>
-        <width>341</width>
-        <height>191</height>
+        <x>610</x>
+        <y>10</y>
+        <width>171</width>
+        <height>111</height>
        </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>161</width>
-        <height>0</height>
-       </size>
       </property>
       <property name="text">
        <string/>
@@ -1273,7 +1153,7 @@ QComboBox QAbstractItemView {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>819</width>
+     <width>826</width>
      <height>21</height>
     </rect>
    </property>

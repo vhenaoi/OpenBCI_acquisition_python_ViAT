@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>823</width>
-    <height>0</height>
+    <width>828</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>851</width>
-      <height>541</height>
+      <height>591</height>
      </rect>
     </property>
     <property name="palette">
@@ -126,7 +126,7 @@
        <x>0</x>
        <y>0</y>
        <width>851</width>
-       <height>541</height>
+       <height>591</height>
       </rect>
      </property>
      <widget class="QLabel" name="nombreLogo">
@@ -279,7 +279,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>823</width>
+     <width>828</width>
      <height>21</height>
     </rect>
    </property>

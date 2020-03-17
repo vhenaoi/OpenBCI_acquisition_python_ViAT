@@ -2,4 +2,7 @@
   <qresource prefix="help">
     <file>info.jpg</file>
   </qresource>
+  <qresource prefix="logopeq">
+    <file>blanclogo.png</file>
+  </qresource>
 </RCC>
