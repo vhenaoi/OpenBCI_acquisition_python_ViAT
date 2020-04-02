@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
+    <width>813</width>
     <height>597</height>
    </rect>
   </property>
@@ -132,62 +132,266 @@
        <height>561</height>
       </rect>
      </property>
-     <widget class="QLabel" name="HistoriaClinica">
+     <widget class="QLabel" name="logo">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>610</x>
         <y>10</y>
-        <width>351</width>
-        <height>20</height>
+        <width>171</width>
+        <height>111</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Book Antiqua</family>
-        <pointsize>14</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
       </property>
       <property name="text">
-       <string>HISTORIA CLINICA</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
+       <string/>
       </property>
      </widget>
-     <widget class="QWidget" name="verticalLayoutWidget">
+     <widget class="QScrollArea" name="scrollArea">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>70</y>
-        <width>381</width>
-        <height>151</height>
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>561</height>
        </rect>
       </property>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="idPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>ID Paciente * :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="idRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ID Paciente: Coloque el número que identifica al paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>799</width>
+         <height>559</height>
+        </rect>
+       </property>
+       <widget class="QPushButton" name="back">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>520</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+        </property>
+        <property name="text">
+         <string>Atras</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="next">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>520</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+        </property>
+        <property name="text">
+         <string>Siguiente</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>130</y>
+          <width>331</width>
+          <height>371</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="dxLabel">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Antecedentes y diagnostico:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPlainTextEdit" name="dx">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Antecedentes familiares, si toma algún medicamento, si ha sufrido algún tipo de crisis o accidente. Ultima vez que existió al médico que exámenes o diagnostico obtuvo. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPlainTextEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+}</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>90</y>
+          <width>401</width>
+          <height>407</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="1" column="0">
+            <widget class="QPushButton" name="adquisitionInfo_2">
+             <property name="font">
+              <font>
+               <family>Footlight MT Light</family>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    border: 2px solid #0e213e;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
+        );
+    }</string>
+             </property>
+             <property name="text">
+              <string>?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="clinicHistory">
+             <property name="font">
+              <font>
+               <family>Book Antiqua</family>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>HISTORIA CLINICA</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::RichText</enum>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="idPatient">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>ID Paciente * :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="idAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ID Paciente: Coloque el número que identifica al paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
     border: 2px solid gray;
     border-radius: 10px;
     padding: 0 8px;
@@ -195,28 +399,28 @@
     selection-background-color: darkgray;
 }
 </string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="nombrePaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Nombre * :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="nombreRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nombre: Coloque el nombre completo del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="patientName">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nombre * :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="nameAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nombre: Coloque el nombre completo del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
     border: 2px solid gray;
     border-radius: 10px;
     padding: 0 8px;
@@ -224,28 +428,28 @@
     selection-background-color: darkgray;
 }
 </string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="apellidoPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Apellido * :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="apellidoRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apellido: Coloque los apellidos del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="patientSurname">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Apellido * :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="lastnameAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apellido: Coloque los apellidos del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
     border: 2px solid gray;
     border-radius: 10px;
     padding: 0 8px;
@@ -253,28 +457,57 @@
     selection-background-color: darkgray;
 }
 </string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="sexoPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Sexo * :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="sexoRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sexo: eliga el sexo del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="patientSurname_2">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>CC *:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLineEdit" name="ccAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CC: Documento de identidad del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+}
+</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="patientSex">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Sexo * :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QComboBox" name="sexAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sexo: eliga el sexo del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
     border: 1px solid gray;
     border-radius: 8px;
     padding: 1px 18px 1px 3px;
@@ -328,38 +561,41 @@ QComboBox QAbstractItemView {
 
 
 </string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Femenino</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Masculino</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="edadPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Edad * :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QSpinBox" name="edadRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Edad: Elija la edad actual del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QSpinBox{
+             </property>
+             <item>
+              <property name="text">
+               <string>Femenino</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Masculino</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="patientAge">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Edad * :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QSpinBox" name="ageAnswer">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Edad: Elija la edad actual del paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QSpinBox{
     border: 2px solid gray;
     border-radius: 10px;
     padding: 0 8px;
@@ -384,135 +620,64 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
     background-color:  rgb(126, 126, 126);
 }
 </string>
-         </property>
-         <property name="minimum">
-          <number>18</number>
-         </property>
-         <property name="maximum">
-          <number>60</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPushButton" name="infoHistoria">
-      <property name="geometry">
-       <rect>
-        <x>250</x>
-        <y>10</y>
-        <width>41</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Footlight MT Light</family>
-        <pointsize>16</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    color: rgb(0, 0, 0);
-    border: 2px solid #0e213e;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
-        );
-    }</string>
-      </property>
-      <property name="text">
-       <string>?</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>460</x>
-        <y>130</y>
-        <width>327</width>
-        <height>351</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="dxLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Antecedentes y diagnostico:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="dx">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Antecedentes familiares, si toma algún medicamento, si ha sufrido algún tipo de crisis o accidente. Ultima vez que existió al médico que exámenes o diagnostico obtuvo. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPlainTextEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>230</y>
-        <width>381</width>
-        <height>152</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="gafasPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>¿Usa gafas?</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="gafasRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;¿Usa gafas?: Especifique si paciente utiliza actualmente gafas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
+             </property>
+             <property name="minimum">
+              <number>18</number>
+             </property>
+             <property name="maximum">
+              <number>60</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QFormLayout" name="formLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="patientGlasses">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>¿Usa gafas?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="answerGlasses">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;¿Usa gafas?: Especifique si paciente utiliza actualmente gafas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
     border: 1px solid gray;
     border-radius:8px;
     padding: 1px 18px 1px 3px;
@@ -564,38 +729,38 @@ QComboBox QAbstractItemView {
     selection-background-color: rgb(126, 126, 126);
 }
 </string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Si</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>No</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="snellenPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Agudeza de Snellen:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="snellenRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agudeza de Snellen: Especifique la agudeza del paciente hallada sin gafas por medio de tablas de Snellen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
+             </property>
+             <item>
+              <property name="text">
+               <string>Si</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>No</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="snellenPatient">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Agudeza de Snellen:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="snellenAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agudeza de Snellen: Especifique la agudeza del paciente hallada sin gafas por medio de tablas de Snellen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
     border: 1px solid gray;
     border-radius: 8px;
     padding: 1px 18px 1px 3px;
@@ -647,83 +812,83 @@ QComboBox QAbstractItemView {
     selection-background-color: rgb(126, 126, 126);
 }
 </string>
-         </property>
-         <item>
-          <property name="text">
-           <string>20/200</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/160</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/125</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/100</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/80</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/63</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/50</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/40</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/25</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/20</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/16</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="corregidaPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Agudeza de Snellen corregida:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="corregidaRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agudeza de Snellen corregida: Especifique la agudeza del paciente hallada con gafas por medio de tablas de Snellen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
+             </property>
+             <item>
+              <property name="text">
+               <string>20/200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/160</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/125</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/100</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/80</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/63</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/50</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/40</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/25</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/20</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/16</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="correctedVA">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Agudeza de Snellen corregida:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="answerVA">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agudeza de Snellen corregida: Especifique la agudeza del paciente hallada con gafas por medio de tablas de Snellen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
     border: 1px solid gray;
     border-radius: 8px;
     padding: 1px 18px 1px 3px;
@@ -775,83 +940,88 @@ QComboBox QAbstractItemView {
     selection-background-color: rgb(126, 126, 126);
 }
 </string>
-         </property>
-         <item>
-          <property name="text">
-           <string>20/200</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/160</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/125</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/100</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/80</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/63</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/50</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/40</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/25</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/20</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20/16</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="estimuloPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Estimulo</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="estimuloRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Estimulo: Del banco de estimulos eliga el que considere pertinente para hacer el registro&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
+             </property>
+             <item>
+              <property name="text">
+               <string>NA</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/160</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/125</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/100</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/80</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/63</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/50</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/40</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/25</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/20</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/16</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="stimulusPatient">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Estimulo</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="stimulusAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Estimulo: Del banco de estimulos eliga el que considere pertinente para hacer el registro&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
     border: 1px solid gray;
     border-radius: 8px;
     padding: 1px 18px 1px 3px;
@@ -903,41 +1073,53 @@ QComboBox QAbstractItemView {
     selection-background-color: rgb(126, 126, 126);
 }
 </string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Agudeza de Vernier</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Agudeza de Grating</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Contraste</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Color</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Forma</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="dominateRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Estimulo: Del banco de estimulos eliga el que considere pertinente para hacer el registro&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QComboBox {
+             </property>
+             <item>
+              <property name="text">
+               <string>Agudeza de Vernier</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Agudeza de Grating</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Contraste</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Color</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Forma</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="eyePatient">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Ojo dominante</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="eyeAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Después de evaluar el ojo dominante del sujeto&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
     border: 1px solid gray;
     border-radius: 8px;
     padding: 1px 18px 1px 3px;
@@ -989,162 +1171,89 @@ QComboBox QAbstractItemView {
     selection-background-color: rgb(126, 126, 126);
 }
 </string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Derecho</string>
-          </property>
+             </property>
+             <item>
+              <property name="text">
+               <string>Derecho</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Izquierdo</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="timePatient">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>¿Tiempo del daño visual?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="timeAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;¿Hace cuanto sufrio el daño visual?&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+}
+</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <property name="text">
-           <string>Izquierdo</string>
-          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="responsiblePerson">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Registro realizado por* :</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="responsibleAnswer">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Responsable del registro&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+}
+</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="dominatePaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Ojo dominante</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="tiempoPaciente">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>¿Tiempo del daño visual?</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLineEdit" name="tiempoRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ID Paciente: Coloque el número que identifica al paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+        </layout>
+       </widget>
+      </widget>
      </widget>
-     <widget class="QPushButton" name="atras">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>522</y>
-        <width>81</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Atras</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="siguiente">
-      <property name="geometry">
-       <rect>
-        <x>670</x>
-        <y>522</y>
-        <width>81</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Siguiente</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>400</y>
-        <width>381</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="responsablePersona">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Registro realizado por* :</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="responsableRespuesta">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ID Paciente: Coloque el número que identifica al paciente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QLabel" name="logo">
-      <property name="geometry">
-       <rect>
-        <x>610</x>
-        <y>10</y>
-        <width>171</width>
-        <height>111</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
+     <zorder>scrollArea</zorder>
+     <zorder>logo</zorder>
     </widget>
    </widget>
   </widget>
@@ -1153,7 +1262,7 @@ QComboBox QAbstractItemView {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>826</width>
+     <width>813</width>
      <height>21</height>
     </rect>
    </property>

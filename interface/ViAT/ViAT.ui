@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>828</width>
+    <width>803</width>
     <height>639</height>
    </rect>
   </property>
@@ -129,7 +129,7 @@
        <height>591</height>
       </rect>
      </property>
-     <widget class="QLabel" name="nombreLogo">
+     <widget class="QLabel" name="nameLogo">
       <property name="geometry">
        <rect>
         <x>300</x>
@@ -161,16 +161,16 @@
        <string/>
       </property>
      </widget>
-     <widget class="QTextEdit" name="descripcion">
+     <widget class="QTextEdit" name="description">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>200</x>
         <y>270</y>
-        <width>421</width>
-        <height>71</height>
+        <width>481</width>
+        <height>101</height>
        </rect>
       </property>
       <property name="inputMethodHints">
@@ -187,21 +187,21 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;La siguiente herramienta de aquisición tiene la capacidad de entregar resultados confiables acerca de la fisiología visual con respecto a una estimulación específica (Agudeza de Vernier), a partir de señales EEG adquiridas por medio de un dispositivo portable y de bajo costo (OpenBCI) utilizando el sistema 10-10.  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;La siguiente herramienta de aquisición tiene la capacidad de entregar resultados confiables acerca de la fisiología visual con respecto a una estimulación específica (Agudeza de Vernier), a partir de señales EEG adquiridas por medio de un dispositivo portable y de bajo costo (OpenBCI) utilizando el sistema 10-10.  &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>340</y>
+        <y>380</y>
         <width>271</width>
         <height>191</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="iniciarRegistro">
+        <widget class="QPushButton" name="startRegistration">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -214,7 +214,23 @@ p, li { white-space: pre-wrap; }
     padding: 0 8px;
     background: rgb(255, 255, 255);
     selection-background-color: darkgray;
-}
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
 </string>
          </property>
          <property name="text">
@@ -226,7 +242,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="datosPacientes">
+        <widget class="QPushButton" name="patientData">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -239,7 +255,23 @@ p, li { white-space: pre-wrap; }
     padding: 0 8px;
     background: rgb(255, 255, 255);
     selection-background-color: darkgray;
-}
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
 </string>
          </property>
          <property name="text">
@@ -248,7 +280,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="salirInicio">
+        <widget class="QPushButton" name="exitStar">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -261,7 +293,23 @@ p, li { white-space: pre-wrap; }
     padding: 0 8px;
     background: rgb(255, 255, 255);
     selection-background-color: darkgray;
-}
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
 </string>
          </property>
          <property name="text">
@@ -279,7 +327,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>828</width>
+     <width>803</width>
      <height>21</height>
     </rect>
    </property>

@@ -1,7 +1,6 @@
 'Autor: Verónica Henao Isaza'
 
-'''
-Mark
+'''Send Mark
 A data stream with Mark feature is created
 A stream inlet; Inlets are used to receive streaming data 
 (and meta-data) from the lab network.
@@ -12,8 +11,6 @@ Mark == timestamp
  
 from pylsl import StreamInlet, resolve_stream
 from datetime import datetime
-import csv
-import numpy as np
 
 class Marks(object):
     while True:
@@ -27,10 +24,6 @@ class Marks(object):
                 print(sample_mark)
                 print(type(sample_mark))
                 print(datetime.fromtimestamp(timestamp))
-                with open("Mark.csv","a") as csvfile:
-                    writer = csv.writer(csvfile, delimiter=';')
-                    data = np.append(sample_mark,datetime.fromtimestamp(timestamp))
-                    writer.writerows([np.array(data)])
                 if sample_mark[0] == 99.0:
                     break
     
