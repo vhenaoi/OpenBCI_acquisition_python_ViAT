@@ -23,15 +23,18 @@ class Stimulus(object):
         self.__outlet = StreamOutlet(info)
                 
     def display(self,imagen):
-        img = pygame.image.load(imagen)
-        img_width = int(img.get_width())
-        img_height = int(img.get_height())
-        img = pygame.transform.scale(img, (img_width, img_height))
-        position_x = self.__width / 2 - img.get_width() // 2
-        position_y = self.__height / 2 - img.get_height() // 2
-        self.__screen.blit(img, (position_x, position_y))
-        pygame.display.flip()
-        pygame.display.update()
+        try:
+            img = pygame.image.load(imagen)
+            img_width = int(img.get_width())
+            img_height = int(img.get_height())
+            img = pygame.transform.scale(img, (img_width, img_height))
+            position_x = self.__width / 2 - img.get_width() // 2
+            position_y = self.__height / 2 - img.get_height() // 2
+            self.__screen.blit(img, (position_x, position_y))
+            pygame.display.flip()
+            pygame.display.update()
+        except:
+            pygame.quit()
 
     def event(self):
         for event in pygame.event.get():
@@ -43,32 +46,35 @@ class Stimulus(object):
 #                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 #                    wait = True
     def starStimulus(self):
-        active = True
-        cont = 0
-        for i in range(0,1):#times the stimulus is shown
-            for num in range(1,7):#acuity levels
-                now = datetime.now()
-                timestamp = datetime.timestamp(now)
-                self.__outlet.push_sample(np.array([num]),timestamp=timestamp)
-                print(num)
-                print(datetime.fromtimestamp(timestamp))
-                sample_mark = datetime.now()
-                with open("Mark.csv","a") as csvfile:
-                    writer = csv.writer(csvfile, delimiter=';')
-                    data =(sample_mark.strftime("%m/%d/%Y"),sample_mark.strftime("%H:%M:%S"))
-                    writer.writerows([np.array(data)])
-                while (cont <= 6):#19.75--8
-                    if active:
-                        time.sleep(1/15)#1/15
-                        self.display(str(num) + '.jpg')
-                        time.sleep(1/15)#1/15
-                        cont+=1
-                        self.display('0.jpg')
-                cont = 0
-            self.display('0.1.jpg')
-            time.sleep(4)
-        self.__outlet.push_sample(np.array([99]))
-        pygame.quit()             
+        try:
+            active = True
+            cont = 0
+            for i in range(0,1):#times the stimulus is shown
+                for num in range(1,7):#acuity levels
+                    now = datetime.now()
+                    timestamp = datetime.timestamp(now)
+                    self.__outlet.push_sample(np.array([num]),timestamp=timestamp)
+                    print(num)
+                    print(datetime.fromtimestamp(timestamp))
+                    sample_mark = datetime.now()
+                    with open("Mark.csv","a") as csvfile:
+                        writer = csv.writer(csvfile, delimiter=';')
+                        data =(sample_mark.strftime("%m/%d/%Y"),sample_mark.strftime("%H:%M:%S"))
+                        writer.writerows([np.array(data)])
+                    while (cont <= 6):#19.75--8
+                        if active:
+                            time.sleep(1/15)#1/15
+                            self.display(str(num) + '.jpg')
+                            time.sleep(1/15)#1/15
+                            cont+=1
+                            self.display('0.jpg')
+                    cont = 0
+                self.display('0.1.jpg')
+                time.sleep(4)
+            self.__outlet.push_sample(np.array([99]))
+            pygame.quit() 
+        except:
+            pygame.quit()            
                        
 
 

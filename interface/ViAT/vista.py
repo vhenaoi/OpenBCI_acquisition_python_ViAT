@@ -190,7 +190,7 @@ class AcquisitionSignal(QMainWindow):
         loadUi ('Adquisicion_accion.ui',self)
         self.setup()
         self.show()
-        self.step = 0
+#        self.step = 0
         self.counter = 0
 #        self.__controller = c
         self.__parentAcquisitionSignal = AS
@@ -214,7 +214,7 @@ class AcquisitionSignal(QMainWindow):
         self.play.setEnabled(False)
         try:
             pygame.init()
-            worker = Worker(self.execute_this_fn) # Any other args, kwargs are passed to the run function
+            self.worker = Worker(self.execute_this_fn) # Any other args, kwargs are passed to the run function
             if self.timer.isActive():
                 self.timer.stop()
                 self.play.setEnabled(False)
@@ -224,11 +224,11 @@ class AcquisitionSignal(QMainWindow):
 #                pygame.quit()
 #                self.play.setText('Iniciar')
 #                self.timer.start(100, self)
-            worker.signals.result.connect(self.print_output)#s
-            worker.signals.finished.connect(self.thread_complete)
-            worker.signals.progress.connect(self.progress_fn)#n
+            self.worker.signals.result.connect(self.print_output)#s
+            self.worker.signals.finished.connect(self.thread_complete)
+            self.worker.signals.progress.connect(self.progress_fn)#n
     #             # Execute
-            self.threadpool.start(worker)
+            self.threadpool.start(self.worker)
         except:
             pygame.quit()
         
@@ -253,13 +253,13 @@ class AcquisitionSignal(QMainWindow):
     def thread_complete(self):
         print("THREAD COMPLETE!")
     def stopEnd(self):
-        self.play.setEnabled(False)
-        if self.timer.isActive():
-                self.timer.stop()
-                self.play.setEnabled(False)
-        else: 
-            self.play.setEnabled(True)
-            pygame.quit()
+#        if self.timer.isActive():
+#                self.timer.stop()
+#                self.play.setEnabled(False)
+#        else: 
+        self.play.setEnabled(True)
+        pygame.quit()
+#        self.threadpool.destroyed
     def loadData(self):
         self.__registry=DataBase(self)
         self.__registry.show()
@@ -327,4 +327,3 @@ class DataBase(QMainWindow):
         self.hide()
     def end(self):
         pass
-        
