@@ -8,7 +8,20 @@ Created on Thu Mar  5 13:36:21 2020
 from vista import ViAT
 import sys
 from PyQt5.QtWidgets import QApplication,QScrollArea
+from modelo import Modelo
 #%%
+#class Coordinador(object):
+#   
+#    def returnLastData(self):
+#        return self.sistema.returnLastData();
+#    
+#    def startData(self):
+#        self.sistema.startData();
+#    
+#    def stopData(self):
+#        self.sistema.stopData();
+#        print('Stop Data Controlador')
+    
 class Principal(object):
     def __init__(self):  
 #        scroll_area = QScrollArea()

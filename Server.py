@@ -27,6 +27,8 @@ class Server(object):
             timestamp = datetime.timestamp(now)
             self.__outlet_eeg.push_sample(np.array(sample.channels_data)*SCALE_FACTOR_EEG,timestamp)
             self.__outlet_aux.push_sample(np.array(sample.aux_data)*SCALE_FACTOR_AUX,timestamp)
+#            R = (((sample.channels_data)*SCALE_FACTOR_EEG)*np.sqrt(2))/(6*pow(10,-9))
+#            print(R)
         except:
             print('Corrupted data')
         
@@ -48,3 +50,4 @@ class Server(object):
 if __name__ == '__main__':
     servidor = Server()
     servidor.port();
+    

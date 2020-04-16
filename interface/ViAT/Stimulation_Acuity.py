@@ -46,35 +46,35 @@ class Stimulus(object):
 #                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 #                    wait = True
     def starStimulus(self):
-        try:
-            active = True
-            cont = 0
-            for i in range(0,1):#times the stimulus is shown
-                for num in range(1,7):#acuity levels
-                    now = datetime.now()
-                    timestamp = datetime.timestamp(now)
-                    self.__outlet.push_sample(np.array([num]),timestamp=timestamp)
-                    print(num)
-                    print(datetime.fromtimestamp(timestamp))
-                    sample_mark = datetime.now()
-                    with open("Mark.csv","a") as csvfile:
-                        writer = csv.writer(csvfile, delimiter=';')
-                        data =(sample_mark.strftime("%m/%d/%Y"),sample_mark.strftime("%H:%M:%S"))
-                        writer.writerows([np.array(data)])
-                    while (cont <= 6):#19.75--8
-                        if active:
-                            time.sleep(1/15)#1/15
-                            self.display(str(num) + '.jpg')
-                            time.sleep(1/15)#1/15
-                            cont+=1
-                            self.display('0.jpg')
-                    cont = 0
-                self.display('0.1.jpg')
-                time.sleep(4)
-            self.__outlet.push_sample(np.array([99]))
-            pygame.quit() 
-        except:
-            pygame.quit()            
+#        try:
+        active = True
+        cont = 0
+        for i in range(0,1):#times the stimulus is shown
+            for num in range(1,7):#acuity levels
+                now = datetime.now()
+                timestamp = datetime.timestamp(now)
+                self.__outlet.push_sample(np.array([num]),timestamp=timestamp)
+                print(num)
+                print(datetime.fromtimestamp(timestamp))
+                sample_mark = datetime.now()
+                with open("Mark.csv","a") as csvfile:
+                    writer = csv.writer(csvfile, delimiter=';')
+                    data =(sample_mark.strftime("%m/%d/%Y"),sample_mark.strftime("%H:%M:%S"))
+                    writer.writerows([np.array(data)])
+                while (cont <= 6):#19.75--8
+                    if active:
+                        time.sleep(1/15)#1/15
+                        self.display(str(num) + '.jpg')
+                        time.sleep(1/15)#1/15
+                        cont+=1
+                        self.display('0.jpg')
+                cont = 0
+            self.display('0.1.jpg')
+            time.sleep(4)
+        self.__outlet.push_sample(np.array([99]))
+        pygame.quit() 
+#        except:
+#            pygame.quit()            
                        
 
 

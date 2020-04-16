@@ -14,12 +14,13 @@ from PyQt5.QtGui import QIcon, QPixmap
 import wmi
 from Stimulation_Acuity import Stimulus
 import os
-from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QApplication
+from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QApplication, QLCDNumber
 from PyQt5.QtCore import QBasicTimer
 import pygame
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from impedance import Impedance
 
 import time
 import traceback, sys
@@ -136,18 +137,110 @@ class DataAcquisition(QMainWindow):
         self.back.clicked.connect(self.loadStart)
         self.next.setEnabled(False)
         self.detectDevice.clicked.connect(self.device)
+        self.FCz.setEnabled(False)
+        self.Oz.setEnabled(False)
+        self.O1.setEnabled(False)
+        self.PO7.setEnabled(False)
+        self.O2.setEnabled(False)
+        self.PO8.setEnabled(False)
+        self.PO3.setEnabled(False)
+        self.PO4.setEnabled(False)
+        self.GND.clicked.connect(self.fGND)
+        self.REF.clicked.connect(self.fREF)
+        self.FCz.clicked.connect(self.fFCz)
+        self.PO3.clicked.connect(self.fPO3)
+        self.PO4.clicked.connect(self.fPO4)
+        self.PO7.clicked.connect(self.fPO7)
+        self.PO8.clicked.connect(self.fPO8)
+        self.O1.clicked.connect(self.fO1)
+        self.O2.clicked.connect(self.fO2)
+        self.Oz.clicked.connect(self.fOz)
+        
         pixmap = QPixmap('M.png')
         self.mounting.setPixmap(pixmap)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
+                 
     def loadStart(self):
         self.__parentDataAcquisition.show()
         self.hide()
     def executeAcquisition(self):
         self.__registry=AcquisitionSignal(self)
         self.__registry.show()
-        self.hide()            
+        self.hide() 
+    def fGND(self):
+        self.GND.setEnabled(False)
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Verifique la conexion del electrodo")
+        msg.setWindowTitle("Alerta!")
+        x = msg.exec_()
+    def fREF(self):
+        self.REF.setEnabled(False)
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Verifique la conexion del electrodo")
+        msg.setWindowTitle("Alerta!")
+        x = msg.exec_()
+    def fFCz(self):
+        #GRAY
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.FCz.setEnabled(False)
+        self.impedanceFCZ.display(self.S[1][0]) 
+    def fOz(self):
+        #PURPLE
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.Oz.setEnabled(False)
+        self.impedanceOZ.display(self.S[1][1])
+    def fO1(self):
+        #BLUE
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.O1.setEnabled(False)
+        self.impedanceO1.display(self.S[1][2])
+    def fPO7(self):
+        #GREEN
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.PO7.setEnabled(False)
+        self.impedancePO7.display(self.S[1][3])
+    def fO2(self):
+        #YELLOW
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.O2.setEnabled(False)
+        self.impedanceO2.display(self.S[1][4])
+    def fPO8(self):
+        #ORANGE
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.PO8.setEnabled(False)
+        self.impedancePO8.display(self.S[1][5])
+    def fPO3(self):
+        #RED
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.PO3.setEnabled(False)
+        self.impedancePO3.display(self.S[1][6]) 
+    def fPO4(self):
+        #BROWN
+        Z = Impedance()
+        self.S = Z.sample()
+#        self.PO4.setEnabled(False)
+        self.impedancePO4.display(self.S[1][7])  
+   
+          
     def device(self):
+        self.FCz.setEnabled(True)
+        self.Oz.setEnabled(True)
+        self.O1.setEnabled(True)
+        self.PO7.setEnabled(True)
+        self.O2.setEnabled(True)
+        self.PO8.setEnabled(True)
+        self.PO3.setEnabled(True)
+        self.PO4.setEnabled(True)
         self.next.setEnabled(True)
         self.next.clicked.connect(self.executeAcquisition)
 #        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
@@ -163,7 +256,7 @@ class DataAcquisition(QMainWindow):
 #            msg.setWindowTitle("Alerta!")
 #            num=0
 #            x = msg.exec_()
-            
+                 #Necesito un WHILE   
 
 #        from PyQt5.QtWidgets import QMessageBox
 #        detectado = self.mi_controlador.detectarDispositivo();
@@ -206,6 +299,7 @@ class AcquisitionSignal(QMainWindow):
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         self.play.clicked.connect(self.startPlay)
+        self.play.clicked.connect(self.viewSignal)
         self.stop.clicked.connect(self.stopEnd)
         self.patientData.clicked.connect(self.loadData)
         self.back.clicked.connect(self.loadStart)
@@ -284,16 +378,35 @@ class AcquisitionSignal(QMainWindow):
 #        self.counter +=1
 #        self.l.setText("Counter: %d" % self.counter)
         
-    
+    def viewSignal(self):
+        Z = Impedance()
+        self.S = Z.sample()
+        self.viewSignalFCz.clear();
+        self.viewSignalFCz.plot((self.S[0][0],1),pen=('g'))
+        self.viewSignalFCz.repaint();
+#        self.viewSignalOz.clear();
+#        self.viewSignalFOz.plot(np.round(self.S[0,1],1),pen=('grey'))
+#        self.viewSignalFOz.repaint();
+#        self.viewSignalO1.clear();
+#        self.viewSignalO1.plot(np.round(self.S[0,2],1),pen=('grey'))
+#        self.viewSignalO1.repaint();
+#        self.viewSignalPO7.clear();
+#        self.viewSignalPO7.plot(np.round(self.S[0,3],1),pen=('grey'))
+#        self.viewSignalPO7.repaint();
+#        self.viewSignalO2.clear();
+#        self.viewSignalO2.plot(np.round(self.S[0,4],1),pen=('grey'))
+#        self.viewSignalO2.repaint();
+#        self.viewSignalPO8.clear();
+#        self.viewSignalPO8.plot(np.round(self.S[0,5],1),pen=('grey'))
+#        self.viewSignalPO8.repaint();
+#        self.viewSignalPO4.clear();
+#        self.viewSignalPO4.plot(np.round(self.S[0,6],1),pen=('grey'))
+#        self.viewSignalPO4.repaint();
+#        self.viewSignalPO3.clear();
+#        self.viewSignalPO3.plot(np.round(self.S[0,6],1),pen=('grey'))
+#        self.viewSignalPO3.repaint();
+#        
 
-#class Mark(QDialog):
-#    def __init__(self, DB):
-#        super(Mark,self).__init__()
-#        loadUi ('Marcas.ui',self)
-#        self.setup()
-#        self.show()
-#    def setup(self):
-#        open('Marks.py')
         
         
     
