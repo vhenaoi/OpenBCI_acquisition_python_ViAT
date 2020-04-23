@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>801</width>
-    <height>600</height>
+    <width>859</width>
+    <height>717</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>561</height>
+      <height>671</height>
      </rect>
     </property>
     <property name="font">
@@ -511,8 +511,14 @@ QPushButton:pressed {
         <x>0</x>
         <y>0</y>
         <width>821</width>
-        <height>561</height>
+        <height>651</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>821</width>
+        <height>0</height>
+       </size>
       </property>
       <property name="palette">
        <palette>
@@ -620,14 +626,14 @@ QPushButton:pressed {
          <x>0</x>
          <y>0</y>
          <width>821</width>
-         <height>561</height>
+         <height>651</height>
         </rect>
        </property>
        <widget class="QPushButton" name="adquisitionInfo2">
         <property name="geometry">
          <rect>
           <x>750</x>
-          <y>490</y>
+          <y>600</y>
           <width>41</width>
           <height>41</height>
          </rect>
@@ -685,201 +691,380 @@ QPushButton:pressed {
          <string/>
         </property>
        </widget>
-       <widget class="QListView" name="listView">
+       <widget class="QWidget" name="horizontalLayoutWidget_2">
         <property name="geometry">
          <rect>
-          <x>510</x>
-          <y>120</y>
-          <width>256</width>
-          <height>192</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QWidget" name="verticalLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
+          <x>0</x>
           <y>10</y>
-          <width>481</width>
-          <height>612</height>
+          <width>751</width>
+          <height>596</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="PlotWidget" name="viewSignalFCz">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="OZ">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color : #CD10B4; }</string>
+             </property>
+             <property name="text">
+              <string>Oz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="O1">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color : #1014CD; }</string>
+             </property>
+             <property name="text">
+              <string>O1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="PO7">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color :#10CD14; }</string>
+             </property>
+             <property name="text">
+              <string>PO7</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="O2">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color : #F7FB24; }</string>
+             </property>
+             <property name="text">
+              <string>O2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="PO8">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color :#FBB324 ; }</string>
+             </property>
+             <property name="text">
+              <string>PO8</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="PO4">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color :#806123 ; }</string>
+             </property>
+             <property name="text">
+              <string>PO4</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="PO3">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color :#E53923 ; }</string>
+             </property>
+             <property name="text">
+              <string>PO3</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="PlotWidget" name="viewSignalOz">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="PlotWidget" name="viewSignalO1">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="PlotWidget" name="viewSignalPO7">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="PlotWidget" name="viewSignalO2">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="PlotWidget" name="viewSignalPO8">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="PlotWidget" name="viewSignalPO4">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="PlotWidget" name="viewSignalPO3">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="PlotWidget" name="viewSignalOz">
+             <property name="minimumSize">
+              <size>
+               <width>479</width>
+               <height>82</height>
+              </size>
+             </property>
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotWidget" name="viewSignalO1">
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotWidget" name="viewSignalPO7">
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotWidget" name="viewSignalO2">
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotWidget" name="viewSignalPO8">
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotWidget" name="viewSignalPO4">
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotWidget" name="viewSignalPO3">
+             <property name="backgroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="foregroundBrush">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QPushButton" name="playGraph">
+               <property name="minimumSize">
+                <size>
+                 <width>101</width>
+                 <height>23</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+               </property>
+               <property name="text">
+                <string>Visualizar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stopGraph">
+               <property name="minimumSize">
+                <size>
+                 <width>101</width>
+                 <height>23</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+               </property>
+               <property name="text">
+                <string>Detener</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -893,7 +1078,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>801</width>
+     <width>859</width>
      <height>21</height>
     </rect>
    </property>
