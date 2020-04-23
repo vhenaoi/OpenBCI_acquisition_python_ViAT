@@ -1,1 +1,0 @@
-open('randData.py')
