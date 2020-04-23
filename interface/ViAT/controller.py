@@ -15,37 +15,37 @@ class Principal(object):
 #        scroll_area = QScrollArea()
         self.__app=QApplication(sys.argv)
         self.__view=ViAT()
-        self.sistema = Model();
-        self.mi_coordinador = Controller(self.__view,self.sistema)
-        self.__view.asignarControlador(self.mi_coordinador);
+        self.system = Model();
+        self.my_controller = Controller(self.__view,self.system)
+        self.__view.assignController(self.my_controller);
     def main(self):
         self.__view.show()
         sys.exit(self.__app.exec_())
 
 
 class Controller(object):
-    def __init__(self, view, sistema):
+    def __init__(self, view, system):
         self.__view = view;
-        self.sistema = sistema;
+        self.system = system;
         
     def detectarDispositivo(self):
-        return self.sistema.puertos(); 
+        return self.system.puertos(); 
 
     def crearCarpeta(self,codigo,nombre,apellidos,estatura,peso,observaciones):
-        self.sistema.crearCarpeta(codigo,nombre,apellidos,estatura,peso,observaciones)
+        self.system.crearCarpeta(codigo,nombre,apellidos,estatura,peso,observaciones)
         
 #    def guardar_datos(self,codigo,nombre,apellidos,estatura,peso,observaciones):
 #        self.base_datos.guardado(codigo,nombre,apellidos,estatura,peso,observaciones)
         
         
     def returnLastData(self):
-        return self.sistema.returnLastData();
+        return self.system.returnLastData();
     
     def startData(self):
-        self.sistema.startData();
+        self.system.startData();
     
     def stopData(self):
-        self.sistema.stopData();
+        self.system.stopData();
         print('Stop Data Controlador')
     
 

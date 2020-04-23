@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>859</width>
+    <width>1025</width>
     <height>717</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>671</height>
+      <height>691</height>
      </rect>
     </property>
     <property name="font">
@@ -29,7 +29,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Adquisicion">
      <attribute name="title">
@@ -511,7 +511,7 @@ QPushButton:pressed {
         <x>0</x>
         <y>0</y>
         <width>821</width>
-        <height>651</height>
+        <height>671</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -626,14 +626,14 @@ QPushButton:pressed {
          <x>0</x>
          <y>0</y>
          <width>821</width>
-         <height>651</height>
+         <height>671</height>
         </rect>
        </property>
        <widget class="QPushButton" name="adquisitionInfo2">
         <property name="geometry">
          <rect>
           <x>750</x>
-          <y>600</y>
+          <y>610</y>
           <width>41</width>
           <height>41</height>
          </rect>
@@ -696,7 +696,7 @@ QPushButton:pressed {
          <rect>
           <x>0</x>
           <y>10</y>
-          <width>751</width>
+          <width>791</width>
           <height>596</height>
          </rect>
         </property>
@@ -1078,7 +1078,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>859</width>
+     <width>1025</width>
      <height>21</height>
     </rect>
    </property>

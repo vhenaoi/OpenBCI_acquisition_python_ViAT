@@ -74,8 +74,8 @@ class ViAT(QMainWindow):
         self.setup()
         self.show()
     
-    def asignarControlador(self,controlador):
-        self.mi_controlador = controlador;
+    def assignController(self,controller):
+        self.my_controller = controller;
         
         
     def setup(self):
@@ -85,7 +85,7 @@ class ViAT(QMainWindow):
         pixmap = QPixmap('Logo.png')
         self.logo.setPixmap(pixmap)
     def loadRegistration(self):
-        self.__registry=LoadRegistration(self,self.mi_controlador)
+        self.__registry=LoadRegistration(self,self.my_controller)
         self.__registry.show()
         self.hide()
     def loadData(self):
@@ -96,14 +96,14 @@ class ViAT(QMainWindow):
         pass
 
 class LoadRegistration(QMainWindow):
-    def __init__(self,LR,controlador):
+    def __init__(self,LR,controller):
         super(LoadRegistration,self).__init__()
         loadUi ('Registro-HistoriaClinica.ui',self)
         self.setWindowTitle('Registro')
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
-        self.mi_controlador = controlador
+        self.my_controller = controller
         
         self.__parentLoadRegistration = LR
     def setup(self):
@@ -132,12 +132,12 @@ class LoadRegistration(QMainWindow):
 #            msg.setWindowTitle("Alerta!")
 #            x = msg.exec_()
 #        else:
-        self.__registry=DataAcquisition(self,self.mi_controlador)
+        self.__registry=DataAcquisition(self,self.my_controller)
         self.__registry.show()
         self.hide()
 
 class DataAcquisition(QMainWindow):
-    def __init__(self, DA,controlador):
+    def __init__(self, DA,controller):
         super(DataAcquisition,self).__init__()
         loadUi ('Adquisicion.ui',self)
         self.setWindowTitle('Adquisición')
@@ -154,8 +154,7 @@ class DataAcquisition(QMainWindow):
         self.impedancePO8.display(self.S[1][5])
         self.impedancePO3.display(self.S[1][6])
         self.impedancePO4.display(self.S[1][7])
-        self.mi_controlador = controlador
-
+        self.my_controller = controller
         
     def setup(self):
         self.back.clicked.connect(self.loadStart)
@@ -193,7 +192,7 @@ class DataAcquisition(QMainWindow):
         self.__parentDataAcquisition.show()
         self.hide()
     def executeAcquisition(self):
-        self.__registry=AcquisitionSignal(self,self.mi_controlador)
+        self.__registry=AcquisitionSignal(self,self.my_controller)
         self.__registry.show()
         self.hide() 
     def fGND(self):
@@ -298,7 +297,7 @@ class DataAcquisition(QMainWindow):
 #            self.boton_iniciar.setEnabled(False)
 
 class AcquisitionSignal(QMainWindow):
-    def __init__(self, AS,controlador):
+    def __init__(self, AS,controller):
         super(AcquisitionSignal,self).__init__()
         loadUi ('Adquisicion_accion.ui',self)
         self.setWindowTitle('Adquisición')
@@ -314,7 +313,7 @@ class AcquisitionSignal(QMainWindow):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.recurring_timer)
         self.timer.start()
-        self.mi_controlador = controlador
+        self.my_controller = controller
 
     def setup(self):
         pixmap1 = QPixmap('blanclogo.png')
@@ -378,7 +377,7 @@ class AcquisitionSignal(QMainWindow):
         pass
        
     def returnLastData(self):
-        return self.mi_controlador.returnLastData();
+        return self.my_controller.returnLastData();
     
     def graphData(self):
         data,Powers,freq = self.returnLastData();
@@ -412,7 +411,7 @@ class AcquisitionSignal(QMainWindow):
         self.viewSignalPO3.repaint();
 
     def starGraph(self):
-        self.mi_controlador.startData()
+        self.my_controller.startData()
 
         print("Iniciar senal")
         self.timer = QtCore.QTimer(self);
@@ -423,7 +422,7 @@ class AcquisitionSignal(QMainWindow):
     
     def haltGraph(self):
         self.timer.stop()
-        self.mi_controlador.stopData();
+        self.my_controller.stopData();
         print("detener senal")        
 
         
