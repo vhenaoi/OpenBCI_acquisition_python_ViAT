@@ -7,17 +7,20 @@ Created on Thu Mar  5 13:36:21 2020
 
 from view import ViAT
 import sys
-from PyQt5.QtWidgets import QApplication,QScrollArea
+from PyQt5.QtWidgets import QApplication, QScrollArea
 from model import Model
-#%%
+import os
+# %%
+
+
 class Principal(object):
-    def __init__(self):  
-#        scroll_area = QScrollArea()
-        self.__app=QApplication(sys.argv)
-        self.__view=ViAT()
-        self.system = Model();
-        self.my_controller = Controller(self.__view,self.system)
-        self.__view.assignController(self.my_controller);
+    def __init__(self):
+        self.__app = QApplication(sys.argv)
+        self.__view = ViAT()
+        self.system = Model()
+        self.my_controller = Controller(self.__view, self.system)
+        self.__view.assignController(self.my_controller)
+
     def main(self):
         self.__view.show()
         sys.exit(self.__app.exec_())
@@ -25,32 +28,36 @@ class Principal(object):
 
 class Controller(object):
     def __init__(self, view, system):
-        self.__view = view;
-        self.system = system;
-        
+        self.__view = view
+        self.system = system
+
     def detectarDispositivo(self):
-        return self.system.puertos(); 
+        return self.system.puertos()
 
-    def crearCarpeta(self,codigo,nombre,apellidos,estatura,peso,observaciones):
-        self.system.crearCarpeta(codigo,nombre,apellidos,estatura,peso,observaciones)
-        
-#    def guardar_datos(self,codigo,nombre,apellidos,estatura,peso,observaciones):
-#        self.base_datos.guardado(codigo,nombre,apellidos,estatura,peso,observaciones)
-        
-        
+    def crearCarpeta(self, codigo, nombre, apellidos, estatura, peso, observaciones):
+        self.system.crearCarpeta(
+            codigo, nombre, apellidos, estatura, peso, observaciones)
+
     def returnLastData(self):
-        return self.system.returnLastData();
-    
-    def startData(self):
-        self.system.startData();
-    
-    def stopData(self):
-        self.system.stopData();
-        print('Stop Data Controlador')
-    
+        return self.system.returnLastData()
 
-        
-#%%
+    def startData(self):
+        self.system.startData()
+
+    def stopData(self):
+        self.system.stopData()
+        print('Stop Data Controlador')
+
+    def startZ(self):
+        self.system.startZ()
+
+    def stopZ(self):
+        self.system.stopZ()
+        print('Stop Data Controlador')
+
+
+# %%
 if __name__ == "__main__":
-    controller = Principal();
-    controller.main();
+#    os.system("randData.py")
+    controller = Principal()
+    controller.main()
