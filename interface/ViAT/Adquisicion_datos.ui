@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>801</width>
-    <height>600</height>
+    <width>970</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>801</width>
-      <height>561</height>
+      <width>961</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="font">
@@ -40,8 +40,8 @@
        <rect>
         <x>0</x>
         <y>-20</y>
-        <width>821</width>
-        <height>581</height>
+        <width>951</width>
+        <height>661</height>
        </rect>
       </property>
       <property name="palette">
@@ -149,8 +149,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>821</width>
-         <height>581</height>
+         <width>951</width>
+         <height>661</height>
         </rect>
        </property>
        <widget class="QLabel" name="logo">
@@ -171,13 +171,13 @@
          <rect>
           <x>90</x>
           <y>470</y>
-          <width>521</width>
+          <width>781</width>
           <height>71</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="2">
-          <widget class="QPushButton" name="exitStar">
+          <widget class="QPushButton" name="exit">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
@@ -290,61 +290,6 @@ QPushButton:pressed {
            </property>
            <property name="autoDefault">
             <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="formLayoutWidget_2">
-        <property name="geometry">
-         <rect>
-          <x>610</x>
-          <y>500</y>
-          <width>51</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <layout class="QFormLayout" name="formLayout_4">
-         <item row="0" column="0">
-          <widget class="QPushButton" name="adquisitionInfo">
-           <property name="font">
-            <font>
-             <family>Footlight MT Light</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    color: rgb(0, 0, 0);
-    border: 2px solid #0e213e;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
-        );
-    }</string>
-           </property>
-           <property name="text">
-            <string>?</string>
            </property>
           </widget>
          </item>
@@ -553,7 +498,7 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
          <rect>
           <x>90</x>
           <y>140</y>
-          <width>531</width>
+          <width>781</width>
           <height>321</height>
          </rect>
         </property>
@@ -561,6 +506,55 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
          <font>
           <pointsize>12</pointsize>
          </font>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="adquisitionInfo">
+        <property name="geometry">
+         <rect>
+          <x>910</x>
+          <y>610</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Footlight MT Light</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    border: 2px solid #0e213e;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
+        );
+    }</string>
+        </property>
+        <property name="text">
+         <string>?</string>
         </property>
        </widget>
       </widget>
@@ -575,9 +569,15 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>821</width>
-        <height>561</height>
+        <width>951</width>
+        <height>641</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>801</width>
+        <height>641</height>
+       </size>
       </property>
       <property name="palette">
        <palette>
@@ -684,15 +684,15 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>821</width>
-         <height>561</height>
+         <width>951</width>
+         <height>641</height>
         </rect>
        </property>
        <widget class="QPushButton" name="adquisitionInfo_2">
         <property name="geometry">
          <rect>
-          <x>750</x>
-          <y>490</y>
+          <x>910</x>
+          <y>590</y>
           <width>41</width>
           <height>41</height>
          </rect>
@@ -755,33 +755,11 @@ QPushButton:pressed {
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>311</width>
+          <width>531</width>
           <height>612</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="PlotWidget" name="viewSignalFCz">
-           <property name="backgroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-           <property name="foregroundBrush">
-            <brush brushstyle="NoBrush">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="PlotWidget" name="viewSignalOz">
            <property name="backgroundBrush">
@@ -941,8 +919,8 @@ QPushButton:pressed {
        <widget class="PlotWidget" name="viewSignal">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>60</y>
+          <x>560</x>
+          <y>10</y>
           <width>381</width>
           <height>271</height>
          </rect>
@@ -969,8 +947,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="behind">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>340</y>
+          <x>560</x>
+          <y>290</y>
           <width>91</width>
           <height>23</height>
          </rect>
@@ -1013,8 +991,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="before">
         <property name="geometry">
          <rect>
-          <x>664</x>
-          <y>340</y>
+          <x>850</x>
+          <y>290</y>
           <width>91</width>
           <height>23</height>
          </rect>
@@ -1057,8 +1035,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="PO8">
         <property name="geometry">
          <rect>
-          <x>670</x>
-          <y>370</y>
+          <x>850</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1106,8 +1084,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="O2">
         <property name="geometry">
          <rect>
-          <x>590</x>
-          <y>370</y>
+          <x>770</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1155,8 +1133,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="Oz">
         <property name="geometry">
          <rect>
-          <x>550</x>
-          <y>370</y>
+          <x>730</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1204,8 +1182,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="PO3">
         <property name="geometry">
          <rect>
-          <x>470</x>
-          <y>370</y>
+          <x>650</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1253,8 +1231,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="O1">
         <property name="geometry">
          <rect>
-          <x>510</x>
-          <y>370</y>
+          <x>690</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1302,8 +1280,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="PO7">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>370</y>
+          <x>610</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1351,8 +1329,8 @@ QPushButton:pressed {
        <widget class="QPushButton" name="PO4">
         <property name="geometry">
          <rect>
-          <x>630</x>
-          <y>370</y>
+          <x>810</x>
+          <y>320</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -1407,7 +1385,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>801</width>
+     <width>970</width>
      <height>21</height>
     </rect>
    </property>

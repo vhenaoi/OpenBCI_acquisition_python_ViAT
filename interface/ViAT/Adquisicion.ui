@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>812</width>
+    <width>965</width>
     <height>608</height>
    </rect>
   </property>
@@ -141,8 +141,8 @@
      <widget class="QPushButton" name="back">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>522</y>
+        <x>0</x>
+        <y>530</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -748,7 +748,7 @@ QPushButton:pressed {
         <x>20</x>
         <y>10</y>
         <width>327</width>
-        <height>474</height>
+        <height>497</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
@@ -1122,6 +1122,44 @@ QPushButton:pressed {
          </property>
         </widget>
        </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="StopZ">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+         </property>
+         <property name="text">
+          <string>Detener medición</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <zorder>mounting</zorder>
@@ -1147,7 +1185,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>812</width>
+     <width>965</width>
      <height>21</height>
     </rect>
    </property>

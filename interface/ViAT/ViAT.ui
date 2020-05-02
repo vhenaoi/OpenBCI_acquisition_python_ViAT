@@ -280,7 +280,7 @@ QPushButton:pressed {
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="exitStar">
+        <widget class="QPushButton" name="exit">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -334,8 +334,6 @@ QPushButton:pressed {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="imagen.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

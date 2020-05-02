@@ -64,17 +64,21 @@ class Model(object):
     def startZ(self):
         self.__inlet = StreamInlet(self.__streams_EEG[0], max_buflen=250)
 #        self.__inlet.pull_chunk()
-        sample, timestamp = self.inlet.pull_sample()
-        Z = []
-        for i in range(0, 8):
-            Z_i = ((sample[i])*np.sqrt(2))/(6*pow(10, -9))
-            Z.append(Z_i/1000)
-        return(sample, Z)
+        
 
     def stopZ(self):
         self.__inlet.close_stream()
         print('Stop impedance')
 
+    def readZ(self):
+        sample, timestamp = self.__inlet.pull_sample()
+        self.Z = []
+        for i in range(0, 8):
+            Z_i = ((sample[i])*np.sqrt(2))/(6*pow(10, -9))
+            self.Z.append(Z_i/1000)
+#        print('Modelo',self.Z)
+#        return[self.Z]
+        
     def readData(self):
 
         samples, timestamp = self.__inlet.pull_chunk()
@@ -135,3 +139,8 @@ class Model(object):
     def returnLastData(self):
         self.Pot()
         return self.senal_filtrada_pasabandas, self.Pxx, self.f  # [0:6,:]
+    
+    def returnLastZ(self):
+        self.readZ()
+        return self.Z
+        

@@ -1,3 +1,28 @@
+'''View ViAT
+
+WorkerSignals: Defines the signals available from a running worker thread.
+    
+Worker: Inherits from QRunnable to handler worker thread setup,
+        signals and wrap-up.
+    
+    By: https://www.learnpyqt.com/courses/concurrent-execution
+    /multithreading-pyqt-applications-qthreadpool/
+    
+    
+ViAT: Initial user view, allows you to record or view patient data
+    
+LoadRegistration: View of the data required by each patient
+    
+DataAcquisition: Visualization of the electrode configuration, the impedance of
+                 each one and the verification of connected devices.
+    
+AcquisitionSignal: It allows to acquire the signal and the mark, under visual 
+                    stimulation
+    
+DataBase: Allows you to view current information in the database
+
+'''
+
 from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QFileDialog, QMessageBox, QDialog
 from PyQt5.QtGui import QIntValidator
 from PyQt5 import QtCore, QtWidgets
@@ -34,13 +59,37 @@ import csv
 
 
 class WorkerSignals(QObject):
-    finished = pyqtSignal()
-    error = pyqtSignal(tuple)
-    result = pyqtSignal(object)
+    '''
+    Supported signals are:
+
+    finished
+        No data
+    
+    error
+        `tuple` (exctype, value, traceback.format_exc() )
+    
+    result
+        `object` data returned from processing, anything
+
+    '''
+    finished = pyqtSignal() # with no data to indicate when the task is complete
+    error = pyqtSignal(tuple) # which receives a tuple of Exception type, 
+                              # Exception value and formatted traceback.
+    result = pyqtSignal(object) # receiving any object type from the executed function.
     progress = pyqtSignal(int)
 
 
 class Worker(QRunnable):
+    '''
+    Worker thread
+
+    :param callback: The function callback to run on this worker thread. Supplied args and 
+                     kwargs will be passed through to the runner.
+    :type callback: function
+    :param args: Arguments to pass to the callback function
+    :param kwargs: Keywords to pass to the callback function
+
+    '''
     def __init__(self, fn, *args, **kwargs):
         super(Worker, self).__init__()
         # Store constructor arguments (re-used for processing)
@@ -72,6 +121,12 @@ class Worker(QRunnable):
 
 
 class ViAT(QMainWindow):
+    '''First user view
+    
+    Load a .ui type view designed in Qt designer
+    
+    :setup: this function contains the condition to move to the other views
+    '''
     def __init__(self):
         super(ViAT, self).__init__()
         loadUi('ViAT.ui', self)
@@ -86,7 +141,7 @@ class ViAT(QMainWindow):
     def setup(self):
         self.startRegistration.clicked.connect(self.loadRegistration)
         self.patientData.clicked.connect(self.loadData)
-        self.exitStar.clicked.connect(self.end)
+        self.exit.clicked.connect(self.end)
         pixmap = QPixmap('Logo.png')
         self.logo.setPixmap(pixmap)
 
@@ -101,10 +156,23 @@ class ViAT(QMainWindow):
         self.hide()
 
     def end(self):
-        pass
+        self.hide()
+        exit()
+        
 
 
 class LoadRegistration(QMainWindow):
+    '''Take data
+    
+        Allows you to collect basic information from patients or subjects
+    
+        :setup: this function contains the condition to move to the other views
+        
+        :clinicalhistoryInformation: Compare the data entered in the database to 
+        autocomplete the stationary fields
+        
+        :dataAcquisition: Check that the fields are completely filled
+    '''
     def __init__(self, LR, controller):
         super(LoadRegistration, self).__init__()
         loadUi('Registro-HistoriaClinica.ui', self)
@@ -151,6 +219,13 @@ class LoadRegistration(QMainWindow):
 
 
 class DataAcquisition(QMainWindow):
+    '''Electrodes and devices
+    
+        Verify that the application can continue with the registration
+    
+        :setup: this function contains the condition to move to the other views
+    '''
+    
     def __init__(self, DA, controller):
         super(DataAcquisition, self).__init__()
         loadUi('Adquisicion.ui', self)
@@ -159,20 +234,12 @@ class DataAcquisition(QMainWindow):
         self.setup()
         self.show()
         self.__parentDataAcquisition = DA
-#        self.z()
-#        self.impedanceFCZ.display(self.S[1][0])
-#        self.impedanceOZ.display(self.S[1][1])
-#        self.impedanceO1.display(self.S[1][2])
-#        self.impedancePO7.display(self.S[1][3])
-#        self.impedanceO2.display(self.S[1][4])
-#        self.impedancePO8.display(self.S[1][5])
-#        self.impedancePO3.display(self.S[1][6])
-#        self.impedancePO4.display(self.S[1][7])
         self.my_controller = controller
 
     def setup(self):
         self.back.clicked.connect(self.loadStart)
         self.next.setEnabled(False)
+        self.StopZ.setEnabled(False)
         self.detectDevice.clicked.connect(self.device)
         self.FCz.setEnabled(False)
         self.Oz.setEnabled(False)
@@ -182,34 +249,47 @@ class DataAcquisition(QMainWindow):
         self.PO8.setEnabled(False)
         self.PO3.setEnabled(False)
         self.PO4.setEnabled(False)
-        self.GND.clicked.connect(self.fGND)
-        self.REF.clicked.connect(self.fREF)
-        self.FCz.clicked.connect(self.fFCz)
-        self.PO3.clicked.connect(self.fPO3)
-        self.PO4.clicked.connect(self.fPO4)
-        self.PO7.clicked.connect(self.fPO7)
-        self.PO8.clicked.connect(self.fPO8)
-        self.O1.clicked.connect(self.fO1)
-        self.O2.clicked.connect(self.fO2)
-        self.Oz.clicked.connect(self.fOz)
-
+        self.GND.clicked.connect(self.startMeasurement)
+        self.REF.clicked.connect(self.startMeasurement)
+        self.FCz.clicked.connect(self.startMeasurement)
+        self.PO3.clicked.connect(self.startMeasurement)
+        self.PO4.clicked.connect(self.startMeasurement)
+        self.PO7.clicked.connect(self.startMeasurement)
+        self.PO8.clicked.connect(self.startMeasurement)
+        self.O1.clicked.connect(self.startMeasurement)
+        self.O2.clicked.connect(self.startMeasurement)
+        self.Oz.clicked.connect(self.startMeasurement)
+        
         pixmap = QPixmap('M.png')
         self.mounting.setPixmap(pixmap)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
-
-#    def z(self):
-#        Z = Impedance()
-#        self.S = Z.sample()
 
     def loadStart(self):
         self.__parentDataAcquisition.show()
         self.hide()
 
     def executeAcquisition(self):
+        self.next.setEnabled(False) #Revisar genera delay
         self.__registry = AcquisitionSignal(self, self.my_controller)
         self.__registry.show()
         self.hide()
+        
+        
+    def returnLastZ(self):
+        return self.my_controller.returnLastZ()
+
+    def startMeasurement(self):
+        self.my_controller.startZ()
+        self.StopZ.setEnabled(True)
+        self.StopZ.clicked.connect(self.StopMeasurement)
+        
+        print("Iniciar medicion")
+        self.timer = QtCore.QTimer(self)
+        # timer.setSingleShot(True)
+        self.timer.timeout.connect(self.printZ)
+        self.timer.start(22)  # milisegundos ojo humano
+        # print(self.timer.isActive())
 
     def fGND(self):
         self.GND.setEnabled(False)
@@ -226,54 +306,61 @@ class DataAcquisition(QMainWindow):
         msg.setText("Verifique la conexion del electrodo")
         msg.setWindowTitle("Alerta!")
         x = msg.exec_()
+        
+    def printZ(self):
+        Z = self.returnLastZ()
+        self.impedanceFCZ.display(Z[0])
+        self.impedanceOZ.display(Z[1])
+        self.impedanceO1.display(Z[2])
+        self.impedancePO7.display(Z[3])
+        self.impedanceO2.display(Z[4])
+        self.impedancePO8.display(Z[5])
+        self.impedancePO3.display(Z[6])
+        self.impedancePO4.display(Z[7])
+    
+    def StopMeasurement(self):
+        self.timer.stop()
+        self.my_controller.stopZ()
+        print("detener impedancia")
+        self.next.setEnabled(True)
+        self.next.clicked.connect(self.executeAcquisition)
 
     def fFCz(self):
         # GRAY
-        self.z()
-#        self.FCz.setEnabled(False)
-        self.impedanceFCZ.display(self.S[1][0])
+        pass
+
 
     def fOz(self):
         # PURPLE
-        self.z()
-#        self.Oz.setEnabled(False)
-        self.impedanceOZ.display(self.S[1][1])
+        pass
 
     def fO1(self):
         # BLUE
-        self.z()
-#        self.O1.setEnabled(False)
-        self.impedanceO1.display(self.S[1][2])
+        pass
+
 
     def fPO7(self):
         # GREEN
-        self.z()
-#        self.PO7.setEnabled(False)
-        self.impedancePO7.display(self.S[1][3])
+        pass
+
 
     def fO2(self):
         # YELLOW
-        self.z()
-#        self.O2.setEnabled(False)
-        self.impedanceO2.display(self.S[1][4])
+        pass
+
 
     def fPO8(self):
         # ORANGE
-        self.z()
-#        self.PO8.setEnabled(False)
-        self.impedancePO8.display(self.S[1][5])
+        pass
+
 
     def fPO3(self):
         # RED
-        self.z()
-#        self.PO3.setEnabled(False)
-        self.impedancePO3.display(self.S[1][6])
+        pass
 
     def fPO4(self):
         # BROWN
-        self.z()
-#        self.PO4.setEnabled(False)
-        self.impedancePO4.display(self.S[1][7])
+        pass
 
     def device(self):
         self.FCz.setEnabled(True)
@@ -284,8 +371,6 @@ class DataAcquisition(QMainWindow):
         self.PO8.setEnabled(True)
         self.PO3.setEnabled(True)
         self.PO4.setEnabled(True)
-        self.next.setEnabled(True)
-        self.next.clicked.connect(self.executeAcquisition)
         self.my_controller.startData()
 
         # print(self.timer.isActive())
@@ -351,8 +436,8 @@ class AcquisitionSignal(QMainWindow):
         self.stop.clicked.connect(self.stopEnd)
         self.patientData.clicked.connect(self.loadData)
         self.back.clicked.connect(self.loadStart)
-        self.exitStar.clicked.connect(self.end)
-        self.playGraph.clicked.connect(self.starGraph)
+        self.exit.clicked.connect(self.end)
+        self.playGraph.clicked.connect(self.startGraph)
         self.stopGraph.clicked.connect(self.haltGraph)
 
     def startPlay(self):
@@ -376,7 +461,7 @@ class AcquisitionSignal(QMainWindow):
 
     def execute_this_fn(self, progress_callback):
         estimulo = Stimulus()
-        estimulo.starStimulus()
+        estimulo.start_stimulus()
 
     def print_output(self, s):
         print(s)
@@ -397,9 +482,10 @@ class AcquisitionSignal(QMainWindow):
     def loadStart(self):
         self.__parentAcquisitionSignal.show()
         self.hide()
-
+    
     def end(self):
-        pass
+        self.hide()
+        exit()
 
     def timerEvent(self, event):
         if self.step >= 100:
@@ -421,9 +507,6 @@ class AcquisitionSignal(QMainWindow):
         if data.ndim == 0:
             print("Lista vacia")
             return
-#        self.viewSignalFCz.clear();
-#        self.viewSignalFCz.plot(np.round(data[0,:],1),pen=('silver'))
-#        self.viewSignalFCz.repaint();
         self.viewSignalOz.clear()
         self.viewSignalOz.plot(np.round(data[0, :], 1), pen=('#CD10B4'))
         self.viewSignalOz.repaint()
@@ -446,7 +529,7 @@ class AcquisitionSignal(QMainWindow):
         self.viewSignalPO3.plot(np.round(data[0, :], 7), pen=('#E53923'))
         self.viewSignalPO3.repaint()
 
-    def starGraph(self):
+    def startGraph(self):
         self.my_controller.startData()
 
         print("Iniciar senal")
@@ -480,7 +563,7 @@ class DataBase(QMainWindow):
         self.before.clicked.connect(self.forwardSignal)
         self.patientAcquisition.clicked.connect(self.dataAcquisition)
         self.back.clicked.connect(self.loadStart)
-        self.exitStar.clicked.connect(self.end)
+        self.exit.clicked.connect(self.end)
 
     def delaySignal(self):
         pass
@@ -498,4 +581,5 @@ class DataBase(QMainWindow):
         self.hide()
 
     def end(self):
-        pass
+        self.hide()
+        exit()

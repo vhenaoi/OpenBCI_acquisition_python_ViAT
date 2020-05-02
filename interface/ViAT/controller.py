@@ -40,6 +40,9 @@ class Controller(object):
 
     def returnLastData(self):
         return self.system.returnLastData()
+    
+    def returnLastZ(self):
+        return self.system.returnLastZ()
 
     def startData(self):
         self.system.startData()
@@ -53,7 +56,7 @@ class Controller(object):
 
     def stopZ(self):
         self.system.stopZ()
-        print('Stop Data Controlador')
+        print('Stop Z Controlador')
 
 
 # %%
