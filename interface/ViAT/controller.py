@@ -43,6 +43,9 @@ class Controller(object):
     
     def returnLastZ(self):
         return self.system.returnLastZ()
+    
+    def startDevice(self):
+        self.system.startDevice()
 
     def startData(self):
         self.system.startData()

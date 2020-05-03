@@ -38,6 +38,8 @@ import pandas as pd
 from PyQt5.QtGui import QIcon, QPixmap
 import wmi
 from Stimulation_Acuity import Stimulus
+#from Server import Server
+from randData import RandData
 import os
 from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QApplication, QLCDNumber
 from PyQt5.QtCore import QBasicTimer
@@ -54,8 +56,10 @@ import sys
 import pygame
 import numpy as np
 from pylsl import StreamInfo, StreamOutlet
+from pylsl import StreamInlet, resolve_stream
 from datetime import datetime
 import csv
+import subprocess
 
 
 class WorkerSignals(QObject):
@@ -158,6 +162,7 @@ class ViAT(QMainWindow):
     def end(self):
         self.hide()
         exit()
+
         
 
 
@@ -234,13 +239,15 @@ class DataAcquisition(QMainWindow):
         self.setup()
         self.show()
         self.__parentDataAcquisition = DA
+        self.threadpool = QThreadPool()
         self.my_controller = controller
 
     def setup(self):
         self.back.clicked.connect(self.loadStart)
         self.next.setEnabled(False)
         self.StopZ.setEnabled(False)
-        self.detectDevice.clicked.connect(self.device)
+        self.detectDevice.setEnabled(False)
+        self.startDevice.clicked.connect(self.Startdevice)
         self.FCz.setEnabled(False)
         self.Oz.setEnabled(False)
         self.O1.setEnabled(False)
@@ -361,8 +368,20 @@ class DataAcquisition(QMainWindow):
     def fPO4(self):
         # BROWN
         pass
-
+    def Startdevice(self):
+        self.worker = Worker(self.execute_this_fn)
+        self.worker.signals.result.connect(self.print_output)  # s
+        self.worker.signals.finished.connect(self.thread_complete)
+        self.worker.signals.progress.connect(self.progress_fn)  # n
+        # Execute
+        self.threadpool.start(self.worker)
+        
+        
+        self.detectDevice.setEnabled(True)
+        self.detectDevice.clicked.connect(self.device)
+        
     def device(self):
+       
         self.FCz.setEnabled(True)
         self.Oz.setEnabled(True)
         self.O1.setEnabled(True)
@@ -407,6 +426,28 @@ class DataAcquisition(QMainWindow):
 #            msg.setWindowTitle("Alerta!")
 #            msg.show()
 #            self.boton_iniciar.setEnabled(False)
+        
+    def progress_fn(self, n):
+        pass
+
+    def execute_this_fn(self, progress_callback):
+#        servidor = Server()
+#        servidor.port()
+#        data = RandData()
+#        data.sample()
+        try:
+            Rand=subprocess.call('start /wait python randData.py', shell=True)
+        except KeyboardInterrupt:
+            Rand.terminate()
+            
+        self.my_controller.startDevice()
+        
+
+    def print_output(self, s):
+        print(s)
+
+    def thread_complete(self):
+        print("THREAD COMPLETE!")
 
 
 class AcquisitionSignal(QMainWindow):
@@ -460,6 +501,7 @@ class AcquisitionSignal(QMainWindow):
         pass
 
     def execute_this_fn(self, progress_callback):
+        time.sleep(15)
         estimulo = Stimulus()
         estimulo.start_stimulus()
 
@@ -564,8 +606,12 @@ class DataBase(QMainWindow):
         self.patientAcquisition.clicked.connect(self.dataAcquisition)
         self.back.clicked.connect(self.loadStart)
         self.exit.clicked.connect(self.end)
+        self.stopDevice.clicked.connect(self.stopData)
 
     def delaySignal(self):
+        pass
+    
+    def stopData(self):
         pass
 
     def forwardSignal(self):
@@ -583,3 +629,4 @@ class DataBase(QMainWindow):
     def end(self):
         self.hide()
         exit()
+        

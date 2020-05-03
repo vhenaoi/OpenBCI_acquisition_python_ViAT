@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>965</width>
-    <height>608</height>
+    <width>844</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>821</width>
-      <height>561</height>
+      <width>831</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="palette">
@@ -141,7 +141,7 @@
      <widget class="QPushButton" name="back">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>90</x>
         <y>530</y>
         <width>91</width>
         <height>31</height>
@@ -185,8 +185,8 @@ QPushButton:pressed {
      <widget class="QPushButton" name="next">
       <property name="geometry">
        <rect>
-        <x>660</x>
-        <y>522</y>
+        <x>640</x>
+        <y>530</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -746,9 +746,9 @@ QPushButton:pressed {
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>10</y>
-        <width>327</width>
-        <height>497</height>
+        <y>50</y>
+        <width>301</width>
+        <height>471</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
@@ -775,54 +775,6 @@ QPushButton:pressed {
        </item>
        <item row="2" column="0">
         <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QPushButton" name="detectDevice">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-             <stylestrategy>PreferAntialias</stylestrategy>
-            </font>
-           </property>
-           <property name="mouseTracking">
-            <bool>false</bool>
-           </property>
-           <property name="tabletTracking">
-            <bool>false</bool>
-           </property>
-           <property name="acceptDrops">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-           </property>
-           <property name="text">
-            <string>Detectar dispositivo y segunda pantalla</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <layout class="QFormLayout" name="formLayout">
            <item row="1" column="0">
@@ -1076,52 +1028,6 @@ QPushButton:pressed {
          </item>
         </layout>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="infoAdquisition">
-         <property name="font">
-          <font>
-           <family>Footlight MT Light</family>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Las impedancias deben permanecer por debajo de 30 Kohm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    color: rgb(0, 0, 0);
-    border: 2px solid #0e213e;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
-        );
-    }</string>
-         </property>
-         <property name="text">
-          <string>?</string>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0" colspan="2">
         <widget class="QPushButton" name="StopZ">
          <property name="font">
@@ -1162,6 +1068,166 @@ QPushButton:pressed {
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>50</y>
+        <width>204</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="startDevice">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <stylestrategy>PreferAntialias</stylestrategy>
+          </font>
+         </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="tabletTracking">
+          <bool>false</bool>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+         </property>
+         <property name="text">
+          <string>Conectar dispositivo</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="detectDevice">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <stylestrategy>PreferAntialias</stylestrategy>
+          </font>
+         </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="tabletTracking">
+          <bool>false</bool>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+         </property>
+         <property name="text">
+          <string>Verificar segunda pantalla</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="infoAdquisition">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>520</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Footlight MT Light</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Las impedancias deben permanecer por debajo de 30 Kohm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    border: 2px solid #0e213e;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
+        );
+    }</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
      <zorder>mounting</zorder>
      <zorder>back</zorder>
      <zorder>next</zorder>
@@ -1177,6 +1243,8 @@ QPushButton:pressed {
      <zorder>FCz</zorder>
      <zorder>logo</zorder>
      <zorder>formLayoutWidget_2</zorder>
+     <zorder>verticalLayoutWidget</zorder>
+     <zorder>infoAdquisition</zorder>
     </widget>
    </widget>
   </widget>
@@ -1185,7 +1253,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>965</width>
+     <width>844</width>
      <height>21</height>
     </rect>
    </property>

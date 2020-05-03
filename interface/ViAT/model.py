@@ -29,55 +29,48 @@ import scipy.signal as signal
 
 class Model(object):
 
-    #    @classmethod
-    #    def puertos(self):
-    #        self.lista_puertos = list_ports.comports();
-    #        try:
-    #            for i in range(len(self.lista_puertos)):
-    #                ps = self.lista_puertos[i];
-    #                if (i==len(self.lista_puertos)-1):
-    #                    if (ps.serial_number[:5]=='DQ008'):
-    #                        return True
-    #            return False
-    #        except:
-    #            return False
-
     def __init__(self):
+        
         self.__fs = 250
         self.filtDesign()
         print("se diseño el filtro")
-
+        
+    def startDevice(self):
+        
         self.__channels = 8
         self.__data = np.zeros((self.__channels - 2, 2500))
-        print("looking for an EEG stream...")
-        self.__streams_EEG = resolve_stream('type', 'EEG')
+        self.streams_EEG = resolve_stream('type', 'EEG')
+                
 
     def startData(self):
-        self.__inlet = StreamInlet(self.__streams_EEG[0], max_buflen=250)
-
+        
+        self.startDevice()
+        self.__inlet = StreamInlet(self.streams_EEG[0], max_buflen=250)
         self.__inlet.pull_chunk()
+         
 
     def stopData(self):
+        
         self.__inlet.close_stream()
         print('Stop Data Modelo')
 
     def startZ(self):
-        self.__inlet = StreamInlet(self.__streams_EEG[0], max_buflen=250)
-#        self.__inlet.pull_chunk()
+        
+        self.__inlet = StreamInlet(self.streams_EEG[0], max_buflen=250)
         
 
     def stopZ(self):
+        
         self.__inlet.close_stream()
         print('Stop impedance')
 
     def readZ(self):
+        
         sample, timestamp = self.__inlet.pull_sample()
         self.Z = []
         for i in range(0, 8):
             Z_i = ((sample[i])*np.sqrt(2))/(6*pow(10, -9))
             self.Z.append(Z_i/1000)
-#        print('Modelo',self.Z)
-#        return[self.Z]
         
     def readData(self):
 

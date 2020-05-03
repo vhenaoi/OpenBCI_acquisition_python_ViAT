@@ -1269,8 +1269,6 @@ QComboBox QAbstractItemView {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="info_help.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
