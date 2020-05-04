@@ -1,10 +1,14 @@
 """Example program to demonstrate how to send a multi-channel time series to
-LSL."""
+LSL.
+
+https://github.com/sccn/lsl_archived/tree/master/LSL/liblsl-Python/examples 
+"""
 
 import time
 from random import random as rand
 
 from pylsl import StreamInfo, StreamOutlet
+
 
 
 class RandData(object):
@@ -33,7 +37,7 @@ class RandData(object):
             print(self.mysample)
             time.sleep(0.01)
 
-
+# In[To run individually]
 if __name__ == '__main__':
     data = RandData()
     data.sample()

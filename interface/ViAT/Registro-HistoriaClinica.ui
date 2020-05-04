@@ -310,7 +310,7 @@ QPushButton:pressed {
          <item>
           <layout class="QFormLayout" name="formLayout">
            <item row="1" column="0">
-            <widget class="QPushButton" name="adquisitionInfo_2">
+            <widget class="QPushButton" name="historyInfo">
              <property name="font">
               <font>
                <family>Footlight MT Light</family>
@@ -318,6 +318,9 @@ QPushButton:pressed {
                <weight>75</weight>
                <bold>true</bold>
               </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Presione para obtener más información&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="styleSheet">
               <string notr="true">QPushButton {
@@ -672,7 +675,7 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QComboBox" name="answerGlasses">
+            <widget class="QComboBox" name="glassesAnswer">
              <property name="toolTip">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;¿Usa gafas?: Especifique si paciente utiliza actualmente gafas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -815,42 +818,12 @@ QComboBox QAbstractItemView {
              </property>
              <item>
               <property name="text">
-               <string>20/200</string>
+               <string>20/20</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>20/160</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/125</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/100</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/80</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/63</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/50</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/40</string>
+               <string>20/16</string>
               </property>
              </item>
              <item>
@@ -860,12 +833,42 @@ QComboBox QAbstractItemView {
              </item>
              <item>
               <property name="text">
-               <string>20/20</string>
+               <string>20/40</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>20/16</string>
+               <string>20/50</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/63</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/80</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/100</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/125</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/160</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/200</string>
               </property>
              </item>
             </widget>
@@ -883,7 +886,7 @@ QComboBox QAbstractItemView {
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QComboBox" name="answerVA">
+            <widget class="QComboBox" name="CorrectionAnswer">
              <property name="toolTip">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agudeza de Snellen corregida: Especifique la agudeza del paciente hallada con gafas por medio de tablas de Snellen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -943,52 +946,12 @@ QComboBox QAbstractItemView {
              </property>
              <item>
               <property name="text">
-               <string>NA</string>
+               <string>NaN</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>20/200</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/160</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/125</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/100</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/80</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/63</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/50</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/40</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>20/25</string>
+               <string>20/16</string>
               </property>
              </item>
              <item>
@@ -998,7 +961,47 @@ QComboBox QAbstractItemView {
              </item>
              <item>
               <property name="text">
-               <string>20/16</string>
+               <string>20/25</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/40</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/50</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/63</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/80</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/100</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/125</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/160</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20/200</string>
               </property>
              </item>
             </widget>
@@ -1074,6 +1077,9 @@ QComboBox QAbstractItemView {
 }
 </string>
              </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
              <item>
               <property name="text">
                <string>Agudeza de Vernier</string>
@@ -1082,21 +1088,6 @@ QComboBox QAbstractItemView {
              <item>
               <property name="text">
                <string>Agudeza de Grating</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Contraste</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Color</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Forma</string>
               </property>
              </item>
             </widget>
@@ -1192,7 +1183,7 @@ QComboBox QAbstractItemView {
               </font>
              </property>
              <property name="text">
-              <string>¿Tiempo del daño visual?</string>
+              <string>¿Tiempo desde el accidente visual?</string>
              </property>
             </widget>
            </item>

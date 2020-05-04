@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Mar  5 13:36:21 2020
+Created on 2020
 
-@author: veroh
+@author: Verónica Henao Isaza
 """
 
 from view import ViAT
@@ -31,12 +31,16 @@ class Controller(object):
         self.__view = view
         self.system = system
 
-    def detectarDispositivo(self):
-        return self.system.puertos()
-
-    def crearCarpeta(self, codigo, nombre, apellidos, estatura, peso, observaciones):
-        self.system.crearCarpeta(
-            codigo, nombre, apellidos, estatura, peso, observaciones)
+#    def detectarDispositivo(self):
+#        return self.system.puertos()
+#
+    def clinicalhistoryInformation(self,idAnswer,nameAnswer,lastnameAnswer,ccAnswer,sexAnswer,
+                     eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
+                     CorrectionAnswer,stimulusAnswer,timeAnswer,responsibleAnswer):
+        self.system.clinicalhistoryInformation(idAnswer,nameAnswer,lastnameAnswer,ccAnswer,
+                                 sexAnswer,eyeAnswer,ageAnswer,glassesAnswer,
+                                 snellenAnswer,CorrectionAnswer,stimulusAnswer,
+                                 timeAnswer,responsibleAnswer)
 
     def returnLastData(self):
         return self.system.returnLastData()

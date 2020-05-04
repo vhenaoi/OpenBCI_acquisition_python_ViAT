@@ -1,4 +1,9 @@
 '''
+Created on 2020
+
+@author: Verónica Henao Isaza
+
+
 This module provides a stimulation method for steady-state visual 
 evoked potentials (SSVEP).
 Sensitivity Vernier were conducted in the same SSVEP recording session 
@@ -11,6 +16,7 @@ import numpy as np
 from pylsl import StreamInfo, StreamOutlet
 from datetime import datetime
 import csv
+ 
 
 '''
 pygame: Pygame adds functionality on top of the excellent SDL library.
@@ -153,7 +159,7 @@ class Stimulus(object):
         except:
             pygame.quit()
 
-
+# In[To run individually]
 if __name__ == '__main__':
     estimulo = Stimulus()
     estimulo.start_stimulus()

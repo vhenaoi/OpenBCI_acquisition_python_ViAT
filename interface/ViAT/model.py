@@ -1,30 +1,20 @@
-import os
-import csv
-# Anexamos el directorio vista
-#sys.path.append(r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\codigo_anestesia')
+'''
+Created on 2020
 
-#import numpy as np
-#from pyOpenBCI import OpenBCICyton
-#from pylsl import StreamInfo, StreamOutlet
-#from pylsl import StreamInlet, resolve_stream
-#from serial.tools import list_ports
-#from datetime import datetime
-#from linearFIR import filter_design
-#from nonlinear import hampelFilter
-#from Server import Server
-#import scipy.signal as signal
-#serial_openBCI = 'DQ0081';
+@author: Verónica Henao Isaza
 
-#import sys
-from serial.tools import list_ports
-# Anexamos el directorio vista
-#sys.path.append(r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\codigo_anestesia')
+'''
 
 import numpy as np
 from pylsl import StreamInlet, resolve_stream
 from linearFIR import filter_design
 from nonlinear import hampelFilter
 import scipy.signal as signal
+import os
+from datetime import datetime
+#import errno
+import pandas as pd
+import csv
 
 
 class Model(object):
@@ -129,11 +119,121 @@ class Model(object):
         self.f, self.Pxx = signal.welch(
             self.senal_filtrada_pasabandas, self.__fs, nperseg=self.__fs*2, noverlap=self.__fs)
 
-    def returnLastData(self):
+    def returnLastData(self):        
         self.Pot()
         return self.senal_filtrada_pasabandas, self.Pxx, self.f  # [0:6,:]
     
     def returnLastZ(self):
         self.readZ()
         return self.Z
+    
+    def clinicalhistoryInformation(self, idAnswer,nameAnswer,lastnameAnswer,ccAnswer,
+                     sexAnswer,eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
+                     CorrectionAnswer,stimulusAnswer,timeAnswer,
+                     responsibleAnswer):
+
+        History=pd.DataFrame()
+        Subject=pd.DataFrame()
+        now = datetime.now()
+        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+        path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HistoriaClinicaViAT'
+        
+       
+        if sexAnswer == 0:
+            sexAnswer = 'Femenino'
+        else:
+            sexAnswer = 'Masculino'
+        if eyeAnswer == 0:
+            eyeAnswer = 'Derecho'
+        else:
+            eyeAnswer = 'Izquierdo'
+        gen = pd.DataFrame({'id':[idAnswer],
+                            'nombre':[nameAnswer], 
+                            'apellido':[lastnameAnswer], 
+                            'cc':[ccAnswer], 
+                            'sexo':[sexAnswer],
+                            'ojo dominante':[eyeAnswer]
+                            })
+        if glassesAnswer == 0:
+            glassesAnswer = 'Si'
+        else:
+            glassesAnswer = 'No'
+        if snellenAnswer == 0:
+            snellenAnswer = '20/20'
+        elif snellenAnswer == 1:
+            snellenAnswer = '20/16'
+        elif snellenAnswer == 2:
+            snellenAnswer = '20/25'
+        elif snellenAnswer == 3:
+            snellenAnswer = '20/40'
+        elif snellenAnswer == 4:
+            snellenAnswer = '20/50'
+        elif snellenAnswer == 5:
+            snellenAnswer = '20/63'
+        elif snellenAnswer == 6:
+            snellenAnswer = '20/80'
+        elif snellenAnswer == 7:
+            snellenAnswer = '20/100'
+        elif snellenAnswer == 8:
+            snellenAnswer = '20/125'
+        elif snellenAnswer == 9:
+            snellenAnswer = '20/160'
+        elif snellenAnswer == 10:
+            snellenAnswer = '20/200'
+        if CorrectionAnswer == 0:
+            CorrectionAnswer = 'NaN'
+        elif CorrectionAnswer == 1:
+            CorrectionAnswer = '20/16'
+        elif CorrectionAnswer == 2:
+            CorrectionAnswer = '20/20'
+        elif CorrectionAnswer == 3:
+            CorrectionAnswer = '20/25'
+        elif CorrectionAnswer == 4:
+            CorrectionAnswer = '20/40'
+        elif CorrectionAnswer == 5:
+            CorrectionAnswer = '20/50'
+        elif CorrectionAnswer == 6:
+            CorrectionAnswer = '20/63'
+        elif CorrectionAnswer == 7:
+            CorrectionAnswer = '20/80'
+        elif CorrectionAnswer == 8:
+            CorrectionAnswer = '20/100'
+        elif CorrectionAnswer == 9:
+            CorrectionAnswer = '20/125'
+        elif CorrectionAnswer == 10:
+            CorrectionAnswer = '20/160'
+        elif CorrectionAnswer == 11:
+            CorrectionAnswer = '20/200'
+        if stimulusAnswer == 0:
+            stimulusAnswer = 'Vernier'
+        else:
+             stimulusAnswer = 'Grating'
+            
+        var = pd.DataFrame({'edad':[ageAnswer],
+                                     'gafas':[glassesAnswer],
+                                     'snellen':[snellenAnswer],
+                                     'snellen corregido':[CorrectionAnswer],
+                                     'estimulo':[stimulusAnswer],
+                                     'tiempo de accidente visual':[timeAnswer],
+                                     'responsable':[responsibleAnswer],
+                                     'hora':[date[1]]
+                                     })
+        History = History.append(var)
+        Subject = Subject.append(gen)
+        fijo = path + '/' +  idAnswer + '_' + ccAnswer
+        if os.path.isdir(fijo):
+            variable=(fijo + '/' + date[0])
+            if os.path.isdir(variable):
+                History.to_csv(variable + '/'  + 'History.csv' ,mode='a',header=False, sep=';')
+            else:
+                os.mkdir(variable)
+                History.to_csv(variable + '/'  + 'History.csv' , sep=';')
+        else:
+            os.mkdir(fijo)
+            variable=(fijo + '/' + date[0])
+            os.mkdir(variable)
+            print('se creo el segundo directorio')
+            print(variable)
+            Subject.to_csv(fijo + '/'  + 'Suject.csv' , sep=';')
+            History.to_csv(variable + '/'  + 'History.csv' , sep=';')
         

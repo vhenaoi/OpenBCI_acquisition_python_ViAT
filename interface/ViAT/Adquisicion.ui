@@ -292,6 +292,9 @@ QPushButton:pressed {
         <bold>true</bold>
        </font>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     color: rgb(0, 0, 0);
@@ -341,6 +344,9 @@ QPushButton:pressed {
         <bold>true</bold>
        </font>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     color: rgb(0, 0, 0);
@@ -389,6 +395,9 @@ QPushButton:pressed {
         <weight>75</weight>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -488,6 +497,9 @@ QPushButton:pressed {
         <bold>true</bold>
        </font>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     color: rgb(0, 0, 0);
@@ -536,6 +548,9 @@ QPushButton:pressed {
         <weight>75</weight>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -586,6 +601,9 @@ QPushButton:pressed {
         <bold>true</bold>
        </font>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     color: rgb(0, 0, 0);
@@ -634,6 +652,9 @@ QPushButton:pressed {
         <weight>75</weight>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -696,6 +717,9 @@ QPushButton:pressed {
         <weight>75</weight>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Este botón permite observar la impedancia en los electrodos, se activa despues de presionar &amp;quot;Verificar segunda pantalla&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -873,13 +897,6 @@ QPushButton:pressed {
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Medida de la impedancia en [ Kohms ] &lt; 30 Kohms</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="1">
             <widget class="QLCDNumber" name="impedanceFCZ">
              <property name="minimumSize">
@@ -1024,6 +1041,13 @@ QPushButton:pressed {
              </property>
             </widget>
            </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Medida de la impedancia en [ Kohms ] &lt; 30 Kohms</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -1034,6 +1058,9 @@ QPushButton:pressed {
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Es necesario detener la medición de la impedancia antes de continuar con el registro&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
@@ -1095,6 +1122,9 @@ QPushButton:pressed {
          <property name="acceptDrops">
           <bool>false</bool>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Comience adquirir los datos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
     border: 2px solid gray;
@@ -1142,6 +1172,9 @@ QPushButton:pressed {
          </property>
          <property name="acceptDrops">
           <bool>false</bool>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Este botón se activa al comenzar el envio de los datos presioando &amp;quot;Conectar dispositivo&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
@@ -1194,7 +1227,7 @@ QPushButton:pressed {
        </font>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Las impedancias deben permanecer por debajo de 30 Kohm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Presione para obtener más información&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {

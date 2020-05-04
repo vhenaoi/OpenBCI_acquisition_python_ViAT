@@ -1,4 +1,7 @@
 '''View ViAT
+Created on 2020
+
+@author: Verónica Henao Isaza
 
 WorkerSignals: Defines the signals available from a running worker thread.
     
@@ -29,7 +32,6 @@ from PyQt5 import QtCore, QtWidgets
 from matplotlib.figure import Figure
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
-from numpy import arange, sin, pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import scipy.io as sio
 import numpy as np
@@ -38,29 +40,23 @@ import pandas as pd
 from PyQt5.QtGui import QIcon, QPixmap
 import wmi
 from Stimulation_Acuity import Stimulus
-#from Server import Server
 from randData import RandData
 import os
-from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QApplication, QLCDNumber
+from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QLCDNumber
 from PyQt5.QtCore import QBasicTimer
 import pygame
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-#from impedance import Impedance
-
 import time
 import traceback
 import sys
-
-import pygame
-import numpy as np
 from pylsl import StreamInfo, StreamOutlet
 from pylsl import StreamInlet, resolve_stream
 from datetime import datetime
 import csv
 import subprocess
-
+import errno
 
 class WorkerSignals(QObject):
     '''
@@ -192,22 +188,35 @@ class LoadRegistration(QMainWindow):
     def setup(self):
         self.back.clicked.connect(self.loadStart)
         self.next.clicked.connect(self.dataAcquisition)
+        self.historyInfo.clicked.connect(self.info)
         pixmap = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap)
-
+        
+    def info(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Si el paciente o sujeto a registrar es nuevo, por favor complete todos los campos, si el sujetos ya se ha registrado antes unicamente llene los datos que han cambiado desde el ultimo registro")
+        msg.setWindowTitle("Ayuda")
+        x = msg.exec_()
+        
     def clinicalhistoryInformation(self):
-        pass
-
+        
+        self.my_controller.clinicalhistoryInformation(self.idAnswer.text(), 
+                                         self.nameAnswer.text(), 
+                                         self.lastnameAnswer.text(), 
+                                         self.ccAnswer.text(),
+                                         self.sexAnswer.currentIndex(), 
+                                         self.eyeAnswer.currentIndex(),
+                                         self.ageAnswer.value(),
+                                         self.glassesAnswer.currentIndex(),
+                                         self.snellenAnswer.currentIndex(),
+                                         self.CorrectionAnswer.currentIndex(),
+                                         self.stimulusAnswer.currentIndex(),
+                                         self.timeAnswer.text(),
+                                         self.responsibleAnswer.text())
     def loadStart(self):
         self.__parentLoadRegistration.show()
         self.hide()
-#    def dataAcquisition(self):
-#        msg = QMessageBox(self.LoadRegistration)
-#        pass
-#    def dataAcquisition(self):
-#        self.__registry=DataAcquisition(self)
-#        self.__registry.show()
-#        self.hide()
 
     def dataAcquisition(self):
         #        if not (self.idAnswer.text() and self.nameAnswer.text() and
@@ -220,6 +229,7 @@ class LoadRegistration(QMainWindow):
         #        else:
         self.__registry = DataAcquisition(self, self.my_controller)
         self.__registry.show()
+        self.clinicalhistoryInformation()
         self.hide()
 
 
@@ -228,9 +238,13 @@ class DataAcquisition(QMainWindow):
     
         Verify that the application can continue with the registration
     
-        :setup: this function contains the condition to move to the other views
+        :setup: This function allows to:
+                1. Initiate communication with OpenBCI
+                2. Verify the existence of a second connected display 
+                to show stimulation
+                3. Observe the impedance at each electrode
     '''
-    
+    #Contains restrictions to follow the actions in an orderly manner
     def __init__(self, DA, controller):
         super(DataAcquisition, self).__init__()
         loadUi('Adquisicion.ui', self)
@@ -244,6 +258,7 @@ class DataAcquisition(QMainWindow):
 
     def setup(self):
         self.back.clicked.connect(self.loadStart)
+        self.infoAdquisition.clicked.connect(self.info)
         self.next.setEnabled(False)
         self.StopZ.setEnabled(False)
         self.detectDevice.setEnabled(False)
@@ -271,7 +286,14 @@ class DataAcquisition(QMainWindow):
         self.mounting.setPixmap(pixmap)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
-
+        
+    def info(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Comience identificando que el dispositivo esta conectado y que puede comenzar a adquirir los datos, se abrirá una ventana negra en la cual se muestran los datos adquiridos, presione 'Miminizar' y a continuación verifique que la pantalla de estimulación se encuentra conectada y ahora, para verificar la impedancia presione cualquiera de los electrodos de la configuración. Antes de pasar a la siguiente etapa recuerde detener la medición de la impedancia ")
+        msg.setWindowTitle("Ayuda")
+        x = msg.exec_()
+        
     def loadStart(self):
         self.__parentDataAcquisition.show()
         self.hide()
@@ -469,19 +491,29 @@ class AcquisitionSignal(QMainWindow):
         self.timer.timeout.connect(self.recurring_timer)
         self.timer.start()
         self.my_controller = controller
+        self.step = 0
 
     def setup(self):
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         self.play.clicked.connect(self.startPlay)
-        self.stop.clicked.connect(self.stopEnd)
+        self.stop.setEnabled(False)
         self.patientData.clicked.connect(self.loadData)
         self.back.clicked.connect(self.loadStart)
         self.exit.clicked.connect(self.end)
         self.playGraph.clicked.connect(self.startGraph)
         self.stopGraph.clicked.connect(self.haltGraph)
+        self.adquisitionInfo.clicked.connect(self.info)
+        
+    def info(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("En la parte superior encontrara dos pestañas, la de inicio, en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal adquirida en tiempo real. Primero debe presionar el botón inicio en la pestaña actual, luego, pase a la pestaña de visualización y presione 'visualiza', en la primera pestaña podra observar una barra de proceso que le anunciara que el estimulo esta a punto de presentarse. Al terminar podra visualizar los resultados de la estimulación en esta misma pestaña, para visualizar resultados anteriores o de otro pacientes, dirijase a 'Base de datos pacientes'  ")
+        msg.setWindowTitle("Ayuda")
+        x = msg.exec_()
 
     def startPlay(self):
+        self.stop.setEnabled(True)
         self.play.setEnabled(False)
         try:
             pygame.init()
@@ -500,11 +532,22 @@ class AcquisitionSignal(QMainWindow):
     def progress_fn(self, n):
         pass
 
+
     def execute_this_fn(self, progress_callback):
-        time.sleep(15)
+        veces=0
+        while veces<10:
+            time.sleep (veces) #esta es la función que no se utilizar
+            value = self.alert.value()
+            if value < 100:
+                value = value + 10
+                self.alert.setValue(value)
+            else:
+                self.timer.stop()
+            veces=veces+1
+#        time.sleep(15)
         estimulo = Stimulus()
         estimulo.start_stimulus()
-
+    
     def print_output(self, s):
         print(s)
 
@@ -514,6 +557,7 @@ class AcquisitionSignal(QMainWindow):
     def stopEnd(self):
         self.play.setEnabled(True)
         pygame.quit()
+        self.alert.setValue(0)
 #        self.threadpool.destroyed
 
     def loadData(self):
@@ -528,14 +572,6 @@ class AcquisitionSignal(QMainWindow):
     def end(self):
         self.hide()
         exit()
-
-    def timerEvent(self, event):
-        if self.step >= 100:
-            self.timer.stop()
-            self.play.setText('Iniciar')
-            return
-        self.step += 1
-        self.alert.setValue(self.step)
 
     def recurring_timer(self):
         pass
@@ -607,14 +643,30 @@ class DataBase(QMainWindow):
         self.back.clicked.connect(self.loadStart)
         self.exit.clicked.connect(self.end)
         self.stopDevice.clicked.connect(self.stopData)
+        self.adquisitionInfo.clicked.connect(self.info)
+        self.adquisitionInfo_2.clicked.connect(self.info2)
+        
+    def info(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("En la parte superior encontrara dos pestañas, la de inicio, en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal registrada. Primero debe buscar del sujeto de interes por ID, CC o fecha de registro, presione buscar y seleccione el registro que desea visualizar. Se recomienda desconectar el dispositivo si no se realizaran más registros durante la exploración de los datos. Podra visualizar los resultados de la estimulación en esta misma pestaña y visualizar la señal en la pestaña 'Visualización'  ")
+        msg.setWindowTitle("Ayuda")
+        x = msg.exec_()
+    
+    def info2(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Puede observar el espectro de la señal de interes al presiónar el canal o desplazarse por las señales en cada canal al mover las flechas")
+        msg.setWindowTitle("Ayuda")
+        x = msg.exec_()
 
-    def delaySignal(self):
+    def delaySignal(self):#Atras
         pass
     
     def stopData(self):
         pass
 
-    def forwardSignal(self):
+    def forwardSignal(self):#Adelante
         pass
 
     def dataAcquisition(self):
