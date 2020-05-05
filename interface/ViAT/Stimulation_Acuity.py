@@ -16,6 +16,8 @@ import numpy as np
 from pylsl import StreamInfo, StreamOutlet
 from datetime import datetime
 import csv
+import os
+import pandas as pd
  
 
 '''
@@ -88,7 +90,19 @@ class Stimulus(object):
             pygame.display.flip()
         except:
             pygame.quit()
-
+            
+    def save(self):
+        sample_mark = datetime.now()
+        data = (sample_mark.strftime("%m-%d-%Y"),
+                sample_mark.strftime("%H-%M-%S"))
+        print('antes de guardar')
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Marks'+ '/'+ sample_mark.strftime("%m-%d-%Y")
+        if os.path.isdir(loc):
+            (pd.DataFrame({'Fecha, Hora':[data]}).T).to_csv(loc + '/'  + 'Mark_H_'+sample_mark.strftime("%H")+'.csv' ,mode='a',header=False, index=False, sep=';')
+        else:
+            os.mkdir(loc)
+            (pd.DataFrame({'Fecha, Hora':[data]}).T).to_csv(loc + '/'  + 'Mark_H_'+sample_mark.strftime("%H")+'.csv' ,mode='a',header=False, index=False, sep=';')
+        print('logro guardar')
     def start_stimulus(self):
         """Start Vernier stimulation 
        
@@ -122,16 +136,16 @@ class Stimulus(object):
                 for num in range(1, 7):  # acuity levels
                     now = datetime.now() # current date and time
                     timestamp = datetime.timestamp(now)
-                    self.__outlet.push_sample(
-                        np.array([num]), timestamp=timestamp)
+#                    self.__outlet.push_sample(
+#                        np.array([num]), timestamp=timestamp)
                     print(num)
-                    print(datetime.fromtimestamp(timestamp))
-                    sample_mark = datetime.now()
-                    with open("Mark.csv", "a") as csvfile:# Save marks
-                        writer = csv.writer(csvfile, delimiter=';')
-                        data = (sample_mark.strftime("%m/%d/%Y"),
-                                sample_mark.strftime("%H:%M:%S"))
-                        writer.writerows([np.array(data)])
+                    print(datetime.fromtimestamp(timestamp)) 
+                    self.save()
+#                    with open('Mark.csv', "a") as csvfile:# Save marks
+#                        writer = csv.writer(csvfile, delimiter=';')
+#                        data = (sample_mark.strftime("%m/%d/%Y"),
+#                                sample_mark.strftime("%H:%M:%S"))
+#                        writer.writerows([np.array(data)])
                     while (cont <= 6):  # 19.75--8 
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:

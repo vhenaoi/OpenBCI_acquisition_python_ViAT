@@ -134,11 +134,12 @@ class Model(object):
 
         History=pd.DataFrame()
         Subject=pd.DataFrame()
+        Subjects=pd.DataFrame()
         now = datetime.now()
         date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
         path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HistoriaClinicaViAT'
-        
-       
+        path_Marks = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Marks'
+        path_Register = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'
         if sexAnswer == 0:
             sexAnswer = 'Femenino'
         else:
@@ -216,24 +217,28 @@ class Model(object):
                                      'estimulo':[stimulusAnswer],
                                      'tiempo de accidente visual':[timeAnswer],
                                      'responsable':[responsibleAnswer],
-                                     'hora':[date[1]]
+                                     'hora':[date[1]],'Marca':[path_Marks+ '/' +'Mark_H_'+date[1][0:2]+'.csv'],
+                                             'Registro':[path_Register+ '/' +'Registry_H_'+date[1][0:2]+'.csv']
                                      })
         History = History.append(var)
         Subject = Subject.append(gen)
+        Subjects = Subjects.append(gen)
         fijo = path + '/' +  idAnswer + '_' + ccAnswer
         if os.path.isdir(fijo):
             variable=(fijo + '/' + date[0])
+            Subjects.to_csv(path + '/'  + 'Subjects.csv' ,mode='a',header=False, index=False, sep=';')
             if os.path.isdir(variable):
-                History.to_csv(variable + '/'  + 'History.csv' ,mode='a',header=False, sep=';')
+                History.to_csv(variable + '/'  + 'History.csv' ,mode='a',header=False, index=False, sep=';')
             else:
                 os.mkdir(variable)
-                History.to_csv(variable + '/'  + 'History.csv' , sep=';')
+                History.to_csv(variable + '/'  + 'History.csv' , index=False,sep=';')
         else:
             os.mkdir(fijo)
             variable=(fijo + '/' + date[0])
             os.mkdir(variable)
             print('se creo el segundo directorio')
             print(variable)
-            Subject.to_csv(fijo + '/'  + 'Suject.csv' , sep=';')
-            History.to_csv(variable + '/'  + 'History.csv' , sep=';')
+            Subject.to_csv(fijo + '/'  + 'Suject.csv' , index=False, sep=';')
+            History.to_csv(variable + '/'  + 'History.csv' ,index=False, sep=';')
+            Subjects.to_csv(path + '/'  + 'Subjects.csv' ,mode='a',index=False, sep=';')
         

@@ -514,6 +514,7 @@ class AcquisitionSignal(QMainWindow):
 
     def startPlay(self):
         self.stop.setEnabled(True)
+        self.stop.clicked.connect(self.stopEnd)
         self.play.setEnabled(False)
         try:
             pygame.init()
@@ -582,6 +583,18 @@ class AcquisitionSignal(QMainWindow):
     def graphData(self):
         data, Powers, freq = self.returnLastData()
         data = data - np.mean(data, 0)
+        now = datetime.now()
+        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+ date[0]
+        if os.path.isdir(loc):
+            if not np.all(data==0):
+                pd.DataFrame(data).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
+                (pd.DataFrame({'Fecha, Hora':[date]}).T).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
+        else:
+            os.mkdir(loc)
+            if not np.all(data==0):
+                pd.DataFrame(data).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
+                (pd.DataFrame({'Fecha, Hora':[date]}).T).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
         if data.ndim == 0:
             print("Lista vacia")
             return
