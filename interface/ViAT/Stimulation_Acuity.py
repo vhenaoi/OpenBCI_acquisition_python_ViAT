@@ -78,6 +78,7 @@ class Stimulus(object):
             stimulation and change in level visual acuity
             ::0.1 Rest, corresponds to the intermediate image between each 
             change of state (binocular or monocular)
+            :param img: image of the stimulus to present 
         '''
         try:
             img = pygame.image.load(imagen)
@@ -92,17 +93,22 @@ class Stimulus(object):
             pygame.quit()
             
     def save(self):
+        """
+        Allows you to save the timestamp when changing images.
+        For this particular stimulus, it allows separating the acuities 
+        into 6 levels
+        
+        """
         sample_mark = datetime.now()
         data = (sample_mark.strftime("%m-%d-%Y"),
                 sample_mark.strftime("%H-%M-%S"))
-        print('antes de guardar')
         loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Marks'+ '/'+ sample_mark.strftime("%m-%d-%Y")
         if os.path.isdir(loc):
             (pd.DataFrame({'Fecha, Hora':[data]}).T).to_csv(loc + '/'  + 'Mark_H_'+sample_mark.strftime("%H")+'.csv' ,mode='a',header=False, index=False, sep=';')
         else:
             os.mkdir(loc)
             (pd.DataFrame({'Fecha, Hora':[data]}).T).to_csv(loc + '/'  + 'Mark_H_'+sample_mark.strftime("%H")+'.csv' ,mode='a',header=False, index=False, sep=';')
-        print('logro guardar')
+        
     def start_stimulus(self):
         """Start Vernier stimulation 
        

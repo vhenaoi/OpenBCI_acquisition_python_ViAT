@@ -15,6 +15,7 @@ from datetime import datetime
 #import errno
 import pandas as pd
 import csv
+from serial.tools import list_ports
 
 
 class Model(object):
@@ -24,7 +25,7 @@ class Model(object):
         self.__fs = 250
         self.filtDesign()
         print("se diseño el filtro")
-        
+               
     def startDevice(self):
         
         self.__channels = 8
@@ -121,7 +122,7 @@ class Model(object):
 
     def returnLastData(self):        
         self.Pot()
-        return self.senal_filtrada_pasabandas, self.Pxx, self.f  # [0:6,:]
+        return self.senal_filtrada_pasabandas, self.Pxx, self.f # [0:6,:]
     
     def returnLastZ(self):
         self.readZ()

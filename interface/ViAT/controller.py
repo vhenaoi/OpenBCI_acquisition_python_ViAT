@@ -31,9 +31,6 @@ class Controller(object):
         self.__view = view
         self.system = system
 
-#    def detectarDispositivo(self):
-#        return self.system.puertos()
-#
     def clinicalhistoryInformation(self,idAnswer,nameAnswer,lastnameAnswer,ccAnswer,sexAnswer,
                      eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
                      CorrectionAnswer,stimulusAnswer,timeAnswer,responsibleAnswer):

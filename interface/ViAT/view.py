@@ -129,13 +129,15 @@ class ViAT(QMainWindow):
     '''
     def __init__(self):
         super(ViAT, self).__init__()
+        #The designed view is exported in qt designer
         loadUi('ViAT.ui', self)
         self.setWindowTitle('Inicio')
-        self.setWindowIcon(QIcon('icono.png'))
-        self.setup()
+        self.setWindowIcon(QIcon('icono.png')) #window icon
+        self.setup() 
         self.show()
 
     def assignController(self, controller):
+        # create connection to controller
         self.my_controller = controller
 
     def setup(self):
@@ -173,15 +175,19 @@ class LoadRegistration(QMainWindow):
         autocomplete the stationary fields
         
         :dataAcquisition: Check that the fields are completely filled
+        
+        :param variable controller: allows me to communicate with the model 
+        through the controller 
     '''
     def __init__(self, LR, controller):
         super(LoadRegistration, self).__init__()
+        #The designed view is exported in qt designer
         loadUi('Registro-HistoriaClinica.ui', self)
         self.setWindowTitle('Registro')
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
-        self.my_controller = controller
+        self.my_controller = controller # define controller variable
 
         self.__parentLoadRegistration = LR
 
@@ -243,17 +249,21 @@ class DataAcquisition(QMainWindow):
                 2. Verify the existence of a second connected display 
                 to show stimulation
                 3. Observe the impedance at each electrode
+                
+        :param variable controller: allows me to communicate with the model 
+        through the controller
     '''
     #Contains restrictions to follow the actions in an orderly manner
     def __init__(self, DA, controller):
         super(DataAcquisition, self).__init__()
+        #The designed view is exported in qt designer
         loadUi('Adquisicion.ui', self)
         self.setWindowTitle('Adquisición')
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
         self.__parentDataAcquisition = DA
-        self.threadpool = QThreadPool()
+        self.threadpool = QThreadPool() #creating a group of threads in qt
         self.my_controller = controller
 
     def setup(self):
@@ -314,11 +324,10 @@ class DataAcquisition(QMainWindow):
         self.StopZ.clicked.connect(self.StopMeasurement)
         
         print("Iniciar medicion")
-        self.timer = QtCore.QTimer(self)
-        # timer.setSingleShot(True)
+        self.timer = QtCore.QTimer(self) #creating a time thread
         self.timer.timeout.connect(self.printZ)
-        self.timer.start(22)  # milisegundos ojo humano
-        # print(self.timer.isActive())
+        self.timer.start(22)  # speed in milliseconds discriminated by human eye
+
 
     def fGND(self):
         self.GND.setEnabled(False)
@@ -354,43 +363,8 @@ class DataAcquisition(QMainWindow):
         self.next.setEnabled(True)
         self.next.clicked.connect(self.executeAcquisition)
 
-    def fFCz(self):
-        # GRAY
-        pass
-
-
-    def fOz(self):
-        # PURPLE
-        pass
-
-    def fO1(self):
-        # BLUE
-        pass
-
-
-    def fPO7(self):
-        # GREEN
-        pass
-
-
-    def fO2(self):
-        # YELLOW
-        pass
-
-
-    def fPO8(self):
-        # ORANGE
-        pass
-
-
-    def fPO3(self):
-        # RED
-        pass
-
-    def fPO4(self):
-        # BROWN
-        pass
     def Startdevice(self):
+        #use worker function explained at startup
         self.worker = Worker(self.execute_this_fn)
         self.worker.signals.result.connect(self.print_output)  # s
         self.worker.signals.finished.connect(self.thread_complete)
@@ -414,7 +388,7 @@ class DataAcquisition(QMainWindow):
         self.PO4.setEnabled(True)
         self.my_controller.startData()
 
-        # print(self.timer.isActive())
+        ##Allows to detect if there is a second screen connected
 #        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
 #        displays = [x for x in obj if 'DISPLAY' in str(x)]
 #        num=len(displays)
@@ -428,27 +402,8 @@ class DataAcquisition(QMainWindow):
 #            msg.setWindowTitle("Alerta!")
 #            num=0
 #            x = msg.exec_()
-        # Necesito un WHILE
-
-#        from PyQt5.QtWidgets import QMessageBox
-#        detectado = self.mi_controlador.detectarDispositivo();
-#        if (detectado):
-#            msg = QMessageBox(self.ventana_principal)
-#            msg.setIcon(QMessageBox.Information)
-#            msg.setText("El dispositivo ha sido detectado")
-#            msg.setWindowTitle("Información")
-#            msg.show()
-
-        self.detectDevice.setEnabled(True)
-
-#        else:
-#            msg = QMessageBox(self.ventana_principal)
-#            msg.setIcon(QMessageBox.Warning)
-#            msg.setText("El dispositivo no ha sido detectado o no se encuentra conectado")
-#            msg.setWindowTitle("Alerta!")
-#            msg.show()
-#            self.boton_iniciar.setEnabled(False)
-        
+        self.detectDevice.setEnabled(False)
+       
     def progress_fn(self, n):
         pass
 
@@ -459,6 +414,19 @@ class DataAcquisition(QMainWindow):
 #        data.sample()
         try:
             Rand=subprocess.call('start /wait python randData.py', shell=True)
+    #        if (Rand):
+    #            msg = QMessageBox(self.ventana_principal)
+    #            msg.setIcon(QMessageBox.Information)
+    #            msg.setText("El dispositivo ha sido detectado")
+    #            msg.setWindowTitle("Información")
+    #            msg.show()
+    #        else:
+    #            msg = QMessageBox(self.ventana_principal)
+    #            msg.setIcon(QMessageBox.Warning)
+    #            msg.setText("El dispositivo no ha sido detectado o no se encuentra conectado")
+    #            msg.setWindowTitle("Alerta!")
+    #            msg.show()
+    #            self.boton_iniciar.setEnabled(False)
         except KeyboardInterrupt:
             Rand.terminate()
             
@@ -473,20 +441,34 @@ class DataAcquisition(QMainWindow):
 
 
 class AcquisitionSignal(QMainWindow):
+    '''
+        This module allows to start the visual stimulation, and allows 
+        to visualize the acquired signals in real time.
+
+        It is divided into two sections:
+        
+        1. The first view allows you to start and restart the stimulus. 
+        Disconnecting the device will observe the results of the subject 
+        that has been registered
+        2. The second part only allows to view the signals in real time
+    
+        :param variable controller: allows me to communicate with the model 
+        through the controller    
+    '''
     def __init__(self, AS, controller):
         super(AcquisitionSignal, self).__init__()
+        #The designed view is exported in qt designer
         loadUi('Adquisicion_accion.ui', self)
         self.setWindowTitle('Adquisición')
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
-#        self.step = 0
         self.counter = 0
         self.__parentAcquisitionSignal = AS
-        self.threadpool = QThreadPool()
+        self.threadpool = QThreadPool() #creating a group of threads in qt
         print("Multithreading with maximum %d threads" %
-              self.threadpool.maxThreadCount())
-        self.timer = QTimer()
+             self.threadpool.maxThreadCount())
+        self.timer = QTimer()  #creating a time thread
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.recurring_timer)
         self.timer.start()
@@ -504,6 +486,10 @@ class AcquisitionSignal(QMainWindow):
         self.playGraph.clicked.connect(self.startGraph)
         self.stopGraph.clicked.connect(self.haltGraph)
         self.adquisitionInfo.clicked.connect(self.info)
+    
+    def closeData(self,data):
+        data.close()
+        
         
     def info(self):
         msg = QMessageBox()
@@ -537,29 +523,28 @@ class AcquisitionSignal(QMainWindow):
     def execute_this_fn(self, progress_callback):
         veces=0
         while veces<10:
-            time.sleep (veces) #esta es la función que no se utilizar
+            time.sleep(veces) #increment one second when entering while
             value = self.alert.value()
             if value < 100:
-                value = value + 10
+                value = value + 10 #progress bar
                 self.alert.setValue(value)
             else:
                 self.timer.stop()
             veces=veces+1
-#        time.sleep(15)
-        estimulo = Stimulus()
+#        time.sleep(15)  # if the while is not used for the progress bar
+        estimulo = Stimulus() #The stimulus function is called for more information go to the stimulus
         estimulo.start_stimulus()
     
     def print_output(self, s):
         print(s)
 
     def thread_complete(self):
-        print("THREAD COMPLETE!")
+        print("COMPLETE!")
 
-    def stopEnd(self):
+    def stopEnd(self):#Reset
         self.play.setEnabled(True)
         pygame.quit()
         self.alert.setValue(0)
-#        self.threadpool.destroyed
 
     def loadData(self):
         self.__registry = DataBase(self)
@@ -581,6 +566,12 @@ class AcquisitionSignal(QMainWindow):
         return self.my_controller.returnLastData()
 
     def graphData(self):
+        ''' This function allows to graph and save the registry data
+            data arrives from the model, where it is acquired by the device 
+            and configured, passes through the controller before reaching the view
+            The date is also saved to have control of the acquisition and to
+            be able to carry out the processing with the marks associated with the stimulus.
+        '''
         data, Powers, freq = self.returnLastData()
         data = data - np.mean(data, 0)
         now = datetime.now()
@@ -590,14 +581,15 @@ class AcquisitionSignal(QMainWindow):
             if not np.all(data==0):
                 pd.DataFrame(data).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
                 (pd.DataFrame({'Fecha, Hora':[date]}).T).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
+
         else:
             os.mkdir(loc)
             if not np.all(data==0):
                 pd.DataFrame(data).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
                 (pd.DataFrame({'Fecha, Hora':[date]}).T).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
-        if data.ndim == 0:
-            print("Lista vacia")
-            return
+#        if data.ndim == 0:
+#            print("Lista vacia")
+#            return
         self.viewSignalOz.clear()
         self.viewSignalOz.plot(np.round(data[0, :], 1), pen=('#CD10B4'))
         self.viewSignalOz.repaint()
@@ -621,6 +613,9 @@ class AcquisitionSignal(QMainWindow):
         self.viewSignalPO3.repaint()
 
     def startGraph(self):
+        '''
+        call the data in the controller
+        '''
         self.my_controller.startData()
 
         print("Iniciar senal")
@@ -637,6 +632,12 @@ class AcquisitionSignal(QMainWindow):
 
 
 class DataBase(QMainWindow):
+    '''
+    
+    
+        :param variable controller: allows me to communicate with the model 
+        through the controller    
+    '''
     def __init__(self, DB):
         super(DataBase, self).__init__()
         loadUi('Adquisicion_datos.ui', self)
