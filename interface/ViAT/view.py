@@ -153,7 +153,7 @@ class ViAT(QMainWindow):
         self.hide()
 
     def loadData(self):
-        self.__registry = DataBase(self)
+        self.__registry = DataBase(self,self.my_controller)
         self.__registry.show()
         self.hide()
 
@@ -408,28 +408,6 @@ class DataAcquisition(QMainWindow):
         pass
 
     def execute_this_fn(self, progress_callback):
-#        servidor = Server()
-#        servidor.port()
-#        data = RandData()
-#        data.sample()
-        try:
-            Rand=subprocess.call('start /wait python randData.py', shell=True)
-    #        if (Rand):
-    #            msg = QMessageBox(self.ventana_principal)
-    #            msg.setIcon(QMessageBox.Information)
-    #            msg.setText("El dispositivo ha sido detectado")
-    #            msg.setWindowTitle("Información")
-    #            msg.show()
-    #        else:
-    #            msg = QMessageBox(self.ventana_principal)
-    #            msg.setIcon(QMessageBox.Warning)
-    #            msg.setText("El dispositivo no ha sido detectado o no se encuentra conectado")
-    #            msg.setWindowTitle("Alerta!")
-    #            msg.show()
-    #            self.boton_iniciar.setEnabled(False)
-        except KeyboardInterrupt:
-            Rand.terminate()
-            
         self.my_controller.startDevice()
         
 
@@ -486,6 +464,7 @@ class AcquisitionSignal(QMainWindow):
         self.playGraph.clicked.connect(self.startGraph)
         self.stopGraph.clicked.connect(self.haltGraph)
         self.adquisitionInfo.clicked.connect(self.info)
+        self.stopDevice.clicked.connect(self.stopProcess)
     
     def closeData(self,data):
         data.close()
@@ -547,7 +526,7 @@ class AcquisitionSignal(QMainWindow):
         self.alert.setValue(0)
 
     def loadData(self):
-        self.__registry = DataBase(self)
+        self.__registry = DataBase(self,self.my_controller)
         self.__registry.show()
         self.hide()
 
@@ -564,6 +543,9 @@ class AcquisitionSignal(QMainWindow):
 
     def returnLastData(self):
         return self.my_controller.returnLastData()
+    
+    def stopProcess(self):
+        self.my_controller.stopDevice()
 
     def graphData(self):
         ''' This function allows to graph and save the registry data
@@ -639,19 +621,22 @@ class DataBase(QMainWindow):
         :param variable controller: allows me to communicate with the model 
         through the controller    
     '''
-    def __init__(self, DB):
+    def __init__(self, DB, controller):
         super(DataBase, self).__init__()
         loadUi('Adquisicion_datos.ui', self)
         self.setWindowTitle('Base de datos')
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
-#        self.__controller = c
         self.__parentDataBase = DB
+        self.my_controller = controller
 
     def setup(self):
         pixmap1 = QPixmap('blanclogo.png')
+        pixmap2 = QPixmap('nube.png')
         self.logo.setPixmap(pixmap1)
+        self.cloud.setPixmap(pixmap2)
+        self.cloudButton.clicked.connect(self.cloudData)
         self.behind.clicked.connect(self.delaySignal)
         self.before.clicked.connect(self.forwardSignal)
         self.patientAcquisition.clicked.connect(self.dataAcquisition)
@@ -660,6 +645,10 @@ class DataBase(QMainWindow):
         self.stopDevice.clicked.connect(self.stopData)
         self.adquisitionInfo.clicked.connect(self.info)
         self.adquisitionInfo_2.clicked.connect(self.info2)
+        self.stopDevice.clicked.connect(self.stopProcess)
+    
+    def cloudData(self):
+        print('se subio a la nube')
         
     def info(self):
         msg = QMessageBox()
@@ -685,13 +674,16 @@ class DataBase(QMainWindow):
         pass
 
     def dataAcquisition(self):
-        self.__registry = DataAcquisition(self)
+        self.__registry = DataAcquisition(self,self.my_controller)
         self.__registry.show()
         self.hide()
 
     def loadStart(self):
         self.__parentDataBase.show()
         self.hide()
+    
+    def stopProcess(self):
+        self.my_controller.stopDevice()
 
     def end(self):
         self.hide()

@@ -11,11 +11,14 @@ from linearFIR import filter_design
 from nonlinear import hampelFilter
 import scipy.signal as signal
 import os
+import sys
 from datetime import datetime
 #import errno
 import pandas as pd
 import csv
 from serial.tools import list_ports
+import subprocess
+
 
 
 class Model(object):
@@ -28,14 +31,51 @@ class Model(object):
                
     def startDevice(self):
         
+#        servidor = Server()
+#        servidor.port()
+#        data = RandData()
+#        data.sample()
+        try:
+            self.__process = subprocess.Popen('start python randData.py',
+                                              shell=True,
+                                              stdin=subprocess.PIPE,
+                                              stdout=subprocess.PIPE,)
+            output = self.__process.communicate()[0].decode('utf-8')
+            print(output)
+            
+#            self.__Rand=subprocess.call('start /wait python randData.py', shell=True)
+    #        if (Rand):
+    #            msg = QMessageBox(self.ventana_principal)
+    #            msg.setIcon(QMessageBox.Information)
+    #            msg.setText("El dispositivo ha sido detectado")
+    #            msg.setWindowTitle("Información")
+    #            msg.show()
+    #        else:
+    #            msg = QMessageBox(self.ventana_principal)
+    #            msg.setIcon(QMessageBox.Warning)
+    #            msg.setText("El dispositivo no ha sido detectado o no se encuentra conectado")
+    #            msg.setWindowTitle("Alerta!")
+    #            msg.show()
+    #            self.boton_iniciar.setEnabled(False)
+        except KeyboardInterrupt:
+            os.popen(r'TASKKILL /F /FI "WINDOWTITLE eq C:\Users\veroh\Anaconda3\python.exe"')
+                
+        
         self.__channels = 8
         self.__data = np.zeros((self.__channels - 2, 2500))
         self.streams_EEG = resolve_stream('type', 'EEG')
-                
+        
+    def stopDevice(self):
+        os.popen(r'TASKKILL /F /FI "WINDOWTITLE eq C:\Users\veroh\Anaconda3\python.exe"')
+
+
+
 
     def startData(self):
         
-        self.startDevice()
+        self.__channels = 8
+        self.__data = np.zeros((self.__channels - 2, 2500))
+        self.streams_EEG = resolve_stream('type', 'EEG')
         self.__inlet = StreamInlet(self.streams_EEG[0], max_buflen=250)
         self.__inlet.pull_chunk()
          
@@ -62,6 +102,7 @@ class Model(object):
         for i in range(0, 8):
             Z_i = ((sample[i])*np.sqrt(2))/(6*pow(10, -9))
             self.Z.append(Z_i/1000)
+                 
         
     def readData(self):
 
@@ -78,15 +119,15 @@ class Model(object):
 
             # BIS
             self.__data[0, 0:samples.shape[1]] = samples[2, :] - \
-                samples[1, :]  # F3 - Fz
+                samples[1, :]  # 
             self.__data[1, 0:samples.shape[1]] = samples[3, :] - \
-                samples[1, :]  # F4 - Fz
+                samples[1, :]  # 
 
             # PRECUNEUS
             self.__data[2, 0:samples.shape[1]] = samples[7, :] - \
-                samples[1, :]  # Pz - Fz
+                samples[1, :]  # 
             self.__data[3, 0:samples.shape[1]] = samples[4, :] - \
-                samples[1, :]  # Cz - Fz
+                samples[1, :]  # 
 
             # SENSORIMOTOR
             self.__data[4, 0:samples.shape[1]] = samples[5, :] - \
@@ -127,6 +168,7 @@ class Model(object):
     def returnLastZ(self):
         self.readZ()
         return self.Z
+    
     
     def clinicalhistoryInformation(self, idAnswer,nameAnswer,lastnameAnswer,ccAnswer,
                      sexAnswer,eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
