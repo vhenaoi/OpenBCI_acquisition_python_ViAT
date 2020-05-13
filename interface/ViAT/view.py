@@ -633,7 +633,8 @@ class AcquisitionSignal(QMainWindow):
 
 class DataBase(QMainWindow):
     '''
-    
+        This module allows searching the patient's database for the history 
+        and observing their results and the signs associated with that subject.
     
         :param variable controller: allows me to communicate with the model 
         through the controller    
