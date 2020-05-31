@@ -18,6 +18,10 @@ import pandas as pd
 import csv
 from serial.tools import list_ports
 import subprocess
+import pymysql
+from Stimulation_Acuity import Stimulus
+
+
 
 
 
@@ -62,7 +66,7 @@ class Model(object):
                 
         
         self.__channels = 8
-        self.__data = np.zeros((self.__channels - 2, 2500))
+        self.__data = np.zeros((self.__channels, 2500))
         self.streams_EEG = resolve_stream('type', 'EEG')
         
     def stopDevice(self):
@@ -74,16 +78,33 @@ class Model(object):
     def startData(self):
         
         self.__channels = 8
-        self.__data = np.zeros((self.__channels - 2, 2500))
+        self.__data = np.zeros((self.__channels, 2500))
         self.streams_EEG = resolve_stream('type', 'EEG')
         self.__inlet = StreamInlet(self.streams_EEG[0], max_buflen=250)
         self.__inlet.pull_chunk()
+
+
          
 
     def stopData(self):
         
         self.__inlet.close_stream()
         print('Stop Data Modelo')
+        
+    def startStimulus(self):
+        estimulo = Stimulus() #The stimulus function is called for more information go to the stimulus
+        self.streams_Marks = resolve_stream('type', 'Markers')
+        self.__inlet_Marks = StreamInlet(self.streams_Marks[0])
+        self.__inlet_Marks.pull_chunk()
+        estimulo.start_stimulus()
+        
+
+    def stopStimulus(self):
+        
+        self.__inlet_Marks.close_stream()
+        print('Stop Data Modelo')
+        
+        
 
     def startZ(self):
         
@@ -107,39 +128,49 @@ class Model(object):
     def readData(self):
 
         samples, timestamp = self.__inlet.pull_chunk()
+        try: 
+            sample_mark, timestamp = self.__inlet_Marks.pull_sample()
+        except:
+            sample_mark = None
         samples = np.transpose(np.asanyarray(samples))
-
+        
         if (samples is None) or (timestamp is None):
             return
+        if (sample_mark is None):
+            sample_mark = np.array([0])
+        else: 
+            sample_mark = np.array([1])
 
-        try:
+        try:            
             self.__data = np.roll(self.__data, samples.shape[1])
-
-            #self.__data[:,0:samples.shape[1]] = samples
-
-            # BIS
-            self.__data[0, 0:samples.shape[1]] = samples[2, :] - \
-                samples[1, :]  # 
-            self.__data[1, 0:samples.shape[1]] = samples[3, :] - \
-                samples[1, :]  # 
-
-            # PRECUNEUS
-            self.__data[2, 0:samples.shape[1]] = samples[7, :] - \
-                samples[1, :]  # 
-            self.__data[3, 0:samples.shape[1]] = samples[4, :] - \
-                samples[1, :]  # 
-
-            # SENSORIMOTOR
-            self.__data[4, 0:samples.shape[1]] = samples[5, :] - \
-                samples[3, :]  # C3 - F4
-            self.__data[5, 0:samples.shape[1]] = samples[6, :] - \
-                samples[2, :]  # C4 - F3
-
-            # print(self.__data[0,:]);
-
+            self.__data[1,0:samples.shape[1]] = samples[1,:] - samples[0,:]; #Oz - FCz
+            self.__data[2,0:samples.shape[1]] = samples[2,:] - samples[0,:]; #O1 - FCz
+            self.__data[3,0:samples.shape[1]] = samples[3,:] - samples[0,:]; #PO7 - FCz
+            self.__data[4,0:samples.shape[1]] = samples[4,:] - samples[0,:]; #O2  - FCz
+            self.__data[5,0:samples.shape[1]] = samples[5,:] - samples[0,:]; #PO8 - FCz
+            self.__data[6,0:samples.shape[1]] = samples[6,:] - samples[0,:]; #PO3 - FCz
+            self.__data[7,0:samples.shape[1]] = samples[7,:] - samples[0,:]; #PO4 - FCz
         except:
-            #print("Error en la resta");
             pass
+        Mark = {'M':sample_mark}
+#        self.__dataT = {'C1':[self.__data[0]],'C2':[self.__data[1]],
+#                        'C3':[self.__data[2]],'C4':[self.__data[3]],
+#                        'C5':[self.__data[4]],'C6':[self.__data[5]],
+#                        'C7':[self.__data[6]],'C8':[self.__data[7]]}
+        self.__dataT = self.__data.T
+        now = datetime.now()
+        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+ date[0]
+        if os.path.isdir(loc):
+            if not np.all(self.__dataT==0):
+                pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','M']).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
+                pd.DataFrame(Mark).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
+
+        else:
+            os.mkdir(loc)
+            if not np.all(self.__dataT==0):
+                pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','M']).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
+                pd.DataFrame(Mark).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
 
     def filtDesign(self):
         order, self.lowpass = filter_design(
@@ -149,17 +180,21 @@ class Model(object):
 
     def filtData(self):
         self.readData()
-        self.senal_filtrada_pasaaltas = signal.filtfilt(
-            self.highpass, 1, self.__data)
-        self.senal_filtrada_pasaaltas = hampelFilter(
-            self.senal_filtrada_pasaaltas, 6)
-        self.senal_filtrada_pasabandas = signal.filtfilt(
-            self.lowpass, 1, self.senal_filtrada_pasaaltas)
+#        self.senal_filtrada_pasaaltas = signal.filtfilt(
+#            self.highpass, 1, self.__data)
+#        self.senal_filtrada_pasaaltas = hampelFilter(
+#            self.senal_filtrada_pasaaltas, 6)
+        self.senal_filtrada_pasaaltas = self.__data
+#        self.senal_filtrada_pasabandas = signal.filtfilt(
+#            self.lowpass, 1, self.senal_filtrada_pasaaltas)
+        self.senal_filtrada_pasabandas = self.__data
 
     def Pot(self):
         self.filtData()
         self.f, self.Pxx = signal.welch(
-            self.senal_filtrada_pasabandas, self.__fs, nperseg=self.__fs*2, noverlap=self.__fs)
+            self.senal_filtrada_pasabandas, 
+            self.__fs, nperseg=self.__fs*2, 
+            noverlap=self.__fs)
 
     def returnLastData(self):        
         self.Pot()
@@ -168,6 +203,11 @@ class Model(object):
     def returnLastZ(self):
         self.readZ()
         return self.Z
+    
+    def returnLastStimulus(self):
+        self.readData()
+        return 
+        
     
     
     def clinicalhistoryInformation(self, idAnswer,nameAnswer,lastnameAnswer,ccAnswer,
@@ -178,11 +218,17 @@ class Model(object):
         History=pd.DataFrame()
         Subject=pd.DataFrame()
         Subjects=pd.DataFrame()
+        self.__idAnswer = idAnswer
+        self.__ccAnswer = ccAnswer
+        self.__ageAnswer =ageAnswer
+        self.__glassesAnswer = glassesAnswer
+        self.__snellenAnswer = snellenAnswer
+        self.__CorrectionAnswer = CorrectionAnswer
         now = datetime.now()
-        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+        self.__date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
         path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HistoriaClinicaViAT'
         path_Marks = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Marks'
-        path_Register = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'
+        self.__path_Register = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'
         if sexAnswer == 0:
             sexAnswer = 'Femenino'
         else:
@@ -191,10 +237,10 @@ class Model(object):
             eyeAnswer = 'Derecho'
         else:
             eyeAnswer = 'Izquierdo'
-        gen = pd.DataFrame({'id':[idAnswer],
+        gen = pd.DataFrame({'id':[self.__idAnswer],
                             'nombre':[nameAnswer], 
                             'apellido':[lastnameAnswer], 
-                            'cc':[ccAnswer], 
+                            'cc':[self.__ccAnswer], 
                             'sexo':[sexAnswer],
                             'ojo dominante':[eyeAnswer]
                             })
@@ -253,22 +299,22 @@ class Model(object):
         else:
              stimulusAnswer = 'Grating'
             
-        var = pd.DataFrame({'edad':[ageAnswer],
-                                     'gafas':[glassesAnswer],
-                                     'snellen':[snellenAnswer],
-                                     'snellen corregido':[CorrectionAnswer],
+        var = pd.DataFrame({'edad':[self.__ageAnswer],
+                                     'gafas':[self.__glassesAnswer],
+                                     'snellen':[self.__snellenAnswer],
+                                     'snellen corregido':[self.__CorrectionAnswer],
                                      'estimulo':[stimulusAnswer],
                                      'tiempo de accidente visual':[timeAnswer],
                                      'responsable':[responsibleAnswer],
-                                     'hora':[date[1]],'Marca':[path_Marks+ '/' +'Mark_H_'+date[1][0:2]+'.csv'],
-                                             'Registro':[path_Register+ '/' +'Registry_H_'+date[1][0:2]+'.csv']
+                                     'hora':[self.__date[1]],'Marca':[path_Marks+ '/' +'Mark_H_'+self.__date[1][0:2]+'.csv'],
+                                             'Registro':[self.__path_Register+ '/' +'Registry_H_'+self.__date[1][0:2]+'.csv']
                                      })
         History = History.append(var)
         Subject = Subject.append(gen)
         Subjects = Subjects.append(gen)
-        fijo = path + '/' +  idAnswer + '_' + ccAnswer
+        fijo = path + '/' +  self.__idAnswer + '_' + self.__ccAnswer
         if os.path.isdir(fijo):
-            variable=(fijo + '/' + date[0])
+            variable=(fijo + '/' + self.__date[0])
             Subjects.to_csv(path + '/'  + 'Subjects.csv' ,mode='a',header=False, index=False, sep=';')
             if os.path.isdir(variable):
                 History.to_csv(variable + '/'  + 'History.csv' ,mode='a',header=False, index=False, sep=';')
@@ -277,11 +323,85 @@ class Model(object):
                 History.to_csv(variable + '/'  + 'History.csv' , index=False,sep=';')
         else:
             os.mkdir(fijo)
-            variable=(fijo + '/' + date[0])
+            variable=(fijo + '/' + self.__date[0])
             os.mkdir(variable)
             print('se creo el segundo directorio')
             print(variable)
             Subject.to_csv(fijo + '/'  + 'Suject.csv' , index=False, sep=';')
             History.to_csv(variable + '/'  + 'History.csv' ,index=False, sep=';')
             Subjects.to_csv(path + '/'  + 'Subjects.csv' ,mode='a',index=False, sep=';')
+            
+        
+      
+    def webclinicalhistoryInformation(self):
+        ############### CONFIGURAR ESTO ###################
+        idAnswer = self.__idAnswer
+        ccAnswer = self.__ccAnswer
+        ageAnswer = self.__ageAnswer
+        glassesAnswer = self.__glassesAnswer
+        snellenAnswer = self.__snellenAnswer
+        CorrectionAnswer = self.__CorrectionAnswer
+        date = self.__date
+        path_Register = self.__path_Register
+        # Abre conexion con la base de datos
+        db = pymysql.connect(host="127.0.0.1",
+                             user="root",
+                             database="viat"
+                             )
+        ##################################################
+        cursor = db.cursor()
+
+        # Prepare SQL query to INSERT a record into the database.
+        sql = "INSERT INTO registro(ID, CC,EDAD,GAFAS,AA,AL,AD,FECHA,REGISTROS) \
+           VALUES ("+idAnswer,ccAnswer,ageAnswer,glassesAnswer,snellenAnswer,CorrectionAnswer,date,path_Register+")".format()
+        try:
+           # Execute the SQL command
+           cursor.execute(sql)
+#           cursor.execute("SELECT VERSION()")
+           # Commit your changes in the database
+           db.commit()
+        except:
+           # Rollback in case there is any error
+           db.rollback()
+        
+        
+        # desconectar del servidor
+        db.close()
+    
+    def searchClinicalhistory(self):
+        ############### CONFIGURAR ESTO ###################
+        # Open database connection
+        db = pymysql.connect(host="127.0.0.1",
+                             user="root",
+                             database="viat"
+                             )
+        ##################################################
+        
+        # prepare a cursor object using cursor() method
+        cursor = db.cursor()
+        
+        # Prepare SQL query to READ a record into the database.
+        sql = "SELECT * FROM registro \
+        WHERE ID = 1134234371".format(0)
+        
+        # Execute the SQL command
+        cursor.execute(sql)
+        
+        # Fetch all the rows in a list of lists.
+        results = cursor.fetchall()
+        for row in results:
+           ID = row[0]
+           CC = row[1]
+           EDAD = row[2]
+           GAFAS = row[3]
+           AA = row[4]
+           AL = row[5]
+           AD = row[6]
+           FECHA = row[7]
+           REGISTROS =row[8]
+           # Now print fetched result
+           print (ID+CC+EDAD+GAFAS+AA+AL+AD+FECHA+REGISTROS.format(ID,CC,EDAD,GAFAS,AA,AL,AD,FECHA,REGISTROS))
+        
+        # disconnect from server
+        db.close()
         

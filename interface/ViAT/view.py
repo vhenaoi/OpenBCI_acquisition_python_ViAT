@@ -162,8 +162,6 @@ class ViAT(QMainWindow):
         exit()
 
         
-
-
 class LoadRegistration(QMainWindow):
     '''Take data
     
@@ -511,8 +509,8 @@ class AcquisitionSignal(QMainWindow):
                 self.timer.stop()
             veces=veces+1
 #        time.sleep(15)  # if the while is not used for the progress bar
-        estimulo = Stimulus() #The stimulus function is called for more information go to the stimulus
-        estimulo.start_stimulus()
+        self.my_controller.startStimulus()
+
     
     def print_output(self, s):
         print(s)
@@ -556,43 +554,31 @@ class AcquisitionSignal(QMainWindow):
         '''
         data, Powers, freq = self.returnLastData()
         data = data - np.mean(data, 0)
-        now = datetime.now()
-        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+ date[0]
-        if os.path.isdir(loc):
-            if not np.all(data==0):
-                pd.DataFrame(data).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
-                (pd.DataFrame({'Fecha, Hora':[date]}).T).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
-
-        else:
-            os.mkdir(loc)
-            if not np.all(data==0):
-                pd.DataFrame(data).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
-                (pd.DataFrame({'Fecha, Hora':[date]}).T).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
-#        if data.ndim == 0:
-#            print("Lista vacia")
-#            return
+        if data.ndim == 0:
+            print("Lista vacia")
+            return
         self.viewSignalOz.clear()
-        self.viewSignalOz.plot(np.round(data[0, :], 1), pen=('#CD10B4'))
+        self.viewSignalOz.plot(np.round(data[1, :], 1), pen=('#CD10B4'))
         self.viewSignalOz.repaint()
         self.viewSignalO1.clear()
-        self.viewSignalO1.plot(np.round(data[0, :], 2), pen=('#1014CD'))
+        self.viewSignalO1.plot(np.round(data[2, :], 1), pen=('#1014CD'))
         self.viewSignalO1.repaint()
         self.viewSignalPO7.clear()
-        self.viewSignalPO7.plot(np.round(data[0, :], 3), pen=('#10CD14'))
+        self.viewSignalPO7.plot(np.round(data[3, :], 1), pen=('#10CD14'))
         self.viewSignalPO7.repaint()
         self.viewSignalO2.clear()
-        self.viewSignalO2.plot(np.round(data[0, :], 4), pen=('#F7FB24'))
+        self.viewSignalO2.plot(np.round(data[4, :], 1), pen=('#F7FB24'))
         self.viewSignalO2.repaint()
         self.viewSignalPO8.clear()
-        self.viewSignalPO8.plot(np.round(data[0, :], 5), pen=('#FBB324'))
+        self.viewSignalPO8.plot(np.round(data[5, :], 1), pen=('#FBB324'))
         self.viewSignalPO8.repaint()
-        self.viewSignalPO4.clear()
-        self.viewSignalPO4.plot(np.round(data[0, :], 6), pen=('#806123'))
-        self.viewSignalPO4.repaint()
         self.viewSignalPO3.clear()
-        self.viewSignalPO3.plot(np.round(data[0, :], 7), pen=('#E53923'))
+        self.viewSignalPO3.plot(np.round(data[6, :], 1), pen=('#806123'))
         self.viewSignalPO3.repaint()
+        self.viewSignalPO4.clear()
+        self.viewSignalPO4.plot(np.round(data[7, :], 1), pen=('#E53923'))
+        self.viewSignalPO4.repaint()
+
 
     def startGraph(self):
         '''
@@ -646,9 +632,15 @@ class DataBase(QMainWindow):
         self.adquisitionInfo.clicked.connect(self.info)
         self.adquisitionInfo_2.clicked.connect(self.info2)
         self.stopDevice.clicked.connect(self.stopProcess)
+        self.dataSet.clicked.connect(self.searchData)
+        
     
     def cloudData(self):
         print('se subio a la nube')
+        self.my_controller.webclinicalhistoryInformation()
+        
+    def searchData(self):
+        self.my_controller.searchClinicalhistory()
         
     def info(self):
         msg = QMessageBox()
@@ -688,4 +680,3 @@ class DataBase(QMainWindow):
     def end(self):
         self.hide()
         exit()
-        

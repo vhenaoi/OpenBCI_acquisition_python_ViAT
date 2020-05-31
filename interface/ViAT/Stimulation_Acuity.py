@@ -65,9 +65,9 @@ class Stimulus(object):
 #        self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.__screen = pygame.display.set_mode(self.__size)
         pygame.display.flip()
-        info = StreamInfo('MyMarkerStream', 'Markers',
-                          1, 0, 'float32', 'myuidw43536')
+        info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'string', 'myuidw43536')
         self.__outlet = StreamOutlet(info)
+        
 
     def display(self, imagen):
         '''
@@ -139,14 +139,20 @@ class Stimulus(object):
             pause_text = pygame.font.SysFont('Consolas', 32).render(
                 'Pausa', True, pygame.color.Color('White'))
             for i in range(0, 1):  # time of stimulation
-                for num in range(1, 7):  # acuity levels
+                for num in range(0, 7):  # acuity levels
                     now = datetime.now() # current date and time
                     timestamp = datetime.timestamp(now)
-#                    self.__outlet.push_sample(
-#                        np.array([num]), timestamp=timestamp)
-                    print(num)
-                    print(datetime.fromtimestamp(timestamp)) 
-                    self.save()
+                    timestamp = datetime.fromtimestamp(timestamp)
+                    print(timestamp)
+                    try:
+                        self.__outlet.push_sample(
+                        np.array([num]), timestamp=timestamp)
+                    except:
+                        self.__outlet.push_sample(
+                        np.array([0]), timestamp=timestamp)
+#                    print(num)
+#                    print(datetime.fromtimestamp(timestamp)) 
+#                    self.save()
 #                    with open('Mark.csv', "a") as csvfile:# Save marks
 #                        writer = csv.writer(csvfile, delimiter=';')
 #                        data = (sample_mark.strftime("%m/%d/%Y"),

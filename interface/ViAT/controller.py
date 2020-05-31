@@ -10,6 +10,11 @@ import sys
 from PyQt5.QtWidgets import QApplication, QScrollArea
 from model import Model
 import os
+
+from sys import argv
+from sys import exit
+from PyQt5.QtWidgets import QApplication
+
 # %%
 
 
@@ -21,6 +26,7 @@ class Principal(object):
         self.my_controller = Controller(self.__view, self.system)
         self.__view.assignController(self.my_controller)
 
+
     def main(self):
         self.__view.show()
         sys.exit(self.__app.exec_())
@@ -31,6 +37,7 @@ class Controller(object):
         self.__view = view
         self.system = system
 
+
     def clinicalhistoryInformation(self,idAnswer,nameAnswer,lastnameAnswer,ccAnswer,sexAnswer,
                      eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
                      CorrectionAnswer,stimulusAnswer,timeAnswer,responsibleAnswer):
@@ -38,12 +45,20 @@ class Controller(object):
                                  sexAnswer,eyeAnswer,ageAnswer,glassesAnswer,
                                  snellenAnswer,CorrectionAnswer,stimulusAnswer,
                                  timeAnswer,responsibleAnswer)
-
+    def webclinicalhistoryInformation(self):
+        self.system.webclinicalhistoryInformation()
+        
+    def searchClinicalhistory(self):
+        self.system.searchClinicalhistory()
+    
     def returnLastData(self):
         return self.system.returnLastData()
     
     def returnLastZ(self):
         return self.system.returnLastZ()
+    
+    def returnLastStimulus(self):
+        return self.system.returnLastStimulus()
        
     def startDevice(self):
         self.system.startDevice()
@@ -65,7 +80,17 @@ class Controller(object):
     def stopZ(self):
         self.system.stopZ()
         print('Stop Z Controlador')
+    
+    def startStimulus(self):
+        self.system.startStimulus()
 
+    def stopStimulus(self):
+        self.system.stopStimulus()
+        
+    
+        
+        
+        
 
 # %%
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ import time
 from random import random as rand
 
 from pylsl import StreamInfo, StreamOutlet
+import numpy as np
 
 
 
@@ -30,8 +31,9 @@ class RandData(object):
         while True:
             # make a new random 8-channel sample; this is converted into a
             # pylsl.vectorf (the data type that is expected by push_sample)
-            self.mysample = [rand(), rand(), rand(), rand(),
-                             rand(), rand(), rand(), rand()]
+            self.mysample = np.array([1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0])/10
+            self.mysample = self.mysample.tolist()
+#            [rand(), rand(), rand(), rand(),rand(), rand(), rand(), rand()]
             # now send it and wait for a bit
             self.outlet.push_sample(self.mysample)
             print(self.mysample)
