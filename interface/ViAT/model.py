@@ -20,6 +20,7 @@ from serial.tools import list_ports
 import subprocess
 import pymysql
 from Stimulation_Acuity import Stimulus
+from datetime import timezone
 
 
 
@@ -92,18 +93,19 @@ class Model(object):
         print('Stop Data Modelo')
         
     def startStimulus(self):
-        estimulo = Stimulus() #The stimulus function is called for more information go to the stimulus
-        self.streams_Marks = resolve_stream('type', 'Markers')
-        self.__inlet_Marks = StreamInlet(self.streams_Marks[0])
-        self.__inlet_Marks.pull_chunk()
+        estimulo = Stimulus(self.__idAnswer,self.__ccAnswer) #The stimulus function is called for more information go to the stimulus
+#        self.streams_Marks = resolve_stream('type', 'Markers')
+#        self.__inlet_Marks = StreamInlet(self.streams_Marks[0])
+#        self.__inlet_Marks.pull_chunk()
         estimulo.start_stimulus()
         
 
     def stopStimulus(self):
+        pass
         
-        self.__inlet_Marks.close_stream()
-        print('Stop Data Modelo')
-        
+#        self.__inlet_Marks.close_stream()
+#        print('Stop Data Modelo')
+#        
         
 
     def startZ(self):
@@ -174,6 +176,8 @@ class Model(object):
             header=False
         if not np.all(self.__data==0):
             r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
+            timestamp = [datetime.fromtimestamp(x) for x in timestamp]
+            r['H']=timestamp
             r.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
 #            dateT =pd.DataFrame(date,columns=['D'])
 #            dateT.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=False,index=False, sep=';')

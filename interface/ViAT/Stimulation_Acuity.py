@@ -43,7 +43,7 @@ class Stimulus(object):
     The frecuencia of stimulation is 7.5Hz and represents different level 
     vernier acuity at 6 point.    
     '''
-    def __init__(self):
+    def __init__(self,id_Subject,cc_Subject):
         """
         See :func:`start_stimulus` for details
         
@@ -65,10 +65,10 @@ class Stimulus(object):
 #        self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.__screen = pygame.display.set_mode(self.__size)
         pygame.display.flip()
-        self.info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'float32', 'myuidw43536')
-        self.__outlet = StreamOutlet(self.info,1,3)
-#        self.id = id_Subject
-#        self.cc = cc_Subject
+#        self.info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'float32', 'myuidw43536')
+#        self.__outlet = StreamOutlet(self.info,1,3)
+        self.id = id_Subject
+        self.cc = cc_Subject
     
         
 
@@ -102,18 +102,18 @@ class Stimulus(object):
         into 6 levels
         
         """
-        sample_mark = datetime.now()
-        date = {'D':sample_mark.strftime("%m-%d-%Y"),
-                'H':sample_mark.strftime("%H-%M-%S")}
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+date[0]
+        now = datetime.now()
+        d = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+        date = {'H':[d[1]]}
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+d[0]
         if not  os.path.isdir(loc):
             os.mkdir(loc)
             header=True
         else:
             header=False
-        M = pd.DataFrame(date,columns=['D','H'])
+        M = pd.DataFrame(date,columns=['H'])
         M['M']=Mark
-        M.to_csv(loc + '/'  + 'Mark_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
+        M.to_csv(loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv' ,mode='a',header=header,index=False, sep=';')
 
         
     def start_stimulus(self):
@@ -158,7 +158,8 @@ class Stimulus(object):
 #                        self.__outlet.push_sample(
 #                        np.array([0]))
 #                    self.__outlet.push_sample([num])
-                    sample_mark = self.__outlet.push_sample([num+1])
+#                    sample_mark = self.__outlet.push_sample([num+1])
+                    self.save(num+1)        
 #                    print(datetime.fromtimestamp(timestamp)) 
 #                    self.save()
 #                    with open('Mark.csv', "a") as csvfile:# Save marks
@@ -188,12 +189,12 @@ class Stimulus(object):
                     cont = 0
                 self.display('0.1.jpg')
                 time.sleep(4) #Rest
-            self.__outlet.close_stream()
+#            self.__outlet.close_stream()
             pygame.quit()
         except:
             pygame.quit()
 
 # In[To run individually]
 if __name__ == '__main__':
-    estimulo = Stimulus()
+    estimulo = Stimulus('P5','JO')
     estimulo.start_stimulus()
