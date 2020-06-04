@@ -510,6 +510,8 @@ class AcquisitionSignal(QMainWindow):
             veces=veces+1
 #        time.sleep(15)  # if the while is not used for the progress bar
         self.my_controller.startStimulus()
+        self.my_controller.stopStimulus()
+
 
     
     def print_output(self, s):
@@ -573,10 +575,10 @@ class AcquisitionSignal(QMainWindow):
         self.viewSignalPO8.plot(np.round(data[5, :], 1), pen=('#FBB324'))
         self.viewSignalPO8.repaint()
         self.viewSignalPO3.clear()
-        self.viewSignalPO3.plot(np.round(data[6, :], 1), pen=('#806123'))
+        self.viewSignalPO3.plot(np.round(data[6, :], 1), pen=('#E53923'))
         self.viewSignalPO3.repaint()
         self.viewSignalPO4.clear()
-        self.viewSignalPO4.plot(np.round(data[7, :], 1), pen=('#E53923'))
+        self.viewSignalPO4.plot(np.round(data[7, :], 1), pen=('#806123'))
         self.viewSignalPO4.repaint()
 
 

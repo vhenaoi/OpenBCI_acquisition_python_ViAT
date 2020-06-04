@@ -128,21 +128,21 @@ class Model(object):
     def readData(self):
 
         samples, timestamp = self.__inlet.pull_chunk()
-        try: 
-            sample_mark, timestamp = self.__inlet_Marks.pull_sample()
-        except:
-            sample_mark = None
+#        try: 
+#            sample_mark, timestamp = self.__inlet_Marks.pull_sample()
+#        except:
+#            sample_mark = None
         samples = np.transpose(np.asanyarray(samples))
-        
-        if (samples is None) or (timestamp is None):
-            return
-        if (sample_mark is None):
-            sample_mark = np.array([0])
-        else: 
-            sample_mark = np.array([1])
-
+#        print(sample_mark)
+#        print(type(sample_mark))
+#        if (samples is None) or (timestamp is None):
+#            return
+#        if (sample_mark is None):
+#            sample_mark = [0]
+#        print(sample_mark)
         try:            
             self.__data = np.roll(self.__data, samples.shape[1])
+            self.__data[0,0:samples.shape[1]] = samples[0,:] #FCz
             self.__data[1,0:samples.shape[1]] = samples[1,:] - samples[0,:]; #Oz - FCz
             self.__data[2,0:samples.shape[1]] = samples[2,:] - samples[0,:]; #O1 - FCz
             self.__data[3,0:samples.shape[1]] = samples[3,:] - samples[0,:]; #PO7 - FCz
@@ -150,27 +150,33 @@ class Model(object):
             self.__data[5,0:samples.shape[1]] = samples[5,:] - samples[0,:]; #PO8 - FCz
             self.__data[6,0:samples.shape[1]] = samples[6,:] - samples[0,:]; #PO3 - FCz
             self.__data[7,0:samples.shape[1]] = samples[7,:] - samples[0,:]; #PO4 - FCz
+#            if (sample_mark is not None):
+#                Mark = sample_mark*samples.shape[1]
         except:
-            pass
-        Mark = {'M':sample_mark}
-#        self.__dataT = {'C1':[self.__data[0]],'C2':[self.__data[1]],
-#                        'C3':[self.__data[2]],'C4':[self.__data[3]],
-#                        'C5':[self.__data[4]],'C6':[self.__data[5]],
-#                        'C7':[self.__data[6]],'C8':[self.__data[7]]}
-        self.__dataT = self.__data.T
+            return
+
+        self.__dataT = {'C1':samples[0,:],
+                        'C2':self.__data[1,0:samples.shape[1]],
+                        'C3':self.__data[2,0:samples.shape[1]],
+                        'C4':self.__data[3,0:samples.shape[1]],
+                        'C5':self.__data[4,0:samples.shape[1]],
+                        'C6':self.__data[5,0:samples.shape[1]],
+                        'C7':self.__data[6,0:samples.shape[1]],
+                        'C8':self.__data[7,0:samples.shape[1]]}
+#        print(self.__dataT)
         now = datetime.now()
         date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+ date[0]
-        if os.path.isdir(loc):
-            if not np.all(self.__dataT==0):
-                pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','M']).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
-                pd.DataFrame(Mark).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False,index=False, sep=';')
-
-        else:
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+date[0]       
+        if not  os.path.isdir(loc):
             os.mkdir(loc)
-            if not np.all(self.__dataT==0):
-                pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','M']).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
-                pd.DataFrame(Mark).to_csv(loc + '/'  + 'Registry_H_'+date[1][0:2]+'.csv' ,mode='a',header=False, index=False, sep=';')
+            header=True
+        else:
+            header=False
+        if not np.all(self.__data==0):
+            r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
+            r.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
+#            dateT =pd.DataFrame(date,columns=['D'])
+#            dateT.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=False,index=False, sep=';')
 
     def filtDesign(self):
         order, self.lowpass = filter_design(
@@ -180,14 +186,12 @@ class Model(object):
 
     def filtData(self):
         self.readData()
-#        self.senal_filtrada_pasaaltas = signal.filtfilt(
-#            self.highpass, 1, self.__data)
-#        self.senal_filtrada_pasaaltas = hampelFilter(
-#            self.senal_filtrada_pasaaltas, 6)
-        self.senal_filtrada_pasaaltas = self.__data
-#        self.senal_filtrada_pasabandas = signal.filtfilt(
-#            self.lowpass, 1, self.senal_filtrada_pasaaltas)
-        self.senal_filtrada_pasabandas = self.__data
+        self.senal_filtrada_pasaaltas = signal.filtfilt(
+            self.highpass, 1, self.__data)
+        self.senal_filtrada_pasaaltas = hampelFilter(
+            self.senal_filtrada_pasaaltas, 6)
+        self.senal_filtrada_pasabandas = signal.filtfilt(
+            self.lowpass, 1, self.senal_filtrada_pasaaltas)
 
     def Pot(self):
         self.filtData()

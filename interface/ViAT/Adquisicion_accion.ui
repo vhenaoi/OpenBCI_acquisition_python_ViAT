@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1028</width>
-    <height>634</height>
+    <width>1057</width>
+    <height>757</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -821,21 +821,6 @@ QPushButton:pressed {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="PO4">
-             <property name="font">
-              <font>
-               <pointsize>20</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel { color :#806123 ; }</string>
-             </property>
-             <property name="text">
-              <string>PO4</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QLabel" name="PO3">
              <property name="font">
               <font>
@@ -847,6 +832,21 @@ QPushButton:pressed {
              </property>
              <property name="text">
               <string>PO3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="PO4">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color :#806123 ; }</string>
+             </property>
+             <property name="text">
+              <string>PO4</string>
              </property>
             </widget>
            </item>
@@ -971,7 +971,7 @@ QPushButton:pressed {
             </widget>
            </item>
            <item>
-            <widget class="PlotWidget" name="viewSignalPO4">
+            <widget class="PlotWidget" name="viewSignalPO3">
              <property name="backgroundBrush">
               <brush brushstyle="NoBrush">
                <color alpha="255">
@@ -993,7 +993,7 @@ QPushButton:pressed {
             </widget>
            </item>
            <item>
-            <widget class="PlotWidget" name="viewSignalPO3">
+            <widget class="PlotWidget" name="viewSignalPO4">
              <property name="backgroundBrush">
               <brush brushstyle="NoBrush">
                <color alpha="255">
@@ -1120,7 +1120,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1028</width>
+     <width>1057</width>
      <height>21</height>
     </rect>
    </property>

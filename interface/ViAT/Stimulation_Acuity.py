@@ -65,8 +65,11 @@ class Stimulus(object):
 #        self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.__screen = pygame.display.set_mode(self.__size)
         pygame.display.flip()
-        info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'string', 'myuidw43536')
-        self.__outlet = StreamOutlet(info)
+        self.info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'float32', 'myuidw43536')
+        self.__outlet = StreamOutlet(self.info,1,3)
+#        self.id = id_Subject
+#        self.cc = cc_Subject
+    
         
 
     def display(self, imagen):
@@ -92,7 +95,7 @@ class Stimulus(object):
         except:
             pygame.quit()
             
-    def save(self):
+    def save(self,Mark):
         """
         Allows you to save the timestamp when changing images.
         For this particular stimulus, it allows separating the acuities 
@@ -100,14 +103,18 @@ class Stimulus(object):
         
         """
         sample_mark = datetime.now()
-        data = (sample_mark.strftime("%m-%d-%Y"),
-                sample_mark.strftime("%H-%M-%S"))
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Marks'+ '/'+ sample_mark.strftime("%m-%d-%Y")
-        if os.path.isdir(loc):
-            (pd.DataFrame({'Fecha, Hora':[data]}).T).to_csv(loc + '/'  + 'Mark_H_'+sample_mark.strftime("%H")+'.csv' ,mode='a',header=False, index=False, sep=';')
-        else:
+        date = {'D':sample_mark.strftime("%m-%d-%Y"),
+                'H':sample_mark.strftime("%H-%M-%S")}
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+date[0]
+        if not  os.path.isdir(loc):
             os.mkdir(loc)
-            (pd.DataFrame({'Fecha, Hora':[data]}).T).to_csv(loc + '/'  + 'Mark_H_'+sample_mark.strftime("%H")+'.csv' ,mode='a',header=False, index=False, sep=';')
+            header=True
+        else:
+            header=False
+        M = pd.DataFrame(date,columns=['D','H'])
+        M['M']=Mark
+        M.to_csv(loc + '/'  + 'Mark_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
+
         
     def start_stimulus(self):
         """Start Vernier stimulation 
@@ -143,14 +150,15 @@ class Stimulus(object):
                     now = datetime.now() # current date and time
                     timestamp = datetime.timestamp(now)
                     timestamp = datetime.fromtimestamp(timestamp)
-                    print(timestamp)
-                    try:
-                        self.__outlet.push_sample(
-                        np.array([num]), timestamp=timestamp)
-                    except:
-                        self.__outlet.push_sample(
-                        np.array([0]), timestamp=timestamp)
-#                    print(num)
+#                    print(timestamp)
+#                    self.outlet.push_sample(self.mysample)
+#                    Mark=self.__outlet.push_sample(
+#                        np.array([num]))
+#                    except:
+#                        self.__outlet.push_sample(
+#                        np.array([0]))
+#                    self.__outlet.push_sample([num])
+                    sample_mark = self.__outlet.push_sample([num+1])
 #                    print(datetime.fromtimestamp(timestamp)) 
 #                    self.save()
 #                    with open('Mark.csv', "a") as csvfile:# Save marks
@@ -180,7 +188,7 @@ class Stimulus(object):
                     cont = 0
                 self.display('0.1.jpg')
                 time.sleep(4) #Rest
-            self.__outlet.push_sample(np.array([99]))
+            self.__outlet.close_stream()
             pygame.quit()
         except:
             pygame.quit()
