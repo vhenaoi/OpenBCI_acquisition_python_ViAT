@@ -104,16 +104,17 @@ class Stimulus(object):
         """
         now = datetime.now()
         d = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        date = {'H':[d[1]]}
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+d[0]
-        if not  os.path.isdir(loc):
-            os.mkdir(loc)
+        date = {'H':[str(d[1])]}
+        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'+ '/'+d[0]
+        file = loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
+        if not  os.path.isfile(file):
+#            os.mkdir(file)
             header=True
         else:
             header=False
         M = pd.DataFrame(date,columns=['H'])
         M['M']=Mark
-        M.to_csv(loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv' ,mode='a',header=header,index=False, sep=';')
+        M.to_csv(file ,mode='a',header=header,index=False, sep=';')
 
         
     def start_stimulus(self):
@@ -147,26 +148,7 @@ class Stimulus(object):
                 'Pausa', True, pygame.color.Color('White'))
             for i in range(0, 1):  # time of stimulation
                 for num in range(0, 7):  # acuity levels
-                    now = datetime.now() # current date and time
-                    timestamp = datetime.timestamp(now)
-                    timestamp = datetime.fromtimestamp(timestamp)
-#                    print(timestamp)
-#                    self.outlet.push_sample(self.mysample)
-#                    Mark=self.__outlet.push_sample(
-#                        np.array([num]))
-#                    except:
-#                        self.__outlet.push_sample(
-#                        np.array([0]))
-#                    self.__outlet.push_sample([num])
-#                    sample_mark = self.__outlet.push_sample([num+1])
                     self.save(num+1)        
-#                    print(datetime.fromtimestamp(timestamp)) 
-#                    self.save()
-#                    with open('Mark.csv', "a") as csvfile:# Save marks
-#                        writer = csv.writer(csvfile, delimiter=';')
-#                        data = (sample_mark.strftime("%m/%d/%Y"),
-#                                sample_mark.strftime("%H:%M:%S"))
-#                        writer.writerows([np.array(data)])
                     while (cont <= 6):  # 19.75--8 
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:
@@ -196,5 +178,5 @@ class Stimulus(object):
 
 # In[To run individually]
 if __name__ == '__main__':
-    estimulo = Stimulus('P5','JO')
+    estimulo = Stimulus('P6','ee')
     estimulo.start_stimulus()

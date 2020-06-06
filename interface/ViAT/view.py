@@ -57,6 +57,7 @@ from datetime import datetime
 import csv
 import subprocess
 import errno
+import pyqtgraph as pg
 
 class WorkerSignals(QObject):
     '''
@@ -450,6 +451,7 @@ class AcquisitionSignal(QMainWindow):
         self.timer.start()
         self.my_controller = controller
         self.step = 0
+        
 
     def setup(self):
         pixmap1 = QPixmap('blanclogo.png')
@@ -546,6 +548,8 @@ class AcquisitionSignal(QMainWindow):
     
     def stopProcess(self):
         self.my_controller.stopDevice()
+        
+        
 
     def graphData(self):
         ''' This function allows to graph and save the registry data
@@ -554,11 +558,18 @@ class AcquisitionSignal(QMainWindow):
             The date is also saved to have control of the acquisition and to
             be able to carry out the processing with the marks associated with the stimulus.
         '''
-        data, Powers, freq = self.returnLastData()
+        data, Powers, freq, laplace, Plaplace, flaplace = self.returnLastData()
         data = data - np.mean(data, 0)
         if data.ndim == 0:
             print("Lista vacia")
             return
+        print('valor frecuencia',freq[-1])
+        self.welchPlot.clear()
+        self.welchPlot.plot(x=freq,y=Powers[1,:],pen=('#208A8A'))
+        self.welchPlot.repaint()
+        self.welchLaplace.clear()
+        self.welchLaplace.plot(x=flaplace,y=Plaplace[0,:], pen=('#0D6B9D'))
+        self.welchLaplace.repaint()
         self.viewSignalOz.clear()
         self.viewSignalOz.plot(np.round(data[1, :], 1), pen=('#CD10B4'))
         self.viewSignalOz.repaint()

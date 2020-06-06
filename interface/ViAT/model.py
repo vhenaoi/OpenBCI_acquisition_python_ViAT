@@ -33,6 +33,7 @@ class Model(object):
         self.__fs = 250
         self.filtDesign()
         print("se diseño el filtro")
+        
                
     def startDevice(self):
         
@@ -142,8 +143,11 @@ class Model(object):
 #        if (sample_mark is None):
 #            sample_mark = [0]
 #        print(sample_mark)
+        self.__laplace = np.zeros((1,2500))
         try:            
             self.__data = np.roll(self.__data, samples.shape[1])
+            self.__laplace = np.roll(self.__laplace, samples.shape[1])
+            print('sample',samples.shape)
             self.__data[0,0:samples.shape[1]] = samples[0,:] #FCz
             self.__data[1,0:samples.shape[1]] = samples[1,:] - samples[0,:]; #Oz - FCz
             self.__data[2,0:samples.shape[1]] = samples[2,:] - samples[0,:]; #O1 - FCz
@@ -152,8 +156,7 @@ class Model(object):
             self.__data[5,0:samples.shape[1]] = samples[5,:] - samples[0,:]; #PO8 - FCz
             self.__data[6,0:samples.shape[1]] = samples[6,:] - samples[0,:]; #PO3 - FCz
             self.__data[7,0:samples.shape[1]] = samples[7,:] - samples[0,:]; #PO4 - FCz
-#            if (sample_mark is not None):
-#                Mark = sample_mark*samples.shape[1]
+            self.__laplace[0,0:samples.shape[1]] = (samples[1,:]*2)-samples[2,:]-samples[4,:] #2Oz-O1-O2
         except:
             return
 
@@ -176,8 +179,15 @@ class Model(object):
             header=False
         if not np.all(self.__data==0):
             r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
-            timestamp = [datetime.fromtimestamp(x) for x in timestamp]
-            r['H']=timestamp
+            d = str(date[1])
+#            d = pd.DataFrame(d,columns=['H'])
+#            timestamp ={'H': [datetime.fromtimestamp(x)for x in timestamp]}
+#            timestamp = datetime.timestamp(now)
+#            timestamp = datetime.fromtimestamp(t)
+#            timestamp = [datetime.fromtimestamp(x) for x in timestamp]
+#            r['H']= pd.to_datetime(timestamp['H'])
+#            timestamp = [d(x) for x in timestamp]
+            r['H']=pd.Series([d])
             r.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
 #            dateT =pd.DataFrame(date,columns=['D'])
 #            dateT.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=False,index=False, sep=';')
@@ -190,23 +200,44 @@ class Model(object):
 
     def filtData(self):
         self.readData()
+        
         self.senal_filtrada_pasaaltas = signal.filtfilt(
             self.highpass, 1, self.__data)
         self.senal_filtrada_pasaaltas = hampelFilter(
             self.senal_filtrada_pasaaltas, 6)
         self.senal_filtrada_pasabandas = signal.filtfilt(
             self.lowpass, 1, self.senal_filtrada_pasaaltas)
+        
+        print('Filtro',self.__laplace.shape)
+        self.laplace_filtrada_pasaaltas = signal.filtfilt(
+            self.highpass, 1, self.__laplace)
+        self.laplace_filtrada_pasaaltas = hampelFilter(
+            self.laplace_filtrada_pasaaltas, 6)
+        self.laplace_filtrada_pasabandas = signal.filtfilt(
+            self.lowpass, 1, self.laplace_filtrada_pasaaltas)
+        
+
 
     def Pot(self):
         self.filtData()
-        self.f, self.Pxx = signal.welch(
-            self.senal_filtrada_pasabandas, 
-            self.__fs, nperseg=self.__fs*2, 
-            noverlap=self.__fs)
+        nblock = 250
+        noverlap = nblock/2;#10  
+        win = signal.hamming(int(nblock),True);
+                        
+        self.f, self.Pxx = signal.welch(self.senal_filtrada_pasabandas, self.__fs,
+                                        nperseg=self.__fs*2, noverlap=noverlap);
+#            self.__fs, window=win, noverlap=overlap, nfft=nblock, return_onesided=True);
+        
+        self.ftg, self.Pxxtg = signal.welch(self.__laplace, 
+            self.__fs, nperseg=self.__fs*2, noverlap=noverlap);
+#            window=win, noverlap=overlap, nfft=nblock, return_onesided=True);
+                            
+        
 
     def returnLastData(self):        
         self.Pot()
-        return self.senal_filtrada_pasabandas, self.Pxx, self.f # [0:6,:]
+        return (self.senal_filtrada_pasabandas, self.Pxx, self.f,
+    self.laplace_filtrada_pasabandas, self.Pxxtg, self.ftg) # [0:6,:]
     
     def returnLastZ(self):
         self.readZ()
