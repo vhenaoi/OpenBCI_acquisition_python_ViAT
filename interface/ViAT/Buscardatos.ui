@@ -29,67 +29,67 @@
    </column>
    <column>
     <property name="text">
-     <string>nombre</string>
+     <string>Nombre</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>apellidos</string>
+     <string>Apellidos</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>cc</string>
+     <string>CC</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>sexo</string>
+     <string>Sexo</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>ojo dominante</string>
+     <string>Ojo dominante</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>gafas</string>
+     <string>Gafas</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>snellen</string>
+     <string>Snellen</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>snellen corregido</string>
+     <string>Snellen corregido</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>estimulo</string>
+     <string>Estimulo</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>edad</string>
+     <string>Edad</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>ubicacion</string>
+     <string>Tiempo</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>tiempo</string>
+     <string>Responsable</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>responsable</string>
+     <string>Ubicación</string>
     </property>
    </column>
   </widget>

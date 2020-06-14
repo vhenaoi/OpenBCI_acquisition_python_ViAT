@@ -106,7 +106,7 @@
       <rect>
        <x>20</x>
        <y>50</y>
-       <width>261</width>
+       <width>291</width>
        <height>191</height>
       </rect>
      </property>
@@ -137,20 +137,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="nombre">
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="font">
@@ -163,8 +149,8 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="apellidos">
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="nombre">
         <property name="styleSheet">
          <string notr="true">QLineEdit {
     border: 2px solid gray;
@@ -189,8 +175,8 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="cc">
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="apellidos">
         <property name="styleSheet">
          <string notr="true">QLineEdit {
     border: 2px solid gray;
@@ -213,6 +199,184 @@
         <property name="text">
          <string>CC:</string>
         </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="cc">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+}
+</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sexo:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="sexo">
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QComboBox:editable {
+    background: white;
+}
+
+QComboBox:!editable, QComboBox::drop-down:editable {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+/* QComboBox gets the &quot;on&quot; state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid;
+    border-top-right-radius: 3px; 
+    border-bottom-right-radius: 3px;
+}
+
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid  darkgray;
+    selection-background-color: rgb(126, 126, 126);
+}
+
+
+</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Femenino</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Masculino</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Ojo dominante:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QComboBox" name="dominante">
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QComboBox:editable {
+    background: white;
+}
+
+QComboBox:!editable, QComboBox::drop-down:editable {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+/* QComboBox gets the &quot;on&quot; state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid;
+    border-top-right-radius: 3px; 
+    border-bottom-right-radius: 3px;
+}
+
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid  darkgray;
+    selection-background-color: rgb(126, 126, 126);
+}
+
+
+</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Derecho</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Izquierdo</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="4" column="1">
@@ -260,66 +424,14 @@ QPushButton:pressed {
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="sexo">
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Sexo:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="dominante">
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Ojo dominante:</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
     <widget class="QWidget" name="layoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>310</x>
        <y>50</y>
-       <width>391</width>
+       <width>381</width>
        <height>191</height>
       </rect>
      </property>
@@ -333,20 +445,6 @@ QPushButton:pressed {
         </property>
         <property name="text">
          <string>¿Usa gafas?</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="glasses">
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
         </property>
        </widget>
       </item>
@@ -411,20 +509,6 @@ QPushButton:pressed {
         </property>
         <property name="text">
          <string>Estimulo:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="stimulus">
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
         </property>
        </widget>
       </item>
@@ -512,6 +596,141 @@ QPushButton:pressed {
         </property>
        </widget>
       </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="stimulus">
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QComboBox:editable {
+    background: white;
+}
+
+QComboBox:!editable, QComboBox::drop-down:editable {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+/* QComboBox gets the &quot;on&quot; state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid;
+    border-top-right-radius: 3px; 
+    border-bottom-right-radius: 3px;
+}
+
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid  darkgray;
+    selection-background-color: rgb(126, 126, 126);
+}
+
+
+</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Vernier</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="glasses">
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QComboBox:editable {
+    background: white;
+}
+
+QComboBox:!editable, QComboBox::drop-down:editable {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+/* QComboBox gets the &quot;on&quot; state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid;
+    border-top-right-radius: 3px; 
+    border-bottom-right-radius: 3px;
+}
+
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid  darkgray;
+    selection-background-color: rgb(126, 126, 126);
+}
+
+
+</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>No</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Si</string>
+         </property>
+        </item>
+       </widget>
+      </item>
      </layout>
     </widget>
     <widget class="QLabel" name="logo">
@@ -576,7 +795,7 @@ QPushButton:pressed {
       <rect>
        <x>20</x>
        <y>240</y>
-       <width>661</width>
+       <width>731</width>
        <height>41</height>
       </rect>
      </property>
@@ -617,6 +836,45 @@ QPushButton:pressed {
         </property>
         <property name="text">
          <string>Agregar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_actualizar">
+        <property name="minimumSize">
+         <size>
+          <width>261</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+        </property>
+        <property name="text">
+         <string>Actualizar</string>
         </property>
        </widget>
       </item>

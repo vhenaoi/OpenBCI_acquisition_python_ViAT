@@ -27,9 +27,12 @@ from pymongo import MongoClient
 
 
 class Model(object):
-
-    def __init__(self):
-        
+    
+    def __init__(self, name_db, name_collection):
+        MONGO_URI = "mongodb://localhost:27017/"
+        self.__client = MongoClient(MONGO_URI)
+        self.__db = self.__client[name_db]
+        self.__collection = self.__db[name_collection]        
         self.__fs = 250
         self.filtDesign()
         print("se diseño el filtro")       
@@ -94,21 +97,13 @@ class Model(object):
         print('Stop Data Modelo')
         
     def startStimulus(self):
-        estimulo = Stimulus()
-#        self.__idAnswer,self.__ccAnswer#The stimulus function is called for more information go to the stimulus
-#        self.streams_Marks = resolve_stream('type', 'Markers')
-#        self.__inlet_Marks = StreamInlet(self.streams_Marks[0])
-#        self.__inlet_Marks.pull_chunk()
+        estimulo = Stimulus(self.p[0],self.p[1])
         estimulo.start_stimulus()
         
 
     def stopStimulus(self):
         pass
-        
-#        self.__inlet_Marks.close_stream()
-#        print('Stop Data Modelo')
-#        
-        
+      
 
     def startZ(self):
         
@@ -132,18 +127,7 @@ class Model(object):
     def readData(self):
 
         samples, timestamp = self.__inlet.pull_chunk()
-#        try: 
-#            sample_mark, timestamp = self.__inlet_Marks.pull_sample()
-#        except:
-#            sample_mark = None
         samples = np.transpose(np.asanyarray(samples))
-#        print(sample_mark)
-#        print(type(sample_mark))
-#        if (samples is None) or (timestamp is None):
-#            return
-#        if (sample_mark is None):
-#            sample_mark = [0]
-#        print(sample_mark)
         self.__laplace = np.zeros((1,2500))
         try:            
             self.__data = np.roll(self.__data, samples.shape[1])
@@ -169,19 +153,21 @@ class Model(object):
                         'C6':self.__data[5,0:samples.shape[1]],
                         'C7':self.__data[6,0:samples.shape[1]],
                         'C8':self.__data[7,0:samples.shape[1]]}
-#        now = datetime.now()
-#        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-##        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'+ '/'+date[0]       
-#        if not  os.path.isdir(loc):
-#            os.mkdir(loc)
-#            header=True
-#        else:
-#            header=False
-#        if not np.all(self.__data==0):
-#            r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
-#            d = str(date[1])
-#            r['H']=pd.Series([d])
-##            r.to_csv(loc + '/'  + 'Record_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
+        now = datetime.now()
+        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+#        cwd = os.getcwd()
+        cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
+        loc = cwd + '/'+date[0]       
+        if not  os.path.isdir(loc):
+            os.mkdir(loc)
+            header=True
+        else:
+            header=False
+        if not np.all(self.__data==0):
+            r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
+            d = str(date[1])
+            r['H']=pd.Series([d])
+            r.to_csv(loc + '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv' ,mode='a',header=header,index=False, sep=';')
 
 
     def filtDesign(self):
@@ -200,7 +186,6 @@ class Model(object):
         self.senal_filtrada_pasabandas = signal.filtfilt(
             self.lowpass, 1, self.senal_filtrada_pasaaltas)
         
-        print('Filtro',self.__laplace.shape)
         self.laplace_filtrada_pasaaltas = signal.filtfilt(
             self.highpass, 1, self.__laplace)
         self.laplace_filtrada_pasaaltas = hampelFilter(
@@ -213,16 +198,13 @@ class Model(object):
     def Pot(self):
         self.filtData()
         nblock = 250
-        noverlap = nblock/2;#10  
-#        win = signal.hamming(int(nblock),True);
+        noverlap = nblock/2;
                         
         self.f, self.Pxx = signal.welch(self.senal_filtrada_pasabandas, self.__fs,
                                         nperseg=self.__fs*2, noverlap=noverlap);
-#            self.__fs, window=win, noverlap=overlap, nfft=nblock, return_onesided=True);
         
         self.ftg, self.Pxxtg = signal.welch(self.__laplace, 
             self.__fs, nperseg=self.__fs*2, noverlap=noverlap);
-#            window=win, noverlap=overlap, nfft=nblock, return_onesided=True);
                             
         
 
@@ -237,29 +219,13 @@ class Model(object):
     
     def returnLastStimulus(self):
         self.readData()
-        return 
-        
-    
+        return         
     
     def clinicalhistoryInformation(self, idAnswer,nameAnswer,lastnameAnswer,ccAnswer,
                      sexAnswer,eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
                      CorrectionAnswer,stimulusAnswer,timeAnswer,
                      responsibleAnswer):
 
-        History=pd.DataFrame()
-        Subject=pd.DataFrame()
-        Subjects=pd.DataFrame()
-        self.__idAnswer = idAnswer
-        self.__ccAnswer = ccAnswer
-        self.__ageAnswer =ageAnswer
-        self.__glassesAnswer = glassesAnswer
-        self.__snellenAnswer = snellenAnswer
-        self.__CorrectionAnswer = CorrectionAnswer
-        now = datetime.now()
-        self.__date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HistoriaClinicaViAT'
-        path_Marks = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Marks'
-        self.__path_Register = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'
         if sexAnswer == 0:
             sexAnswer = 'Femenino'
         else:
@@ -268,242 +234,74 @@ class Model(object):
             eyeAnswer = 'Derecho'
         else:
             eyeAnswer = 'Izquierdo'
-        gen = pd.DataFrame({'id':[self.__idAnswer],
-                            'nombre':[nameAnswer], 
-                            'apellido':[lastnameAnswer], 
-                            'cc':[self.__ccAnswer], 
-                            'sexo':[sexAnswer],
-                            'ojo dominante':[eyeAnswer]
-                            })
         if glassesAnswer == 0:
             glassesAnswer = 'Si'
         else:
             glassesAnswer = 'No'
-        if snellenAnswer == 0:
-            snellenAnswer = '20/20'
-        elif snellenAnswer == 1:
-            snellenAnswer = '20/16'
-        elif snellenAnswer == 2:
-            snellenAnswer = '20/25'
-        elif snellenAnswer == 3:
-            snellenAnswer = '20/40'
-        elif snellenAnswer == 4:
-            snellenAnswer = '20/50'
-        elif snellenAnswer == 5:
-            snellenAnswer = '20/63'
-        elif snellenAnswer == 6:
-            snellenAnswer = '20/80'
-        elif snellenAnswer == 7:
-            snellenAnswer = '20/100'
-        elif snellenAnswer == 8:
-            snellenAnswer = '20/125'
-        elif snellenAnswer == 9:
-            snellenAnswer = '20/160'
-        elif snellenAnswer == 10:
-            snellenAnswer = '20/200'
-        if CorrectionAnswer == 0:
-            CorrectionAnswer = 'NaN'
-        elif CorrectionAnswer == 1:
-            CorrectionAnswer = '20/16'
-        elif CorrectionAnswer == 2:
-            CorrectionAnswer = '20/20'
-        elif CorrectionAnswer == 3:
-            CorrectionAnswer = '20/25'
-        elif CorrectionAnswer == 4:
-            CorrectionAnswer = '20/40'
-        elif CorrectionAnswer == 5:
-            CorrectionAnswer = '20/50'
-        elif CorrectionAnswer == 6:
-            CorrectionAnswer = '20/63'
-        elif CorrectionAnswer == 7:
-            CorrectionAnswer = '20/80'
-        elif CorrectionAnswer == 8:
-            CorrectionAnswer = '20/100'
-        elif CorrectionAnswer == 9:
-            CorrectionAnswer = '20/125'
-        elif CorrectionAnswer == 10:
-            CorrectionAnswer = '20/160'
-        elif CorrectionAnswer == 11:
-            CorrectionAnswer = '20/200'
         if stimulusAnswer == 0:
             stimulusAnswer = 'Vernier'
         else:
              stimulusAnswer = 'Grating'
             
-        var = pd.DataFrame({'edad':[self.__ageAnswer],
-                                     'gafas':[self.__glassesAnswer],
-                                     'snellen':[self.__snellenAnswer],
-                                     'snellen corregido':[self.__CorrectionAnswer],
-                                     'estimulo':[stimulusAnswer],
-                                     'tiempo de accidente visual':[timeAnswer],
-                                     'responsable':[responsibleAnswer],
-                                     'hora':[self.__date[1]],'Marca':[path_Marks+ '/' +'Mark_H_'+self.__date[1][0:2]+'.csv'],
-                                             'Registro':[self.__path_Register+ '/' +'Registry_H_'+self.__date[1][0:2]+'.csv']
-                                     })
-        History = History.append(var)
-        Subject = Subject.append(gen)
-        Subjects = Subjects.append(gen)
-        fijo = path + '/' +  self.__idAnswer + '_' + self.__ccAnswer
-        if os.path.isdir(fijo):
-            variable=(fijo + '/' + self.__date[0])
-            Subjects.to_csv(path + '/'  + 'Subjects.csv' ,mode='a',header=False, index=False, sep=';')
-            if os.path.isdir(variable):
-                History.to_csv(variable + '/'  + 'History.csv' ,mode='a',header=False, index=False, sep=';')
-            else:
-                os.mkdir(variable)
-                History.to_csv(variable + '/'  + 'History.csv' , index=False,sep=';')
-        else:
-            os.mkdir(fijo)
-            variable=(fijo + '/' + self.__date[0])
-            os.mkdir(variable)
-            print('se creo el segundo directorio')
-            print(variable)
-            Subject.to_csv(fijo + '/'  + 'Suject.csv' , index=False, sep=';')
-            History.to_csv(variable + '/'  + 'History.csv' ,index=False, sep=';')
-            Subjects.to_csv(path + '/'  + 'Subjects.csv' ,mode='a',index=False, sep=';')
             
-        
-      
-    def webclinicalhistoryInformation(self):
-        ############### CONFIGURAR ESTO ###################
-        idAnswer = self.__idAnswer
-        ccAnswer = self.__ccAnswer
-        ageAnswer = self.__ageAnswer
-        glassesAnswer = self.__glassesAnswer
-        snellenAnswer = self.__snellenAnswer
-        CorrectionAnswer = self.__CorrectionAnswer
-        date = self.__date
-        path_Register = self.__path_Register
-        # Abre conexion con la base de datos
-        db = pymysql.connect(host="127.0.0.1",
-                             user="root",
-                             database="viat"
-                             )
-        ##################################################
-        cursor = db.cursor()
-
-        # Prepare SQL query to INSERT a record into the database.
-        sql = "INSERT INTO registro(ID, CC,EDAD,GAFAS,AA,AL,AD,FECHA,REGISTROS) \
-           VALUES ("+idAnswer,ccAnswer,ageAnswer,glassesAnswer,snellenAnswer,CorrectionAnswer,date,path_Register+")".format()
-        try:
-           # Execute the SQL command
-           cursor.execute(sql)
-#           cursor.execute("SELECT VERSION()")
-           # Commit your changes in the database
-           db.commit()
-        except:
-           # Rollback in case there is any error
-           db.rollback()
-        
-        
-        # desconectar del servidor
-        db.close()
+    def add_into_collection_one(self, data):
+        self.__collection.insert_one(data)
+        self.p = data['d'],data['cc']
+        return True
     
-    def searchClinicalhistory(self):
-        ############### CONFIGURAR ESTO ###################
-        # Open database connection
-        db = pymysql.connect(host="127.0.0.1",
-                             user="root",
-                             database="viat"
-                             )
-        ##################################################
+    def add_into_collection_many(self, datas):
+        self.__collection.insert_many(datas)
+        print("Documentos agregados con éxito")
         
-        # prepare a cursor object using cursor() method
-        cursor = db.cursor()
+    def search_one(self, consult, proj):
+        result = self.__collection.find_one(consult, proj)
+        try:
+            info_result = [result.get("d", None),result.get("nombre", None), result.get("apellidos", None), 
+                           result.get("cc", None), result.get("sexo", None), result.get("dominante", None),
+                           result.get("gafas", None),result.get("snellen", None),result.get("corregida", None),
+                           result.get("estimulo", None),result.get("edad", None),result.get("tiempo", None),
+                           result.get("rp", None),result.get("ubicacion")]
+            self.p = info_result[0],info_result[3]
+            return info_result
+        except:
+            return False
         
-        # Prepare SQL query to READ a record into the database.
-        sql = "SELECT * FROM registro \
-        WHERE ID = 1134234371".format(0)
+    def search_many(self, consult, proj, view=False):
+        results = self.__collection.find(consult, proj)
+        if view == True:
+            for result in results:
+                print(result)
+        info_integrantes = list()
+        for result in results:
+            info = [result.get("d", None),result.get("nombre", None), result.get("apellidos", None), 
+                    result.get("cc", None), result.get("sexo", None), result.get("dominante", None),
+                    result.get("gafas", None),result.get("snellen", None),result.get("corregida", None),
+                    result.get("estimulo", None),result.get("edad", None),result.get("tiempo", None),
+                    result.get("rp", None),result.get("ubicacion")]
+            info_integrantes.append(info)
+        return info_integrantes
+    def update_info(self, consult, data):
+        self.__collection.update(consult, data)
         
-        # Execute the SQL command
-        cursor.execute(sql)
+    def delete_data(self, data):
+        self.__collection.delete_one(data)
+    
+    def show_database(self):
+        dbs = self.__client.list_database_names()
+        for i in dbs:
+            print(i)
+        return dbs
+    
+    def show_collections(self):
+        collections = self.db.list_collection_names()
+        for collection in collections:
+            print(collection)
+        return collections
+    
+    def delete_collection(self, collection):
+        self.__bd[collection].drop()
         
-        # Fetch all the rows in a list of lists.
-        results = cursor.fetchall()
-        for row in results:
-           ID = row[0]
-           CC = row[1]
-           EDAD = row[2]
-           GAFAS = row[3]
-           AA = row[4]
-           AL = row[5]
-           AD = row[6]
-           FECHA = row[7]
-           REGISTROS =row[8]
-           # Now print fetched result
-           print (ID+CC+EDAD+GAFAS+AA+AL+AD+FECHA+REGISTROS.format(ID,CC,EDAD,GAFAS,AA,AL,AD,FECHA,REGISTROS))
-        
-        # disconnect from server
-        db.close()
-
-class MyDatabase:
-
-	def __init__(self, name_db, name_collection):
-		MONGO_URI = "mongodb://localhost:27017/"
-		self.__client = MongoClient(MONGO_URI)
-		self.__db = self.__client[name_db]
-		self.__collection = self.__db[name_collection]
-
-	def add_into_collection_one(self, data):
-		self.__collection.insert_one(data)
-		return True
-
-	def add_into_collection_many(self, datas):
-		self.__collection.insert_many(datas)
-		print("Documentos agregados con éxito")
-
-	def search_one(self, consult, proj):
-		result = self.__collection.find_one(consult, proj)
-		try:
-			info_result = [result.get("d", None),result.get("nombre", None), result.get("apellidos", None), 
-				result.get("cc", None), result.get("sexo", None), result.get("dominante", None),
-                result.get("gafas", None),result.get("snellen", None),result.get("corregida", None),
-                result.get("estimulo", None),result.get("edad", None),result.get("tiempo", None),
-                result.get("accidente", None),result.get("rp", None),
-				len([x for x in result.get("Materias",None)])]
-			materias = result.get("Materias", None)
-			return info_result, materias
-		except:
-			return False
-
-	def search_many(self, consult, proj, view=False):
-		results = self.__collection.find(consult, proj)
-		if view == True:
-			for result in results:
-				print(result)
-		info_integrantes = list()
-		for result in results:
-			info = [result.get("d", None),result.get("nombre", None), result.get("apellidos", None), 
-				result.get("cc", None), result.get("sexo", None), result.get("dominante", None),
-                result.get("gafas", None),result.get("snellen", None),result.get("corregida", None),
-                result.get("estimulo", None),result.get("edad", None),result.get("accidente", None),
-                result.get("tiempo", None),result.get("rp", None),
-				len([x for x in result.get("Materias",None)])]
-			info_integrantes.append(info)
-		return info_integrantes
-
-	def update_info(self, consult, data):
-		self.__collection.update(consult, data)
-
-	def delete_data(self, data):
-		self.__collection.delete_one(data)
-
-	def show_database(self):
-		dbs = self.__client.list_database_names()
-		for i in dbs:
-			print(i)
-		return dbs
-
-	def show_collections(self):
-		collections = self.db.list_collection_names()
-		for collection in collections:
-			print(collection)
-		return collections
-
-	def delete_collection(self, collection):
-		self.__bd[collection].drop()
-
-	def delete_db(self, db):
-		self.__client[db].drop()
+    def delete_db(self, db):
+        self.__client[db].drop()
 
         
