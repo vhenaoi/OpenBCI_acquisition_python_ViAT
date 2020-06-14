@@ -59,6 +59,14 @@ import subprocess
 import errno
 import pyqtgraph as pg
 
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QTreeWidgetItem
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.uic import loadUi
+from PyQt5.QtGui import QIcon, QPixmap
+from datetime import datetime
+
+# In[]
 class WorkerSignals(QObject):
     '''
     Supported signals are:
@@ -79,7 +87,7 @@ class WorkerSignals(QObject):
     result = pyqtSignal(object) # receiving any object type from the executed function.
     progress = pyqtSignal(int)
 
-
+# In[]
 class Worker(QRunnable):
     '''
     Worker thread
@@ -120,7 +128,7 @@ class Worker(QRunnable):
         finally:
             self.signals.finished.emit()  # Done
 
-
+# In[]
 class ViAT(QMainWindow):
     '''First user view
     
@@ -140,6 +148,9 @@ class ViAT(QMainWindow):
     def assignController(self, controller):
         # create connection to controller
         self.my_controller = controller
+        
+    def asignar_controlador(self, controlador):
+        self.__controlador = controlador
 
     def setup(self):
         self.startRegistration.clicked.connect(self.loadRegistration)
@@ -149,12 +160,12 @@ class ViAT(QMainWindow):
         self.logo.setPixmap(pixmap)
 
     def loadRegistration(self):
-        self.__registry = LoadRegistration(self, self.my_controller)
+        self.__registry = LoadRegistration(self,self.__controlador,self.my_controller)
         self.__registry.show()
         self.hide()
 
     def loadData(self):
-        self.__registry = DataBase(self,self.my_controller)
+        self.__registry = DataBase(self,self.__controlador,self.my_controller)
         self.__registry.show()
         self.hide()
 
@@ -162,82 +173,82 @@ class ViAT(QMainWindow):
         self.hide()
         exit()
 
-        
-class LoadRegistration(QMainWindow):
-    '''Take data
-    
-        Allows you to collect basic information from patients or subjects
-    
-        :setup: this function contains the condition to move to the other views
-        
-        :clinicalhistoryInformation: Compare the data entered in the database to 
-        autocomplete the stationary fields
-        
-        :dataAcquisition: Check that the fields are completely filled
-        
-        :param variable controller: allows me to communicate with the model 
-        through the controller 
-    '''
-    def __init__(self, LR, controller):
-        super(LoadRegistration, self).__init__()
-        #The designed view is exported in qt designer
-        loadUi('Registro-HistoriaClinica.ui', self)
-        self.setWindowTitle('Registro')
-        self.setWindowIcon(QIcon('icono.png'))
-        self.setup()
-        self.show()
-        self.my_controller = controller # define controller variable
+# In[]        
+#class LoadRegistration(QMainWindow):
+#    '''Take data
+#    
+#        Allows you to collect basic information from patients or subjects
+#    
+#        :setup: this function contains the condition to move to the other views
+#        
+#        :clinicalhistoryInformation: Compare the data entered in the database to 
+#        autocomplete the stationary fields
+#        
+#        :dataAcquisition: Check that the fields are completely filled
+#        
+#        :param variable controller: allows me to communicate with the model 
+#        through the controller 
+#    '''
+#    def __init__(self, LR, controller):
+#        super(LoadRegistration, self).__init__()
+#        #The designed view is exported in qt designer
+#        loadUi('Registro-HistoriaClinica.ui', self)
+#        self.setWindowTitle('Registro')
+#        self.setWindowIcon(QIcon('icono.png'))
+#        self.setup()
+#        self.show()
+#        self.my_controller = controller # define controller variable
+#
+#        self.__parentLoadRegistration = LR
+#
+#    def setup(self):
+#        self.back.clicked.connect(self.loadStart)
+#        self.next.clicked.connect(self.dataAcquisition)
+#        self.historyInfo.clicked.connect(self.info)
+#        pixmap = QPixmap('blanclogo.png')
+#        self.logo.setPixmap(pixmap)
+#        
+#    def info(self):
+#        msg = QMessageBox()
+#        msg.setIcon(QMessageBox.Warning)
+#        msg.setText("Si el paciente o sujeto a registrar es nuevo, por favor complete todos los campos, si el sujetos ya se ha registrado antes unicamente llene los datos que han cambiado desde el ultimo registro")
+#        msg.setWindowTitle("Ayuda")
+#        x = msg.exec_()
+#        
+#    def clinicalhistoryInformation(self):
+#        
+#        self.my_controller.clinicalhistoryInformation(self.idAnswer.text(), 
+#                                         self.nameAnswer.text(), 
+#                                         self.lastnameAnswer.text(), 
+#                                         self.ccAnswer.text(),
+#                                         self.sexAnswer.currentIndex(), 
+#                                         self.eyeAnswer.currentIndex(),
+#                                         self.ageAnswer.value(),
+#                                         self.glassesAnswer.currentIndex(),
+#                                         self.snellenAnswer.currentIndex(),
+#                                         self.CorrectionAnswer.currentIndex(),
+#                                         self.stimulusAnswer.currentIndex(),
+#                                         self.timeAnswer.text(),
+#                                         self.responsibleAnswer.text())
+#    def loadStart(self):
+#        self.__parentLoadRegistration.show()
+#        self.hide()
+#
+#    def dataAcquisition(self):
+#        #        if not (self.idAnswer.text() and self.nameAnswer.text() and
+#        #                self.lastnameAnswer.text() and self.responsibleAnswer.text() and self.ccAnswer.text()):
+#        #            msg = QMessageBox()
+#        #            msg.setIcon(QMessageBox.Warning)
+#        #            msg.setText("Todos los campos marcados con * deben estar diligenciados")
+#        #            msg.setWindowTitle("Alerta!")
+#        #            x = msg.exec_()
+#        #        else:
+#        self.__registry = DataAcquisition(self, self.my_controller)
+#        self.__registry.show()
+#        self.clinicalhistoryInformation()
+#        self.hide()
 
-        self.__parentLoadRegistration = LR
-
-    def setup(self):
-        self.back.clicked.connect(self.loadStart)
-        self.next.clicked.connect(self.dataAcquisition)
-        self.historyInfo.clicked.connect(self.info)
-        pixmap = QPixmap('blanclogo.png')
-        self.logo.setPixmap(pixmap)
-        
-    def info(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("Si el paciente o sujeto a registrar es nuevo, por favor complete todos los campos, si el sujetos ya se ha registrado antes unicamente llene los datos que han cambiado desde el ultimo registro")
-        msg.setWindowTitle("Ayuda")
-        x = msg.exec_()
-        
-    def clinicalhistoryInformation(self):
-        
-        self.my_controller.clinicalhistoryInformation(self.idAnswer.text(), 
-                                         self.nameAnswer.text(), 
-                                         self.lastnameAnswer.text(), 
-                                         self.ccAnswer.text(),
-                                         self.sexAnswer.currentIndex(), 
-                                         self.eyeAnswer.currentIndex(),
-                                         self.ageAnswer.value(),
-                                         self.glassesAnswer.currentIndex(),
-                                         self.snellenAnswer.currentIndex(),
-                                         self.CorrectionAnswer.currentIndex(),
-                                         self.stimulusAnswer.currentIndex(),
-                                         self.timeAnswer.text(),
-                                         self.responsibleAnswer.text())
-    def loadStart(self):
-        self.__parentLoadRegistration.show()
-        self.hide()
-
-    def dataAcquisition(self):
-        #        if not (self.idAnswer.text() and self.nameAnswer.text() and
-        #                self.lastnameAnswer.text() and self.responsibleAnswer.text() and self.ccAnswer.text()):
-        #            msg = QMessageBox()
-        #            msg.setIcon(QMessageBox.Warning)
-        #            msg.setText("Todos los campos marcados con * deben estar diligenciados")
-        #            msg.setWindowTitle("Alerta!")
-        #            x = msg.exec_()
-        #        else:
-        self.__registry = DataAcquisition(self, self.my_controller)
-        self.__registry.show()
-        self.clinicalhistoryInformation()
-        self.hide()
-
-
+# In[]
 class DataAcquisition(QMainWindow):
     '''Electrodes and devices
     
@@ -416,7 +427,7 @@ class DataAcquisition(QMainWindow):
     def thread_complete(self):
         print("THREAD COMPLETE!")
 
-
+# In[]
 class AcquisitionSignal(QMainWindow):
     '''
         This module allows to start the visual stimulation, and allows 
@@ -444,7 +455,7 @@ class AcquisitionSignal(QMainWindow):
         self.__parentAcquisitionSignal = AS
         self.threadpool = QThreadPool() #creating a group of threads in qt
         print("Multithreading with maximum %d threads" %
-             self.threadpool.maxThreadCount())
+        self.threadpool.maxThreadCount())
         self.timer = QTimer()  #creating a time thread
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.recurring_timer)
@@ -458,7 +469,7 @@ class AcquisitionSignal(QMainWindow):
         self.logo.setPixmap(pixmap1)
         self.play.clicked.connect(self.startPlay)
         self.stop.setEnabled(False)
-        self.patientData.clicked.connect(self.loadData)
+#        self.patientData.clicked.connect(self.loadData)
         self.back.clicked.connect(self.loadStart)
         self.exit.clicked.connect(self.end)
         self.playGraph.clicked.connect(self.startGraph)
@@ -528,7 +539,7 @@ class AcquisitionSignal(QMainWindow):
         self.alert.setValue(0)
 
     def loadData(self):
-        self.__registry = DataBase(self,self.my_controller)
+        self.__registry = DataBase(self,self.__controlador,self.my_controller)
         self.__registry.show()
         self.hide()
 
@@ -611,85 +622,304 @@ class AcquisitionSignal(QMainWindow):
         self.my_controller.stopData()
         print("detener senal")
 
+# In[]
+#class DataBase(QMainWindow):
+#    '''
+#        This module allows searching the patient's database for the history 
+#        and observing their results and the signs associated with that subject.
+#    
+#        :param variable controller: allows me to communicate with the model 
+#        through the controller    
+#    '''
+#    def __init__(self, DB, controller):
+#        super(DataBase, self).__init__()
+#        loadUi('Adquisicion_datos.ui', self)
+#        self.setWindowTitle('Base de datos')
+#        self.setWindowIcon(QIcon('icono.png'))
+#        self.setup()
+#        self.show()
+#        self.__parentDataBase = DB
+#        self.my_controller = controller
+#
+#    def setup(self):
+#        pixmap1 = QPixmap('blanclogo.png')
+#        pixmap2 = QPixmap('nube.png')
+#        self.logo.setPixmap(pixmap1)
+#        self.cloud.setPixmap(pixmap2)
+#        self.cloudButton.clicked.connect(self.cloudData)
+#        self.behind.clicked.connect(self.delaySignal)
+#        self.before.clicked.connect(self.forwardSignal)
+#        self.patientAcquisition.clicked.connect(self.dataAcquisition)
+#        self.back.clicked.connect(self.loadStart)
+#        self.exit.clicked.connect(self.end)
+#        self.stopDevice.clicked.connect(self.stopData)
+#        self.adquisitionInfo.clicked.connect(self.info)
+#        self.adquisitionInfo_2.clicked.connect(self.info2)
+#        self.stopDevice.clicked.connect(self.stopProcess)
+#        self.dataSet.clicked.connect(self.searchData)
+#        
+#    
+#    def cloudData(self):
+#        print('se subio a la nube')
+#        self.my_controller.webclinicalhistoryInformation()
+#        
+#    def searchData(self):
+#        self.my_controller.searchClinicalhistory()
+#        
+#    def info(self):
+#        msg = QMessageBox()
+#        msg.setIcon(QMessageBox.Warning)
+#        msg.setText("En la parte superior encontrara dos pestañas, la de inicio, en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal registrada. Primero debe buscar del sujeto de interes por ID, CC o fecha de registro, presione buscar y seleccione el registro que desea visualizar. Se recomienda desconectar el dispositivo si no se realizaran más registros durante la exploración de los datos. Podra visualizar los resultados de la estimulación en esta misma pestaña y visualizar la señal en la pestaña 'Visualización'  ")
+#        msg.setWindowTitle("Ayuda")
+#        x = msg.exec_()
+#    
+#    def info2(self):
+#        msg = QMessageBox()
+#        msg.setIcon(QMessageBox.Warning)
+#        msg.setText("Puede observar el espectro de la señal de interes al presiónar el canal o desplazarse por las señales en cada canal al mover las flechas")
+#        msg.setWindowTitle("Ayuda")
+#        x = msg.exec_()
+#
+#    def delaySignal(self):#Atras
+#        pass
+#    
+#    def stopData(self):
+#        pass
+#
+#    def forwardSignal(self):#Adelante
+#        pass
+#
+#    def dataAcquisition(self):
+#        self.__registry = DataAcquisition(self,self.my_controller)
+#        self.__registry.show()
+#        self.hide()
+#
+#    def loadStart(self):
+#        self.__parentDataBase.show()
+#        self.hide()
+#    
+#    def stopProcess(self):
+#        self.my_controller.stopDevice()
+#
+#    def end(self):
+#        self.hide()
+#        exit()
 
-class DataBase(QMainWindow):
-    '''
-        This module allows searching the patient's database for the history 
-        and observing their results and the signs associated with that subject.
-    
-        :param variable controller: allows me to communicate with the model 
-        through the controller    
-    '''
-    def __init__(self, DB, controller):
-        super(DataBase, self).__init__()
-        loadUi('Adquisicion_datos.ui', self)
+# In[]
+class LoadRegistration(QDialog):
+    def __init__(self, LR, controlador , controller):
+        super(LoadRegistration, self).__init__()
+        loadUi("Agregardatos.ui", self)
+        self.setup()
         self.setWindowTitle('Base de datos')
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
-        self.__parentDataBase = DB
+        self.__parentLoadRegistration = LR
+        self.__controlador = controlador
         self.my_controller = controller
-
+        
     def setup(self):
-        pixmap1 = QPixmap('blanclogo.png')
-        pixmap2 = QPixmap('nube.png')
-        self.logo.setPixmap(pixmap1)
-        self.cloud.setPixmap(pixmap2)
-        self.cloudButton.clicked.connect(self.cloudData)
-        self.behind.clicked.connect(self.delaySignal)
-        self.before.clicked.connect(self.forwardSignal)
-        self.patientAcquisition.clicked.connect(self.dataAcquisition)
+        self.btn_buscar.clicked.connect(self.buscar)
+        self.btn_agregar.clicked.connect(self.agregar)
+        self.btn_mostrar.clicked.connect(self.mostrar)
         self.back.clicked.connect(self.loadStart)
-        self.exit.clicked.connect(self.end)
-        self.stopDevice.clicked.connect(self.stopData)
-        self.adquisitionInfo.clicked.connect(self.info)
-        self.adquisitionInfo_2.clicked.connect(self.info2)
-        self.stopDevice.clicked.connect(self.stopProcess)
-        self.dataSet.clicked.connect(self.searchData)
+        self.next.clicked.connect(self.dataAcquisition)
+        pixmap1 = QPixmap('blanclogo.png')
+        self.logo.setPixmap(pixmap1)
         
+    def asignar_controlador(self, controlador):
+        self.__controlador = controlador
     
-    def cloudData(self):
-        print('se subio a la nube')
-        self.my_controller.webclinicalhistoryInformation()
+    def desactivar(self):
+       self.nombre.setEnabled(False)
+       self.apellidos.setEnabled(False)
+       self.d.setEnabled(False)
+       self.cc.setEnabled(False)
+       self.sexo.setEnabled(False)
+       self.dominante.setEnabled(False)
+       self.glasses.setEnabled(False)
+       self.snellen.setEnabled(False)
+       self.correction.setEnabled(False)
+       self.stimulus.setEnabled(False)
+       self.edad.setEnabled(False)
+       self.time.setEnabled(False)
+       self.rp.setEnabled(False)
         
-    def searchData(self):
-        self.my_controller.searchClinicalhistory()
+    def buscar(self):
+        buscar = self.cc.text()
+        result = self.__controlador.obtener_uno(buscar)
+        if result != False:
+            self.show_info(result)
+            self.desactivar()
+        else:
+            msg = QMessageBox(self)
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("Información no encontrada")
+            msg.show()
+            
+            self.activar()
+            
+    def activar(self):
+    		self.nombre.setEnabled(True)
+    		self.apellidos.setEnabled(True)
+    		self.cc.setEnabled(True)
+    		self.sexo.setEnabled(True)
+    		self.d.setEnabled(True)
+    		self.dominante.setEnabled(True)
+    		self.glasses.setEnabled(True)
+    		self.snellen.setEnabled(True)
+    		self.correction.setEnabled(True)
+    		self.stimulus.setEnabled(True)
+    		self.edad.setEnabled(True)
+    		self.time.setEnabled(True)
+    		self.rp.setEnabled(True)
+    		self.btn_agregar.setEnabled(True)
+    		self.d.setText("")
+    		self.nombre.setText("")
+    		self.apellidos.setText("")
+    		self.cc.setText("")
+    		self.sexo.setText("")
+    		self.dominante.setText("")
+    		self.cc.setText("")
+    		self.glasses.setText("")
+    		self.snellen.setText("")
+    		self.correction.setText("")
+    		self.stimulus.setText("")
+    		self.edad.setText("")
+    		self.time.setText("")
+    		self.rp.setText("")
+    
+    def show_info(self, result):
+        info = result[0]
+        self.materias = result[1]
+        self.d.setText(info[0])
+        self.nombre.setText(info[1])
+        self.apellidos.setText(str(info[2]))
+        self.cc.setText(str(info[3]))
+        self.sexo.setText(str(info[4]))
+        self.dominante.setText(str(info[5]))
+        self.glasses.setText(str(info[6]))
+        self.snellen.setText(str(info[7]))
+        self.correction.setText(str(info[8]))
+        self.stimulus.setText(str(info[9]))
+        self.edad.setText(str(info[10]))
+        self.time.setText(str(info[11]))
+        self.rp.setText(str(info[12]))
+        self.cc.setText("")
+        self.btn_agregar.setEnabled(False)
+            
+    def agregar(self):
+        data = {
+            "d":self.d.text(),
+			"nombre":self.nombre.text(),
+			"apellidos": self.apellidos.text(),
+			"Materias": [],
+			"cc":self.cc.text(),
+            "sexo":(self.sexo.text()),
+            "dominante":(self.dominante.text()),
+			"gafas":(self.glasses.text()),
+			"snellen":(self.snellen.text()),
+			"corregida":(self.correction.text()),
+			"estimulo":(self.stimulus.text()),
+			"edad":(self.edad.text()),
+			"tiempo":(self.time.text()),
+			"rp":(self.rp.text())
+		}
+        bandera = self.__controlador.agregar_datos(data)
+        if bandera == True:
+            msg = QMessageBox(self)
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("Información Agregada")
+            msg.show()
+        self.activar()
+        self.btn_agregar_materia.setEnabled(True)
         
-    def info(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("En la parte superior encontrara dos pestañas, la de inicio, en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal registrada. Primero debe buscar del sujeto de interes por ID, CC o fecha de registro, presione buscar y seleccione el registro que desea visualizar. Se recomienda desconectar el dispositivo si no se realizaran más registros durante la exploración de los datos. Podra visualizar los resultados de la estimulación en esta misma pestaña y visualizar la señal en la pestaña 'Visualización'  ")
-        msg.setWindowTitle("Ayuda")
-        x = msg.exec_()
-    
-    def info2(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("Puede observar el espectro de la señal de interes al presiónar el canal o desplazarse por las señales en cada canal al mover las flechas")
-        msg.setWindowTitle("Ayuda")
-        x = msg.exec_()
-
-    def delaySignal(self):#Atras
-        pass
-    
-    def stopData(self):
-        pass
-
-    def forwardSignal(self):#Adelante
-        pass
+    def mostrar(self):
+            self.__registry = DataBase(self,self.__controlador,self.my_controller)
+            self.__registry.show()
+            self.hide()
+        
+    def loadStart(self):
+        self.__parentLoadRegistration.show()
+        self.hide()
 
     def dataAcquisition(self):
-        self.__registry = DataAcquisition(self,self.my_controller)
+        self.__registry = DataAcquisition(self, self.my_controller)
         self.__registry.show()
         self.hide()
+    
+# In[]
+        
+class DataBase(QDialog):
+    def __init__(self, DB,controlador , controller):
+        super(DataBase, self).__init__()
+        loadUi("Buscardatos.ui", self)
+        self.setWindowTitle('Base de datos')
+        self.setWindowIcon(QIcon('icono.png'))
+        self.setup()
+        self.show()
+        self.configurar_TreeWidget()
+        self.__parentDataBase = DB
+        self.__controlador = controlador
+        self.my_controller = controller
+        
+    def configurar_TreeWidget(self):
+    		self.tabla.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
+    		self.tabla.setColumnWidth(0, 150)
+    		self.tabla.setColumnWidth(1, 110)
+    		self.tabla.setColumnWidth(2, 110)
+    		self.tabla.setColumnWidth(3, 110)
+    		self.tabla.setColumnWidth(4, 110)
+    		self.tabla.setColumnWidth(5, 110)
+            
+    def asignar_controlador(self, controlador):
+        self.__controlador = controlador
+    
+    def setup(self):
+        self.le_buscar.setPlaceholderText("Cedula del sujeto")
+        self.btn_mostrar.clicked.connect(self.mostrar_todo)
+        self.btn_buscar.clicked.connect(self.buscar)
+        self.tabla.itemDoubleClicked.connect(self.dbclick)
+        self.back.clicked.connect(self.loadStart)
+
+        pixmap1 = QPixmap('blanclogo.png')
+        self.logo.setPixmap(pixmap1)
+        
+    def mostrar_todo(self):
+        results = self.__controlador.obtener_integrantes()
+        self.mostrar(results)
+        
+            
+    def buscar(self):
+    		buscar = self.le_buscar.text()
+    		self.le_buscar.setText("")
+    		self.le_buscar.setPlaceholderText("Cedula del sujeto")
+    		results = self.__controlador.buscar_integrantes(buscar)
+    		self.mostrar(results)
+            
+    def mostrar(self, results):
+        self.tabla.clear()
+        for result in results:
+            item = QTreeWidgetItem(self.tabla)
+            for i in range(14):
+                item.setText(i,str(result[i]))
+                
+    def dbclick(self):
+        data = self.tabla.currentItem()
+        buttonReply = QMessageBox.question(self, 'Borrar Información', 
+			u"¿Desea borrar a %s de la lista de integrantes?"%data.text(0), 
+			QMessageBox.Yes | QMessageBox.No)
+        if buttonReply == QMessageBox.Yes:
+            self.__controlador.borrar(data.text(0))
+            self.mostrar_todo()
+        if buttonReply == QMessageBox.No:
+            pass
+        if buttonReply == QMessageBox.Cancel:
+            pass
 
     def loadStart(self):
         self.__parentDataBase.show()
         self.hide()
-    
-    def stopProcess(self):
-        self.my_controller.stopDevice()
+    	
 
-    def end(self):
-        self.hide()
-        exit()

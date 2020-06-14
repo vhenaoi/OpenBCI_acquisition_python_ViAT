@@ -176,124 +176,7 @@
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QPushButton" name="back">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-           </property>
-           <property name="text">
-            <string>Atras</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="exit">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-           </property>
-           <property name="text">
-            <string>Salir</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
-          <widget class="QPushButton" name="patientData">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-           </property>
-           <property name="text">
-            <string>Base de datos pacientes</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
           <widget class="QPushButton" name="stopDevice">
            <property name="font">
             <font>
@@ -338,6 +221,85 @@ QPushButton:pressed {
            </property>
            <property name="text">
             <string>Desconectar dispositivo</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="back">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+           </property>
+           <property name="text">
+            <string>Atras</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="exit">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+           </property>
+           <property name="text">
+            <string>Salir</string>
            </property>
           </widget>
          </item>

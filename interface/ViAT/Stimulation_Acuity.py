@@ -43,7 +43,8 @@ class Stimulus(object):
     The frecuencia of stimulation is 7.5Hz and represents different level 
     vernier acuity at 6 point.    
     '''
-    def __init__(self,id_Subject,cc_Subject):
+    def __init__(self):
+#                 id_Subject,cc_Subject):
         """
         See :func:`start_stimulus` for details
         
@@ -67,8 +68,8 @@ class Stimulus(object):
         pygame.display.flip()
 #        self.info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'float32', 'myuidw43536')
 #        self.__outlet = StreamOutlet(self.info,1,3)
-        self.id = id_Subject
-        self.cc = cc_Subject
+#        self.id = id_Subject
+#        self.cc = cc_Subject
     
         
 
@@ -108,7 +109,6 @@ class Stimulus(object):
         loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'+ '/'+d[0]
         file = loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
         if not  os.path.isfile(file):
-#            os.mkdir(file)
             header=True
         else:
             header=False
@@ -148,7 +148,7 @@ class Stimulus(object):
                 'Pausa', True, pygame.color.Color('White'))
             for i in range(0, 1):  # time of stimulation
                 for num in range(0, 7):  # acuity levels
-                    self.save(num+1)        
+#                    self.save(num+1)        
                     while (cont <= 6):  # 19.75--8 
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:
@@ -178,5 +178,5 @@ class Stimulus(object):
 
 # In[To run individually]
 if __name__ == '__main__':
-    estimulo = Stimulus('P6','ee')
+    estimulo = Stimulus()
     estimulo.start_stimulus()

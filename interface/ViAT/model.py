@@ -21,7 +21,7 @@ import subprocess
 import pymysql
 from Stimulation_Acuity import Stimulus
 from datetime import timezone
-
+from pymongo import MongoClient
 
 
 
@@ -32,7 +32,7 @@ class Model(object):
         
         self.__fs = 250
         self.filtDesign()
-        print("se diseño el filtro")
+        print("se diseño el filtro")       
         
                
     def startDevice(self):
@@ -94,7 +94,8 @@ class Model(object):
         print('Stop Data Modelo')
         
     def startStimulus(self):
-        estimulo = Stimulus(self.__idAnswer,self.__ccAnswer) #The stimulus function is called for more information go to the stimulus
+        estimulo = Stimulus()
+#        self.__idAnswer,self.__ccAnswer#The stimulus function is called for more information go to the stimulus
 #        self.streams_Marks = resolve_stream('type', 'Markers')
 #        self.__inlet_Marks = StreamInlet(self.streams_Marks[0])
 #        self.__inlet_Marks.pull_chunk()
@@ -168,29 +169,20 @@ class Model(object):
                         'C6':self.__data[5,0:samples.shape[1]],
                         'C7':self.__data[6,0:samples.shape[1]],
                         'C8':self.__data[7,0:samples.shape[1]]}
-#        print(self.__dataT)
-        now = datetime.now()
-        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Registers'+ '/'+date[0]       
-        if not  os.path.isdir(loc):
-            os.mkdir(loc)
-            header=True
-        else:
-            header=False
-        if not np.all(self.__data==0):
-            r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
-            d = str(date[1])
-#            d = pd.DataFrame(d,columns=['H'])
-#            timestamp ={'H': [datetime.fromtimestamp(x)for x in timestamp]}
-#            timestamp = datetime.timestamp(now)
-#            timestamp = datetime.fromtimestamp(t)
-#            timestamp = [datetime.fromtimestamp(x) for x in timestamp]
-#            r['H']= pd.to_datetime(timestamp['H'])
-#            timestamp = [d(x) for x in timestamp]
-            r['H']=pd.Series([d])
-            r.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
-#            dateT =pd.DataFrame(date,columns=['D'])
-#            dateT.to_csv(loc + '/'  + 'Registry_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=False,index=False, sep=';')
+#        now = datetime.now()
+#        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+##        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'+ '/'+date[0]       
+#        if not  os.path.isdir(loc):
+#            os.mkdir(loc)
+#            header=True
+#        else:
+#            header=False
+#        if not np.all(self.__data==0):
+#            r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
+#            d = str(date[1])
+#            r['H']=pd.Series([d])
+##            r.to_csv(loc + '/'  + 'Record_'+str(self.__idAnswer)+'_'+str(self.__ccAnswer)+'.csv' ,mode='a',header=header,index=False, sep=';')
+
 
     def filtDesign(self):
         order, self.lowpass = filter_design(
@@ -222,7 +214,7 @@ class Model(object):
         self.filtData()
         nblock = 250
         noverlap = nblock/2;#10  
-        win = signal.hamming(int(nblock),True);
+#        win = signal.hamming(int(nblock),True);
                         
         self.f, self.Pxx = signal.welch(self.senal_filtrada_pasabandas, self.__fs,
                                         nperseg=self.__fs*2, noverlap=noverlap);
@@ -443,4 +435,75 @@ class Model(object):
         
         # disconnect from server
         db.close()
+
+class MyDatabase:
+
+	def __init__(self, name_db, name_collection):
+		MONGO_URI = "mongodb://localhost:27017/"
+		self.__client = MongoClient(MONGO_URI)
+		self.__db = self.__client[name_db]
+		self.__collection = self.__db[name_collection]
+
+	def add_into_collection_one(self, data):
+		self.__collection.insert_one(data)
+		return True
+
+	def add_into_collection_many(self, datas):
+		self.__collection.insert_many(datas)
+		print("Documentos agregados con éxito")
+
+	def search_one(self, consult, proj):
+		result = self.__collection.find_one(consult, proj)
+		try:
+			info_result = [result.get("d", None),result.get("nombre", None), result.get("apellidos", None), 
+				result.get("cc", None), result.get("sexo", None), result.get("dominante", None),
+                result.get("gafas", None),result.get("snellen", None),result.get("corregida", None),
+                result.get("estimulo", None),result.get("edad", None),result.get("tiempo", None),
+                result.get("accidente", None),result.get("rp", None),
+				len([x for x in result.get("Materias",None)])]
+			materias = result.get("Materias", None)
+			return info_result, materias
+		except:
+			return False
+
+	def search_many(self, consult, proj, view=False):
+		results = self.__collection.find(consult, proj)
+		if view == True:
+			for result in results:
+				print(result)
+		info_integrantes = list()
+		for result in results:
+			info = [result.get("d", None),result.get("nombre", None), result.get("apellidos", None), 
+				result.get("cc", None), result.get("sexo", None), result.get("dominante", None),
+                result.get("gafas", None),result.get("snellen", None),result.get("corregida", None),
+                result.get("estimulo", None),result.get("edad", None),result.get("accidente", None),
+                result.get("tiempo", None),result.get("rp", None),
+				len([x for x in result.get("Materias",None)])]
+			info_integrantes.append(info)
+		return info_integrantes
+
+	def update_info(self, consult, data):
+		self.__collection.update(consult, data)
+
+	def delete_data(self, data):
+		self.__collection.delete_one(data)
+
+	def show_database(self):
+		dbs = self.__client.list_database_names()
+		for i in dbs:
+			print(i)
+		return dbs
+
+	def show_collections(self):
+		collections = self.db.list_collection_names()
+		for collection in collections:
+			print(collection)
+		return collections
+
+	def delete_collection(self, collection):
+		self.__bd[collection].drop()
+
+	def delete_db(self, db):
+		self.__client[db].drop()
+
         
