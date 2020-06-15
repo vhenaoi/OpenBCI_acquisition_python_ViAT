@@ -199,6 +199,9 @@ class LoadRegistration(QDialog):
         self.btn_actualizar.setEnabled(False)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
+        self.snellen.setPlaceholderText("20/20")
+        self.correction.setPlaceholderText("NaN")
+        self.time.setPlaceholderText("NaN")
         
     def asignar_controlador(self, controlador):
         self.__controlador = controlador
@@ -236,7 +239,7 @@ class LoadRegistration(QDialog):
         			"apellidos": self.apellidos.text(),
         			"cc":self.cc.text(),
                     "sexo":(self.sex),
-                    "dominante":(self.domin),
+                    "dominante":(self.domi),
         			"gafas":(self.glass),
         			"snellen":(self.snellen.text()),
         			"corregida":(self.correction.text()),
@@ -281,30 +284,33 @@ class LoadRegistration(QDialog):
             self.activar()
             
     def activar(self):
-    		self.nombre.setEnabled(True)
-    		self.apellidos.setEnabled(True)
-    		self.cc.setEnabled(True)
-    		self.sexo.setEnabled(True)
-    		self.d.setEnabled(True)
-    		self.dominante.setEnabled(True)
-    		self.glasses.setEnabled(True)
-    		self.snellen.setEnabled(True)
-    		self.correction.setEnabled(True)
-    		self.stimulus.setEnabled(True)
-    		self.edad.setEnabled(True)
-    		self.time.setEnabled(True)
-    		self.rp.setEnabled(True)
-    		self.btn_agregar.setEnabled(True)
-    		self.d.setText("")
-    		self.nombre.setText("")
-    		self.apellidos.setText("")
-    		self.cc.setText("")
-    		self.cc.setText("")
-    		self.snellen.setText("")
-    		self.correction.setText("")
-    		self.edad.setText("")
-    		self.time.setText("")
-    		self.rp.setText("")
+        self.nombre.setEnabled(True)
+        self.apellidos.setEnabled(True)
+        self.cc.setEnabled(True)
+        self.sexo.setEnabled(True)
+        self.d.setEnabled(True)
+        self.dominante.setEnabled(True)
+        self.glasses.setEnabled(True)
+        self.snellen.setEnabled(True)
+        self.correction.setEnabled(True)
+        self.stimulus.setEnabled(True)
+        self.edad.setEnabled(True)
+        self.time.setEnabled(True)
+        self.rp.setEnabled(True)
+        self.btn_agregar.setEnabled(True)
+        self.d.setText("")
+        self.nombre.setText("")
+        self.apellidos.setText("")
+        self.cc.setText("")
+        self.cc.setText("")
+        self.snellen.setPlaceholderText("20/20")
+        self.snellen.setText("")
+        self.correction.setPlaceholderText("NaN")
+        self.correction.setText("")
+        self.edad.setText("")
+        self.time.setPlaceholderText("NaN")
+        self.time.setText("")
+        self.rp.setText("")
     
     def show_info(self, result):
         info = result
@@ -726,7 +732,6 @@ class AcquisitionSignal(QMainWindow):
         if data.ndim == 0:
             print("Lista vacia")
             return
-        print('valor frecuencia',freq[-1])
         self.welchPlot.clear()
         self.welchPlot.plot(x=freq,y=Powers[1,:],pen=('#208A8A'))
         self.welchPlot.repaint()
@@ -829,19 +834,33 @@ class DataBase(QDialog):
             item = QTreeWidgetItem(self.tabla)
             for i in range(14):
                 item.setText(i,str(result[i]))
-                
+                        
     def dbclick(self):
-        data = self.tabla.currentItem()
-        buttonReply = QMessageBox.question(self, 'Borrar Información', 
-			u"¿Desea borrar a %s de la lista de integrantes?"%data.text(0), 
-			QMessageBox.Yes | QMessageBox.No)
-        if buttonReply == QMessageBox.Yes:
-            self.__controlador.borrar(data.text(0))
-            self.mostrar_todo()
-        if buttonReply == QMessageBox.No:
-            pass
-        if buttonReply == QMessageBox.Cancel:
-            pass
+        if self.options.currentIndex() == 0:
+            data = self.tabla.currentItem()
+            buttonReply = QMessageBox.question(self, 'Borrar información', 
+    			u"¿Desea eliminar a %s de la lista de sujetos?"%data.text(0), 
+    			QMessageBox.Yes | QMessageBox.No)
+            if buttonReply == QMessageBox.Yes:
+                self.__controlador.borrar(data.text(0))
+                self.mostrar_todo()
+            if buttonReply == QMessageBox.No:
+                pass
+            if buttonReply == QMessageBox.Cancel:
+                pass
+        else:
+            data = self.tabla.currentItem()
+            buttonReply = QMessageBox.question(self, 'Buscar información',
+                u"¿Desea ir a la ubicación del registro de %s?"%data.text(0),
+                QMessageBox.Yes | QMessageBox.No)
+            path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
+            path = os.path.realpath(path)
+            if buttonReply == QMessageBox.Yes:
+                os.startfile(path)
+            if buttonReply == QMessageBox.No:
+                pass
+            if buttonReply == QMessageBox.Cancel:
+                pass
 
     def loadStart(self):
         self.__parentDataBase.show()

@@ -113,7 +113,7 @@ class Stimulus(object):
             header=False
         M = pd.DataFrame(date,columns=['H'])
         M['M']=Mark
-        M.to_csv(file ,mode='a',header=header,index=False, sep=';')
+        M.to_csv(file ,mode='a',header=header,index=True, sep=';')
 
         
     def start_stimulus(self):

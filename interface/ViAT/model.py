@@ -132,7 +132,6 @@ class Model(object):
         try:            
             self.__data = np.roll(self.__data, samples.shape[1])
             self.__laplace = np.roll(self.__laplace, samples.shape[1])
-            print('sample',samples.shape)
             self.__data[0,0:samples.shape[1]] = samples[0,:] #FCz
             self.__data[1,0:samples.shape[1]] = samples[1,:] - samples[0,:]; #Oz - FCz
             self.__data[2,0:samples.shape[1]] = samples[2,:] - samples[0,:]; #O1 - FCz
@@ -167,7 +166,7 @@ class Model(object):
             r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
             d = str(date[1])
             r['H']=pd.Series([d])
-            r.to_csv(loc + '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv' ,mode='a',header=header,index=False, sep=';')
+            r.to_csv(loc + '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv' ,mode='a',header=header,index=True, sep=';')
 
 
     def filtDesign(self):

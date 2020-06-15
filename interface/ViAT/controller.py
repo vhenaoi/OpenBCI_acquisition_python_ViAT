@@ -87,12 +87,7 @@ class Controlador:
     
     def agregar_datos(self, datos):
         return self.system.add_into_collection_one(datos)
-    
-#    def actualizar(self, buscar, materias):
-#        consult = {"cc": buscar}
-#        data = {'$set':{'Materias':materias}}
-#        self.system.update_info(consult, data)
-        
+           
     def obtener_integrantes(self):
         proj = {"_id":0, "d":1,"nombre":1,"apellidos":1, "cc":1, "sexo":1,
                 "dominante":1,"gafas":1,"snellen":1,"corregida":1,
