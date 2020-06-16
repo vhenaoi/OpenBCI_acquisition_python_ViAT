@@ -736,9 +736,9 @@ QComboBox QAbstractItemView {
     <widget class="QLabel" name="logo">
      <property name="geometry">
       <rect>
-       <x>690</x>
+       <x>700</x>
        <y>0</y>
-       <width>171</width>
+       <width>161</width>
        <height>111</height>
       </rect>
      </property>
@@ -991,6 +991,44 @@ QPushButton:pressed {
      </property>
      <property name="wordWrap">
       <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="save">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>210</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: rgb(255, 255, 255)
+    }</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="save"/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="savelogo">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>200</y>
+       <width>51</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>

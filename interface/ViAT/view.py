@@ -181,6 +181,7 @@ class LoadRegistration(QDialog):
         self.setup()
         self.setWindowTitle('Base de datos')
         self.setWindowIcon(QIcon('icono.png'))
+        self.setWindowIcon(QIcon('save.png'))
         self.setup()
         self.show()
         self.__parentLoadRegistration = LR
@@ -197,6 +198,7 @@ class LoadRegistration(QDialog):
         self.next.clicked.connect(self.dataAcquisition)
         self.btn_actualizar.clicked.connect(self.actualizar)
         self.btn_actualizar.setEnabled(False)
+        self.save.clicked.connect(self.location)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         self.snellen.setPlaceholderText("20/20")
@@ -205,6 +207,9 @@ class LoadRegistration(QDialog):
         
     def asignar_controlador(self, controlador):
         self.__controlador = controlador
+        
+    def location(self):
+        pass
     
     def actualizar(self):
         if not (self.d.text() and self.nombre.text() and

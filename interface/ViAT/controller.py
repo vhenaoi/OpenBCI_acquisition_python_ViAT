@@ -17,10 +17,15 @@ from PyQt5.QtWidgets import QApplication
 
 from view import DataBase
 from view import LoadRegistration
+import subprocess
+
 
 # In[]
 class Principal(object):
     def __init__(self):
+        cmd = r'C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe'
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, creationflags=0x08000000)
+        process.wait()
         self.__app = QApplication(sys.argv)
         self.__view = ViAT()
         self.system = Model("ViAT","subject")

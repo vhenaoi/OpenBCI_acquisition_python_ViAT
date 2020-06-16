@@ -22,6 +22,7 @@ import pymysql
 from Stimulation_Acuity import Stimulus
 from datetime import timezone
 from pymongo import MongoClient
+from dataprocessing import Processing
 
 
 
@@ -46,13 +47,10 @@ class Model(object):
 #        data.sample()
         try:
             self.__process = subprocess.Popen('start python randData.py',
-                                              shell=True,
-                                              stdin=subprocess.PIPE,
+                                              shell=True,stdin=subprocess.PIPE,
                                               stdout=subprocess.PIPE,)
             output = self.__process.communicate()[0].decode('utf-8')
             print(output)
-            
-#            self.__Rand=subprocess.call('start /wait python randData.py', shell=True)
     #        if (Rand):
     #            msg = QMessageBox(self.ventana_principal)
     #            msg.setIcon(QMessageBox.Information)
@@ -92,7 +90,8 @@ class Model(object):
          
 
     def stopData(self):
-        
+        save = Processing(self.p[0],self.p[1],self.date[0])
+        save.run()
         self.__inlet.close_stream()
         print('Stop Data Modelo')
         
@@ -153,20 +152,25 @@ class Model(object):
                         'C7':self.__data[6,0:samples.shape[1]],
                         'C8':self.__data[7,0:samples.shape[1]]}
         now = datetime.now()
-        date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
+        self.date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
 #        cwd = os.getcwd()
         cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-        loc = cwd + '/'+date[0]       
+        loc = cwd + '/'+self.date[0]
+        name = '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv'
         if not  os.path.isdir(loc):
             os.mkdir(loc)
             header=True
         else:
-            header=False
+            if os.path.isfile(loc + name):
+                header=False
+            else:
+                header=True
         if not np.all(self.__data==0):
             r = pd.DataFrame(self.__dataT,columns=['C1','C2','C3','C4','C5','C6','C7','C8'])
-            d = str(date[1])
+            d = str(self.date[1])
             r['H']=pd.Series([d])
-            r.to_csv(loc + '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv' ,mode='a',header=header,index=True, sep=';')
+            r=r.fillna(0)
+            r.to_csv(loc + name ,mode='a',header=header,index=True, sep=';')
 
 
     def filtDesign(self):
@@ -218,30 +222,7 @@ class Model(object):
     
     def returnLastStimulus(self):
         self.readData()
-        return         
-    
-    def clinicalhistoryInformation(self, idAnswer,nameAnswer,lastnameAnswer,ccAnswer,
-                     sexAnswer,eyeAnswer,ageAnswer,glassesAnswer,snellenAnswer,
-                     CorrectionAnswer,stimulusAnswer,timeAnswer,
-                     responsibleAnswer):
-
-        if sexAnswer == 0:
-            sexAnswer = 'Femenino'
-        else:
-            sexAnswer = 'Masculino'
-        if eyeAnswer == 0:
-            eyeAnswer = 'Derecho'
-        else:
-            eyeAnswer = 'Izquierdo'
-        if glassesAnswer == 0:
-            glassesAnswer = 'Si'
-        else:
-            glassesAnswer = 'No'
-        if stimulusAnswer == 0:
-            stimulusAnswer = 'Vernier'
-        else:
-             stimulusAnswer = 'Grating'
-            
+        return                 
             
     def add_into_collection_one(self, data):
         self.__collection.insert_one(data)

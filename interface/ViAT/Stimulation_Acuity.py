@@ -148,7 +148,7 @@ class Stimulus(object):
             for i in range(0, 1):  # time of stimulation
                 for num in range(0, 7):  # acuity levels
                     self.save(num+1)        
-                    while (cont <= 6):  # 19.75--8 
+                    while (cont <= 8):  # Doble de tiempo de estimulacion
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:
                                 break
@@ -171,6 +171,7 @@ class Stimulus(object):
                 self.display('0.1.jpg')
                 time.sleep(4) #Rest
 #            self.__outlet.close_stream()
+            self.save(8) 
             pygame.quit()
         except:
             pygame.quit()
