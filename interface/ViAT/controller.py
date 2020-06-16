@@ -79,6 +79,12 @@ class Controller(object):
     def stopStimulus(self):
         self.system.stopStimulus()
         
+    def defineLocation(self):
+        self.system.defineLocation()
+        
+    def laplace_controller(self,laplace1,laplace2,laplace3):
+        self.system.laplace(laplace1,laplace2,laplace3)
+        
 # In[]
 class Controlador:
     def __init__(self, view,system):

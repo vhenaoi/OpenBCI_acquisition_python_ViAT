@@ -181,7 +181,6 @@ class LoadRegistration(QDialog):
         self.setup()
         self.setWindowTitle('Base de datos')
         self.setWindowIcon(QIcon('icono.png'))
-        self.setWindowIcon(QIcon('save.png'))
         self.setup()
         self.show()
         self.__parentLoadRegistration = LR
@@ -201,6 +200,8 @@ class LoadRegistration(QDialog):
         self.save.clicked.connect(self.location)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
+        pixmap2 = QPixmap('save.png')
+        self.savelogo.setPixmap(pixmap2)
         self.snellen.setPlaceholderText("20/20")
         self.correction.setPlaceholderText("NaN")
         self.time.setPlaceholderText("NaN")
@@ -209,7 +210,7 @@ class LoadRegistration(QDialog):
         self.__controlador = controlador
         
     def location(self):
-        pass
+        self.my_controller.defineLocation()
     
     def actualizar(self):
         if not (self.d.text() and self.nombre.text() and
@@ -548,6 +549,7 @@ class DataAcquisition(QMainWindow):
         
         
         self.detectDevice.setEnabled(True)
+        self.startDevice.setEnabled(False)
         self.detectDevice.clicked.connect(self.device)
         
     def device(self):
@@ -722,9 +724,8 @@ class AcquisitionSignal(QMainWindow):
         return self.my_controller.returnLastData()
     
     def stopProcess(self):
-        self.my_controller.stopDevice()        
-        
-
+        self.my_controller.stopDevice()   
+    
     def graphData(self):
         ''' This function allows to graph and save the registry data
             data arrives from the model, where it is acquired by the device 
@@ -732,13 +733,40 @@ class AcquisitionSignal(QMainWindow):
             The date is also saved to have control of the acquisition and to
             be able to carry out the processing with the marks associated with the stimulus.
         '''
+        if self.welch.currentIndex() == 0:
+            c = 0
+            pen=('#208A8A')
+        elif self.welch.currentIndex() == 1:
+            c = 1
+            pen=('#CD10B4')
+        elif self.welch.currentIndex() == 2:
+            c = 2
+            pen=('#1014CD')
+        elif self.welch.currentIndex() == 3:
+            c = 3
+            pen=('#10CD14')
+        elif self.welch.currentIndex() == 4:
+            c = 4
+            pen=('#F7FB24')
+        elif self.welch.currentIndex() == 5:
+            c = 5
+            pen=('#FBB324')
+        elif self.welch.currentIndex() == 6:
+            c = 6
+            pen=('#E53923')
+        else:
+            c = 7
+            pen=('#806123')
+        
+        self.my_controller.laplace_controller(self.laplace1.currentIndex(),self.laplace2.currentIndex(),self.laplace3.currentIndex())
         data, Powers, freq, laplace, Plaplace, flaplace = self.returnLastData()
+       
         data = data - np.mean(data, 0)
         if data.ndim == 0:
             print("Lista vacia")
             return
         self.welchPlot.clear()
-        self.welchPlot.plot(x=freq,y=Powers[1,:],pen=('#208A8A'))
+        self.welchPlot.plot(x=freq,y=Powers[c,:],pen=pen)
         self.welchPlot.repaint()
         self.welchLaplace.clear()
         self.welchLaplace.plot(x=flaplace,y=Plaplace[0,:], pen=('#0D6B9D'))
@@ -771,6 +799,7 @@ class AcquisitionSignal(QMainWindow):
         call the data in the controller
         '''
         self.my_controller.startData()
+        self.stopDevice.setEnabled(False)
 
         print("Iniciar senal")
         self.timer = QtCore.QTimer(self)
@@ -782,6 +811,7 @@ class AcquisitionSignal(QMainWindow):
     def haltGraph(self):
         self.timer.stop()
         self.my_controller.stopData()
+        self.stopDevice.setEnabled(True)
         print("detener senal")
     
 # In[]

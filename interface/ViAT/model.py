@@ -36,8 +36,18 @@ class Model(object):
         self.__collection = self.__db[name_collection]        
         self.__fs = 250
         self.filtDesign()
-        print("se diseño el filtro")       
+        print("se diseño el filtro")
+        self.cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
+        self.processing = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
         
+    def defineLocation(self):
+        path = os.path.realpath(self.cwd)
+        os.startfile(path)
+#        if not  os.path.isdir(path):
+#            self.cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'            
+#        else:
+#            self.cwd = os.getcwd()
+       
                
     def startDevice(self):
         
@@ -90,13 +100,13 @@ class Model(object):
          
 
     def stopData(self):
-        save = Processing(self.p[0],self.p[1],self.date[0])
+        save = Processing(self.p[0],self.p[1],self.date[0],self.cwd,self.processing)
         save.run()
         self.__inlet.close_stream()
         print('Stop Data Modelo')
         
     def startStimulus(self):
-        estimulo = Stimulus(self.p[0],self.p[1])
+        estimulo = Stimulus(self.p[0],self.p[1],self.cwd)
         estimulo.start_stimulus()
         
 
@@ -124,13 +134,12 @@ class Model(object):
                  
         
     def readData(self):
-
         samples, timestamp = self.__inlet.pull_chunk()
         samples = np.transpose(np.asanyarray(samples))
-        self.__laplace = np.zeros((1,2500))
+        self.sh = samples.shape[1]
+        self.s = samples
         try:            
             self.__data = np.roll(self.__data, samples.shape[1])
-            self.__laplace = np.roll(self.__laplace, samples.shape[1])
             self.__data[0,0:samples.shape[1]] = samples[0,:] #FCz
             self.__data[1,0:samples.shape[1]] = samples[1,:] - samples[0,:]; #Oz - FCz
             self.__data[2,0:samples.shape[1]] = samples[2,:] - samples[0,:]; #O1 - FCz
@@ -139,9 +148,11 @@ class Model(object):
             self.__data[5,0:samples.shape[1]] = samples[5,:] - samples[0,:]; #PO8 - FCz
             self.__data[6,0:samples.shape[1]] = samples[6,:] - samples[0,:]; #PO3 - FCz
             self.__data[7,0:samples.shape[1]] = samples[7,:] - samples[0,:]; #PO4 - FCz
-            self.__laplace[0,0:samples.shape[1]] = (samples[1,:]*2)-samples[2,:]-samples[4,:] #2Oz-O1-O2
+            
+            
+            
         except:
-            return
+            return 
 
         self.__dataT = {'C1':samples[0,:],
                         'C2':self.__data[1,0:samples.shape[1]],
@@ -154,8 +165,7 @@ class Model(object):
         now = datetime.now()
         self.date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
 #        cwd = os.getcwd()
-        cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-        loc = cwd + '/'+self.date[0]
+        loc = self.cwd + '/'+self.date[0]
         name = '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv'
         if not  os.path.isdir(loc):
             os.mkdir(loc)
@@ -209,6 +219,63 @@ class Model(object):
         self.ftg, self.Pxxtg = signal.welch(self.__laplace, 
             self.__fs, nperseg=self.__fs*2, noverlap=noverlap);
                             
+    def laplace(self,laplace1,laplace2,laplace3):
+        self.readData()
+        
+        if laplace1 == 0:
+            one = 1
+        elif laplace1 == 1:
+            one = 0
+        elif laplace1 == 2:
+            one = 2
+        elif laplace1 == 3:
+            one = 3
+        elif laplace1 == 4:
+            one = 4
+        elif laplace1 == 5:
+            one = 5
+        elif laplace1 == 6:
+            one = 6
+        else:
+            one = 7  
+        if laplace2 == 0:
+            two = 2
+        elif laplace2 == 1:
+            two = 0
+        elif laplace2 == 2:
+            two = 1
+        elif laplace2 == 3:
+            two = 3
+        elif laplace2 == 4:
+            two = 4
+        elif laplace2 == 5:
+            two = 5
+        elif laplace2 == 6:
+            two = 6
+        else:
+            two = 7  
+        if laplace3 == 0:
+            three = 4
+        elif laplace3 == 1:
+            three = 0
+        elif laplace3 == 2:
+            three = 1
+        elif laplace3 == 3:
+            three = 3
+        elif laplace3 == 4:
+            three = 2
+        elif laplace3 == 5:
+            three = 5
+        elif laplace3 == 6:
+            three = 6
+        else:
+            three = 7 
+        self.__laplace = np.zeros((1,2500))
+        self.__laplace = np.roll(self.__laplace, self.sh)
+        self.__laplace[0,0:self.sh] = (self.s[one,:]*2)-self.s[two,:]-self.s[three,:]
+        
+        
+        
         
 
     def returnLastData(self):        

@@ -36,6 +36,7 @@ class RandData(object):
             self.outlet.push_sample(self.mysample)
 #            print(self.mysample)
             time.sleep(0.003)
+            print('Enviando datos')
 
             
 

@@ -13,25 +13,25 @@ import scipy.signal as signal2
 from datetime import datetime
 
 class Processing(object):
-    def __init__(self,id_Subject,cc_Subject,date):
+    def __init__(self,id_Subject,cc_Subject,date,loc,save):
         self.__subject = id_Subject
         self.__cc = cc_Subject
         self.__date = date
+        self.loc = loc
+        self.path_save=save
     
     def run(self):
         self.__record = pd.DataFrame()
         name = str(self.__subject)+'_'+str(self.__cc)
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-        path_Record = loc +'/' +self.__date +'/Record_'+name+'.csv'
-        path_Mark = loc +'/' +self.__date +'/Mark_'+name+'.csv'
-        path_save = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
+        path_Record = self.loc +'/' +self.__date +'/Record_'+name+'.csv'
+        path_Mark = self.loc +'/' +self.__date +'/Mark_'+name+'.csv'
         self.__fs = 250
         self.__time_stimuli = 4 # time to stimulation + time rest
         values = []
         frec = []
         now = datetime.now()
         d = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        path_new = path_save+'/'+d[0]
+        path_new = self.path_save+'/'+d[0]
         try:
             os.mkdir(path_new)
         except OSError as e:
@@ -66,15 +66,15 @@ class Processing(object):
             frec.append(maxValuex[0])
             doc = pd.DataFrame(values,columns=['Max'])
             doc['Fre']=frec
-            if not  os.path.isdir(loc):
-                os.mkdir(loc)
+            if not  os.path.isdir(self.loc):
+                os.mkdir(self.loc)
                 header=True
             else:
-                if os.path.isfile(loc + name):
+                if os.path.isfile(self.loc + name):
                     header=False
                 else:
                     header=True
-        doc.to_csv(path_new+'/'+'Segment'+'_'+name+'.csv' ,mode='a',header=header,index=True, sep=';')           
+        doc.to_csv(path_new+'/'+'Parameters'+'_'+name+'.csv' ,mode='a',header=header,index=True, sep=';')           
 #        return Record,Mark,index,listMark,start,end,Markdata,maxValue,values,frec
     
 # In[To run individually]

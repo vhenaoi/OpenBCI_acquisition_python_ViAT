@@ -43,7 +43,7 @@ class Stimulus(object):
     The frecuencia of stimulation is 7.5Hz and represents different level 
     vernier acuity at 6 point.    
     '''
-    def __init__(self,id_Subject,cc_Subject):
+    def __init__(self,id_Subject,cc_Subject,loc):
         """
         See :func:`start_stimulus` for details
         
@@ -69,6 +69,7 @@ class Stimulus(object):
 #        self.__outlet = StreamOutlet(self.info,1,3)
         self.id = id_Subject
         self.cc = cc_Subject
+        self.loc=loc
     
         
 
@@ -105,7 +106,7 @@ class Stimulus(object):
         now = datetime.now()
         d = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
         date = {'H':[str(d[1])]}
-        loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'+ '/'+d[0]
+        loc = self.loc+ '/'+d[0]
         file = loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
         if not  os.path.isfile(file):
             header=True

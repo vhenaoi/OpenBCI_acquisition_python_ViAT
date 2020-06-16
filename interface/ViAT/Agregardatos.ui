@@ -998,21 +998,38 @@ QPushButton:pressed {
       <rect>
        <x>700</x>
        <y>210</y>
-       <width>51</width>
-       <height>23</height>
+       <width>91</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    border: 2px solid rgb(255, 255, 255);
+    border: 2px solid gray;
     border-radius: 10px;
     padding: 0 8px;
     background: rgb(255, 255, 255);
-    selection-background-color: rgb(255, 255, 255)
-    }</string>
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
      </property>
      <property name="text">
-      <string/>
+      <string>Ver ubicación</string>
      </property>
      <property name="icon">
       <iconset theme="save"/>
@@ -1021,8 +1038,8 @@ QPushButton:pressed {
     <widget class="QLabel" name="savelogo">
      <property name="geometry">
       <rect>
-       <x>700</x>
-       <y>200</y>
+       <x>730</x>
+       <y>170</y>
        <width>51</width>
        <height>41</height>
       </rect>
