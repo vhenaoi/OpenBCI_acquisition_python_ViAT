@@ -39,6 +39,7 @@ class Model(object):
         print("se diseño el filtro")
         self.cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
         self.processing = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
+
         
     def defineLocation(self):
         path = os.path.realpath(self.cwd)
@@ -350,5 +351,24 @@ class Model(object):
         
     def delete_db(self, db):
         self.__client[db].drop()
+        
+    # Mtodo assign_data() donde reasigna valores a variables y organiza la seal. 
+    def init_assign_data(self,data=None):
+        if not np.all(data)==None:
+            self.assign_data(data)
+        else:
+            self.__data=np.asarray([])
+            
+    def assign_data(self,data):
+        self.__data=data
+    # Mtodo devlver_segmento() para permitir el avance en el tiempo de la se.
+    def return_segment(self,x_min,x_max):
+        if x_min>=x_max:
+            return None
+        return self.__data[:,x_min:x_max]
+    # Mtodo escalar_senal() para realizar la amplitud o disminucin de la sel.
+    def signal_scale(self,x_min,x_max,escala):
+        copia_datos=self.__data[:,x_min:x_max].copy()
+        return copia_datos*escala
 
         

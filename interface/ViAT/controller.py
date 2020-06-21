@@ -32,7 +32,7 @@ class Principal(object):
         self.my_controller = Controller(self.__view, self.system)
         self.__controlador = Controlador(self.__view, self.system)
         self.__view.assignController(self.my_controller)
-        self.__view.asignar_controlador(self.__controlador)
+        self.__view.assign_controller(self.__controlador)
     def main(self):
         self.__view.show()
         sys.exit(self.__app.exec_())
@@ -85,41 +85,50 @@ class Controller(object):
     def laplace_controller(self,laplace1,laplace2,laplace3):
         self.system.laplace(laplace1,laplace2,laplace3)
         
+    def ReceiveData(self,data):
+        self.system.init_assign_data(data)
+        
+    def returnDataSenal(self,x_min,x_max):
+        return self.system.return_segment(x_min,x_max)
+    
+    def scaleSignal(self,x_min,x_max,escala):
+        return self.system.signal_scale(x_min,x_max,escala)
+        
 # In[]
 class Controlador:
     def __init__(self, view,system):
         self.__view = view
         self.system = system
    
-    def mostrar(self, controlador):
+    def see(self, controlador):
         self.integrantes= DataBase()
-        self.integrantes.asignar_controlador(controlador)
+        self.integrantes.assign_controller(controlador)
         self.integrantes.show()
     
-    def agregar_datos(self, datos):
+    def add_data(self, datos):
         return self.system.add_into_collection_one(datos)
            
-    def obtener_integrantes(self):
+    def get_integrants(self):
         proj = {"_id":0, "d":1,"nombre":1,"apellidos":1, "cc":1, "sexo":1,
                 "dominante":1,"gafas":1,"snellen":1,"corregida":1,
                 "estimulo":1,"edad":1,"tiempo":1,"rp":1,"ubicacion":1}
         return self.system.search_many({}, proj)
     
-    def buscar_integrantes(self, buscar):
+    def search_integrantes(self, buscar):
         consult = {"cc":{"$regex": buscar}}
         proj = {"_id":0, "d":1,"nombre":1,"apellidos":1, "cc":1, "sexo":1,
                 "dominante":1,"gafas":1,"snellen":1,"corregida":1,
                 "estimulo":1,"edad":1,"tiempo":1,"rp":1,"ubicacion":1}
         return self.system.search_many(consult, proj)
     
-    def obtener_uno(self, buscar):
+    def get_one(self, buscar):
         consult = {"cc":buscar}
         proj = {"_id":0, "d":1,"nombre":1,"apellidos":1, "cc":1, "sexo":1,
                 "dominante":1,"gafas":1,"snellen":1,"corregida":1,
                 "estimulo":1,"edad":1,"tiempo":1,"rp":1,"ubicacion":1}
         return self.system.search_one(consult, proj)
     
-    def borrar(self, dato):
+    def delete(self, dato):
         consult = {"cc": dato}
         self.system.delete_data(consult)
         

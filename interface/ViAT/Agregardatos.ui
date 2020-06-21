@@ -380,7 +380,7 @@ QComboBox QAbstractItemView {
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QPushButton" name="btn_buscar">
+       <widget class="QPushButton" name="btn_search">
         <property name="minimumSize">
          <size>
           <width>61</width>
@@ -801,7 +801,7 @@ QPushButton:pressed {
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="btn_agregar">
+       <widget class="QPushButton" name="btn_add">
         <property name="minimumSize">
          <size>
           <width>261</width>
@@ -840,7 +840,7 @@ QPushButton:pressed {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_actualizar">
+       <widget class="QPushButton" name="btn_update">
         <property name="minimumSize">
          <size>
           <width>261</width>
@@ -879,7 +879,7 @@ QPushButton:pressed {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_mostrar">
+       <widget class="QPushButton" name="btn_show">
         <property name="minimumSize">
          <size>
           <width>191</width>
@@ -1032,7 +1032,8 @@ QPushButton:pressed {
       <string>Ver ubicación</string>
      </property>
      <property name="icon">
-      <iconset theme="save"/>
+      <iconset theme="save">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
     <widget class="QLabel" name="savelogo">
@@ -1223,7 +1224,7 @@ QPushButton:pressed {
  <tabstops>
   <tabstop>le_nombre_materia</tabstop>
   <tabstop>cb_estado</tabstop>
-  <tabstop>btn_mostrar</tabstop>
+  <tabstop>btn_show</tabstop>
  </tabstops>
  <resources/>
  <connections/>

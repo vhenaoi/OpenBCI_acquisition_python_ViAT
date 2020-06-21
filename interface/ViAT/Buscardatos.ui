@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTreeWidget" name="tabla">
+  <widget class="QTreeWidget" name="table">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -178,7 +178,7 @@
       <height>429</height>
      </rect>
     </property>
-    <widget class="QCommandLinkButton" name="btn_mostrar">
+    <widget class="QCommandLinkButton" name="btn_show">
      <property name="geometry">
       <rect>
        <x>600</x>
@@ -202,7 +202,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="le_buscar">
+       <widget class="QLineEdit" name="line_search">
         <property name="styleSheet">
          <string notr="true">QLineEdit {
     border: 2px solid gray;
@@ -216,7 +216,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_buscar">
+       <widget class="QPushButton" name="btn_search">
         <property name="minimumSize">
          <size>
           <width>111</width>
@@ -395,10 +395,54 @@ QComboBox QAbstractItemView {
       </property>
      </item>
     </widget>
+    <widget class="QPushButton" name="display">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>380</y>
+       <width>151</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+     </property>
+     <property name="text">
+      <string>Visualizar señales</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <zorder>scrollArea</zorder>
-  <zorder>tabla</zorder>
+  <zorder>table</zorder>
  </widget>
  <resources/>
  <connections/>

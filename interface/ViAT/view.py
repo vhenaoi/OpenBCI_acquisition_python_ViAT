@@ -33,6 +33,7 @@ from matplotlib.figure import Figure
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
 import scipy.io as sio
 import numpy as np
 from scipy.signal import welch
@@ -149,7 +150,7 @@ class ViAT(QMainWindow):
         # create connection to controller
         self.my_controller = controller
         
-    def asignar_controlador(self, controlador):
+    def assign_controller(self, controlador):
         self.__controlador = controlador
 
     def setup(self):
@@ -190,13 +191,14 @@ class LoadRegistration(QDialog):
 #        self.__loc = os.getcwd()
         
     def setup(self):
-        self.btn_buscar.clicked.connect(self.buscar)
-        self.btn_agregar.clicked.connect(self.agregar)
-        self.btn_mostrar.clicked.connect(self.mostrar)
+        self.btn_search.clicked.connect(self.find)
+        self.btn_add.clicked.connect(self.add)
+        self.btn_show.clicked.connect(self.see)
         self.back.clicked.connect(self.loadStart)
         self.next.clicked.connect(self.dataAcquisition)
-        self.btn_actualizar.clicked.connect(self.actualizar)
-        self.btn_actualizar.setEnabled(False)
+        self.btn_update.clicked.connect(self.upgrade)
+        self.btn_update.setEnabled(False)
+        self.next.setEnabled(False)
         self.save.clicked.connect(self.location)
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
@@ -206,13 +208,13 @@ class LoadRegistration(QDialog):
         self.correction.setPlaceholderText("NaN")
         self.time.setPlaceholderText("NaN")
         
-    def asignar_controlador(self, controlador):
+    def assign_controller(self, controlador):
         self.__controlador = controlador
         
     def location(self):
         self.my_controller.defineLocation()
     
-    def actualizar(self):
+    def upgrade(self):
         if not (self.d.text() and self.nombre.text() and
                 self.apellidos.text() and self.cc.text() and 
                 self.snellen.text() and self.correction.text()  and 
@@ -256,40 +258,41 @@ class LoadRegistration(QDialog):
                     "ubicacion":(str(self.__loc))
                     }
     
-            bandera = self.__controlador.agregar_datos(data)
-            if bandera == True:
+            band = self.__controlador.add_data(data)
+            if band == True:
                 msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Information)
                 msg.setText("Información Actualizada")
                 msg.show()
-            self.activar()
-    def desactivar(self):
+            self.activate()
+    def deactivate(self):
        self.nombre.setEnabled(False)
        self.apellidos.setEnabled(False)
        self.d.setEnabled(False)
        self.cc.setEnabled(False)
        self.sexo.setEnabled(False)
        self.dominante.setEnabled(False)
-       self.btn_buscar.setEnabled(False)
-       self.btn_actualizar.setEnabled(True)
+       self.btn_search.setEnabled(False)
+       self.btn_update.setEnabled(True)
        
 
         
-    def buscar(self):
-        buscar = self.cc.text()
-        result = self.__controlador.obtener_uno(buscar)
+    def find(self):
+        find = self.cc.text()
+        result = self.__controlador.get_one(find)
         if result != False:
             self.show_info(result)
-            self.desactivar()
+            self.deactivate()
         else:
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Information)
             msg.setText("Información no encontrada")
             msg.show()
             
-            self.activar()
+            self.activate()
+        self.next.setEnabled(True)
             
-    def activar(self):
+    def activate(self):
         self.nombre.setEnabled(True)
         self.apellidos.setEnabled(True)
         self.cc.setEnabled(True)
@@ -303,7 +306,7 @@ class LoadRegistration(QDialog):
         self.edad.setEnabled(True)
         self.time.setEnabled(True)
         self.rp.setEnabled(True)
-        self.btn_agregar.setEnabled(True)
+        self.btn_add.setEnabled(True)
         self.d.setText("")
         self.nombre.setText("")
         self.apellidos.setText("")
@@ -344,9 +347,9 @@ class LoadRegistration(QDialog):
         self.edad.setText(str(info[10]))
         self.time.setText(str(info[11]))
         self.rp.setText(str(info[12]))
-        self.btn_agregar.setEnabled(False)
+        self.btn_add.setEnabled(False)
             
-    def agregar(self):
+    def add(self):
         if not (self.d.text() and self.nombre.text() and
                 self.apellidos.text() and self.cc.text() and 
                 self.snellen.text() and self.correction.text()  and 
@@ -391,15 +394,16 @@ class LoadRegistration(QDialog):
                 }
 
             
-            bandera = self.__controlador.agregar_datos(data)
-            if bandera == True:
+            band = self.__controlador.add_data(data)
+            if band == True:
                 msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Information)
                 msg.setText("Información Agregada")
                 msg.show()
-            self.activar()
+            self.activate()
+        self.next.setEnabled(True)
         
-    def mostrar(self):
+    def see(self):
             self.__registry = DataBase(self,self.__controlador,self.my_controller)
             self.__registry.show()
             self.hide()
@@ -642,6 +646,7 @@ class AcquisitionSignal(QMainWindow):
         self.stopGraph.clicked.connect(self.haltGraph)
         self.adquisitionInfo.clicked.connect(self.info)
         self.stopDevice.clicked.connect(self.stopProcess)
+        self.display.clicked.connect(self.displaysignal)
     
     def closeData(self,data):
         data.close()
@@ -813,6 +818,12 @@ class AcquisitionSignal(QMainWindow):
         self.my_controller.stopData()
         self.stopDevice.setEnabled(True)
         print("detener senal")
+        
+    def displaysignal(self):
+        self.__registry = GraphicalInterface(self,self.__controlador, self.my_controller)
+        self.__registry.show()
+        self.hide()
+        
     
 # In[]
         
@@ -824,67 +835,68 @@ class DataBase(QDialog):
         self.setWindowIcon(QIcon('icono.png'))
         self.setup()
         self.show()
-        self.configurar_TreeWidget()
+        self.setup_TreeWidget()
         self.__parentDataBase = DB
         self.__controlador = controlador
         self.my_controller = controller
         
-    def configurar_TreeWidget(self):
-    		self.tabla.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
-    		self.tabla.setColumnWidth(0, 150)
-    		self.tabla.setColumnWidth(1, 110)
-    		self.tabla.setColumnWidth(2, 110)
-    		self.tabla.setColumnWidth(3, 110)
-    		self.tabla.setColumnWidth(4, 110)
-    		self.tabla.setColumnWidth(5, 110)
+    def setup_TreeWidget(self):
+    		self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
+    		self.table.setColumnWidth(0, 150)
+    		self.table.setColumnWidth(1, 110)
+    		self.table.setColumnWidth(2, 110)
+    		self.table.setColumnWidth(3, 110)
+    		self.table.setColumnWidth(4, 110)
+    		self.table.setColumnWidth(5, 110)
             
-    def asignar_controlador(self, controlador):
+    def assign_controller(self, controlador):
         self.__controlador = controlador
     
     def setup(self):
-        self.le_buscar.setPlaceholderText("Cedula del sujeto")
-        self.btn_mostrar.clicked.connect(self.mostrar_todo)
-        self.btn_buscar.clicked.connect(self.buscar)
-        self.tabla.itemDoubleClicked.connect(self.dbclick)
+        self.line_search.setPlaceholderText("Cedula del sujeto")
+        self.btn_show.clicked.connect(self.show_everything)
+        self.btn_search.clicked.connect(self.find)
+        self.table.itemDoubleClicked.connect(self.dbclick)
         self.back.clicked.connect(self.loadStart)
+        self.display.clicked.connect(self.displaysignal)
 
         pixmap1 = QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         
-    def mostrar_todo(self):
-        results = self.__controlador.obtener_integrantes()
-        self.mostrar(results)
+    def show_everything(self):
+        results = self.__controlador.get_integrants()
+        self.see(results)
         
             
-    def buscar(self):
-    		buscar = self.le_buscar.text()
-    		self.le_buscar.setText("")
-    		self.le_buscar.setPlaceholderText("Cedula del sujeto")
-    		results = self.__controlador.buscar_integrantes(buscar)
-    		self.mostrar(results)
+    def find(self):
+    		find = self.line_search.text()
+    		self.line_search.setText("")
+    		self.line_search.setPlaceholderText("Cedula del sujeto")
+    		results = self.__controlador.search_integrantes(find)
+    		self.see(results)
             
-    def mostrar(self, results):
-        self.tabla.clear()
+    def see(self, results):
+        self.table.clear()
         for result in results:
-            item = QTreeWidgetItem(self.tabla)
+            item = QTreeWidgetItem(self.table)
             for i in range(14):
                 item.setText(i,str(result[i]))
                         
     def dbclick(self):
         if self.options.currentIndex() == 0:
-            data = self.tabla.currentItem()
+            data = self.table.currentItem()
             buttonReply = QMessageBox.question(self, 'Borrar información', 
     			u"¿Desea eliminar a %s de la lista de sujetos?"%data.text(0), 
     			QMessageBox.Yes | QMessageBox.No)
             if buttonReply == QMessageBox.Yes:
-                self.__controlador.borrar(data.text(0))
-                self.mostrar_todo()
+                self.__controlador.delete(data.text(0))
+                self.show_everything()
             if buttonReply == QMessageBox.No:
                 pass
             if buttonReply == QMessageBox.Cancel:
                 pass
         else:
-            data = self.tabla.currentItem()
+            data = self.table.currentItem()
             buttonReply = QMessageBox.question(self, 'Buscar información',
                 u"¿Desea ir a la ubicación del registro de %s?"%data.text(0),
                 QMessageBox.Yes | QMessageBox.No)
@@ -900,5 +912,188 @@ class DataBase(QDialog):
     def loadStart(self):
         self.__parentDataBase.show()
         self.hide()
+    
+    def displaysignal(self):
+        self.__registry = GraphicalInterface(self,self.__controlador, self.my_controller)
+        self.__registry.show()
+        self.hide()
+        
     	
+# In[]
 
+"""
+Se crea la clase MyGraphCanvas() donde se define el espacio para graficar la seal que el usuario
+desee abrir. Adems, se inicializa con la funcin senoidal. 
+"""
+class MyGraphCanvas(FigureCanvas):
+    # Constructor con las dimensiones de la ventana y un campo para graficar. 
+    def __init__(self, parent= None,width=5, height=5, dpi=100):    
+        self.fig=Figure(figsize=(width, height), dpi=dpi)
+        self.axes=self.fig.add_subplot(111)
+        self.compute_initial_figure()
+        FigureCanvas.__init__(self,self.fig)
+    # Mtodo con la grfica inicial, en este caso la funcin senoidal
+    def compute_initial_figure(self):
+        t = np.arange(0.0, 3.0, 0.01)
+        s = np.sin(2*np.pi*t)
+        self.axes.plot(t,s)
+    # Mtodo para graficar la seal
+    def graph_data(self,datos):
+        # Se limpia el campo donde se grafica la seal para evitar que queden superpuestas
+        self.axes.clear()
+        for c in range(datos.shape[0]):
+            self.axes.plot(datos[c,:]+c*10)
+        self.axes.set_xlabel("Muestras")
+        self.axes.set_ylabel("Voltaje (uV)")
+        self.axes.set_title('Registro EEG - Visualización ViAT')
+        self.axes.figure.canvas.draw()       
+
+"""
+Se crea la clase MyGraphCanvas01() donde se define el espacio para graficar el periodograma para los 
+parametros que el usuario le pase al programa.
+"""
+class MyGraphCanvas01(FigureCanvas):
+    # Constructor con tamao del campo grfico y un campo para graficar la rutina de Welch
+    def __init__(self,parent= None,width=5, height=5, dpi=100):
+        self.fig01=Figure(figsize=(width, height), dpi=dpi)
+        self.axes_welch=self.fig01.add_subplot(111)
+        FigureCanvas.__init__(self,self.fig01)
+    def save_graphic(self,nombre):
+        self.fig01.savefig(nombre+'.png')
+        
+class GraphicalInterface(QMainWindow):
+    # Constructor con lanzador para la ventana
+    def __init__(self,IG,controlador , controller):
+        super(GraphicalInterface,self).__init__()
+        loadUi ('visualizacion.ui',self)
+        self.setup()
+        self.show()
+        self.__x_min=0
+        self.__x_max=0
+        self.setWindowTitle('Visualización')
+        self.setWindowIcon(QIcon('icono.png'))
+        self.setup()
+        self.show()
+        self.setup_TreeWidget()
+        self.__parentGraphicInterface = IG
+        self.__controlador = controlador
+        self.my_controller = controller
+    # Se configuran las seales y los slots de los botones.
+    def setup(self):
+        # Validadores para campos graficos y datos solamente numricos
+        layout=QVBoxLayout()
+        self.campo_grafico.setLayout(layout)
+        self.__sc=MyGraphCanvas(self.campo_grafico,width=5,height=5,dpi=100)
+        layout.addWidget(self.__sc)
+        self.btn_load.clicked.connect(self.load_signal)
+        self.btn_ahead.clicked.connect(self.forward_signal)
+        self.btn_behind.clicked.connect(self.delay_signal)
+        self.btn_increase.clicked.connect(self.increase_signal)
+        self.btn_decrease.clicked.connect(self.decrease_signal)    
+        self.btn_leave.clicked.connect(self.toclose)
+        self.btn_ahead.setEnabled(False)
+        self.btn_behind.setEnabled(False)
+        self.btn_increase.setEnabled(False)
+        self.btn_decrease.setEnabled(False)
+        self.line_search.setPlaceholderText("Cedula del sujeto")
+        self.btn_search.clicked.connect(self.find)
+        self.table.itemDoubleClicked.connect(self.dbclick)
+        self.back.clicked.connect(self.loadStart)
+
+        pixmap1 = QPixmap('blanclogo.png')
+        self.logo.setPixmap(pixmap1)
+        
+    def setup_TreeWidget(self):
+    		self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
+    		self.table.setColumnWidth(0, 150)
+    		self.table.setColumnWidth(1, 110)
+    		self.table.setColumnWidth(2, 110)
+    		self.table.setColumnWidth(3, 110)
+    		self.table.setColumnWidth(4, 110)
+    		self.table.setColumnWidth(5, 110)    
+    # Mtodo para cerrar el programa
+    def toclose(self):
+        self.close()
+    # Asignacin de controlador para hacer la conexin en el modelo MVC
+    def assign_controller(self,controller):
+        self.my_controller=controller
+    # Mtodo para adelantar la seal un segundo en el tiempo. Esto corresponde a 2000 puntos en la seal
+    def forward_signal(self):
+        self.__x_min=self.__x_min+2000
+        self.__x_max=self.__x_max+2000
+        self.__sc.graph_data(self.my_controller.returnDataSenal(self.__x_min,self.__x_max))
+    # Mtodo para atrasar la seal un segundo en el tiempo. Esto corresponde a 2000 puntos en la seal
+    def delay_signal(self):
+        if self.__x_min<2000:
+            return
+        self.__x_min=self.__x_min-2000
+        self.__x_max=self.__x_max-2000
+        self.__sc.graph_data(self.my_controller.returnDataSenal(self.__x_min,self.__x_max))
+    # Mtodo para aumentar la amplitud de la seal
+    def increase_signal(self):
+        self.__sc.graph_data(self.my_controller.scaleSignal(self.__x_min,self.__x_max,2))
+    # Mtodo para disminuir la amplitud de la seal
+    def decrease_signal(self):
+        self.__sc.graph_data(self.my_controller.scaleSignal(self.__x_min,self.__x_max,0.5))
+    # Mtodo de cargar la seal a la vista
+    def load_signal(self):
+        archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir seal","","Todos los archivos (*);;Archivos mat (*.mat)*")
+        if archivo_cargado != "":
+            d = pd.read_csv(archivo_cargado, header=None)
+            d = d.values
+            d = d[0:8,:]*100000
+            d[1] = d[1,:] - d[0,:]
+            d[2] = d[2,:] - d[0,:]
+            d[3] = d[3,:] - d[0,:]
+            d[4] = d[4,:] - d[0,:]
+            d[5] = d[5,:] - d[0,:]
+            d[6] = d[6,:] - d[0,:]
+            d[7] = d[7,:] - d[0,:]
+            print(d.size/250)
+            senal_continua = d
+            self.__senal=senal_continua
+            self.my_controller.ReceiveData(senal_continua)
+            self.__x_min=0
+            self.__x_max=2000
+            self.__sc.graph_data(self.my_controller.returnDataSenal(self.__x_min,self.__x_max))
+            self.btn_ahead.setEnabled(True)
+            self.btn_behind.setEnabled(True)
+            self.btn_increase.setEnabled(True)
+            self.btn_decrease.setEnabled(True)
+    def show_everything(self):
+        results = self.__controlador.get_integrants()
+        self.see(results)
+        
+            
+    def find(self):
+    		find = self.line_search.text()
+    		self.line_search.setText("")
+    		self.line_search.setPlaceholderText("Cedula del sujeto")
+    		results = self.__controlador.search_integrantes(find)
+    		self.see(results)
+            
+    def see(self, results):
+        self.table.clear()
+        for result in results:
+            item = QTreeWidgetItem(self.table)
+            for i in range(14):
+                item.setText(i,str(result[i]))
+                        
+    def dbclick(self):
+            data = self.table.currentItem()
+            buttonReply = QMessageBox.question(self, 'Buscar información',
+                u"¿Desea ir a la ubicación del registro de %s?"%data.text(0),
+                QMessageBox.Yes | QMessageBox.No)
+            path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
+            path = os.path.realpath(path)
+            if buttonReply == QMessageBox.Yes:
+                os.startfile(path)
+            if buttonReply == QMessageBox.No:
+                pass
+            if buttonReply == QMessageBox.Cancel:
+                pass
+
+    def loadStart(self):
+        self.__parentGraphicInterface.show()
+        self.hide()
+        
