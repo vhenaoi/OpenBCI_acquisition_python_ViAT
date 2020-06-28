@@ -25,6 +25,7 @@ class RandData(object):
 
         # next make an outlet
         self.outlet = StreamOutlet(self.info)
+        print('Enviando datos')
 
     def sample(self):        
         while True:
@@ -36,7 +37,7 @@ class RandData(object):
             self.outlet.push_sample(self.mysample)
 #            print(self.mysample)
             time.sleep(0.003)
-            print('Enviando datos')
+            
 
             
 

@@ -106,7 +106,8 @@ class Stimulus(object):
         now = datetime.now()
         d = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
         date = {'H':[str(d[1])]}
-        loc = self.loc+ '/'+d[0]
+        loc = self.loc +'/'+d[0]
+#        loc = self.loc+ '/'+d[0]
         file = loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
         if not  os.path.isfile(file):
             header=True
@@ -161,11 +162,11 @@ class Stimulus(object):
                                 if e.key == pygame.K_ESCAPE: # key escape: exit
                                     pygame.quit()
                         if state == RUNNING:
-                            time.sleep(1/15)  # 1/15
-                            self.display(str(num) + '.jpg')
+                            self.display('0.jpg')
                             time.sleep(1/15)  # 1/15
                             cont += 1
-                            self.display('0.jpg')
+                            self.display(str(num) + '.jpg')
+                            time.sleep(1/15)  # 1/15
                         elif state == PAUSE:
                             self.__screen.blit(pause_text, (100, 100))
                     cont = 0
@@ -179,5 +180,6 @@ class Stimulus(object):
 
 # In[To run individually]
 if __name__ == '__main__':
-    estimulo = Stimulus()
+    
+    estimulo = Stimulus('H1','1152207135',r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records\H1_1152207135')
     estimulo.start_stimulus()

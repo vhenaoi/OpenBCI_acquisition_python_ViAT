@@ -10,10 +10,373 @@
     <height>582</height>
    </rect>
   </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
   <property name="windowTitle">
    <string>Señales EEG</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btn_ahead">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>360</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>-&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_decrease">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>170</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_behind">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>360</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>&lt;-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_load">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>130</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>Cargar señal</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="line_search">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>390</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+}
+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_search">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>420</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>111</width>
+      <height>21</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>111</width>
+      <height>21</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>Buscar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>510</y>
+      <width>252</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>Atras</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
    <widget class="QWidget" name="campo_grafico" native="true">
     <property name="geometry">
      <rect>
@@ -24,591 +387,200 @@
      </rect>
     </property>
    </widget>
-   <widget class="QScrollArea" name="scrollArea">
+   <widget class="QTreeWidget" name="table">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>851</width>
-      <height>541</height>
+      <x>20</x>
+      <y>390</y>
+      <width>641</width>
+      <height>111</height>
      </rect>
     </property>
-    <property name="palette">
-     <palette>
-      <active>
-       <colorrole role="Base">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="Window">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </active>
-      <inactive>
-       <colorrole role="Base">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="Window">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </inactive>
-      <disabled>
-       <colorrole role="Base">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="Window">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </disabled>
-     </palette>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>849</width>
-       <height>539</height>
-      </rect>
+    <column>
+     <property name="text">
+      <string>ID</string>
      </property>
-     <widget class="QPushButton" name="btn_load">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>130</y>
-        <width>131</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>Cargar señal</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_leave">
-      <property name="geometry">
-       <rect>
-        <x>650</x>
-        <y>510</y>
-        <width>171</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>Cerrar </string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="logo">
-      <property name="geometry">
-       <rect>
-        <x>660</x>
-        <y>0</y>
-        <width>171</width>
-        <height>111</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_behind">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>360</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>&lt;-</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_ahead">
-      <property name="geometry">
-       <rect>
-        <x>590</x>
-        <y>360</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>-&gt;</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_increase">
-      <property name="geometry">
-       <rect>
-        <x>660</x>
-        <y>170</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_decrease">
-      <property name="geometry">
-       <rect>
-        <x>750</x>
-        <y>170</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>-</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="line_search">
-      <property name="geometry">
-       <rect>
-        <x>670</x>
-        <y>390</y>
-        <width>161</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLineEdit {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-}
-</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_search">
-      <property name="geometry">
-       <rect>
-        <x>680</x>
-        <y>420</y>
-        <width>111</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>111</width>
-        <height>21</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>111</width>
-        <height>21</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>Buscar</string>
-      </property>
-     </widget>
-     <widget class="QTreeWidget" name="table">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>390</y>
-        <width>641</width>
-        <height>111</height>
-       </rect>
-      </property>
-      <column>
-       <property name="text">
-        <string>ID</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Nombre</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Apellidos</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>CC</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Sexo</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Ojo dominante</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Gafas</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Snellen</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Snellen corregido</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Estimulo</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Edad</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Tiempo</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Responsable</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Ubicación</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QPushButton" name="back">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>510</y>
-        <width>252</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-      </property>
-      <property name="text">
-       <string>Atras</string>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QCommandLinkButton" name="btn_show">
-      <property name="geometry">
-       <rect>
-        <x>660</x>
-        <y>450</y>
-        <width>161</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Mostrar todo</string>
-      </property>
-     </widget>
-    </widget>
+    </column>
+    <column>
+     <property name="text">
+      <string>Nombre</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Apellidos</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>CC</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Sexo</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Ojo dominante</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Gafas</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Snellen</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Snellen corregido</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Estimulo</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Edad</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Tiempo</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Responsable</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Ubicación</string>
+     </property>
+    </column>
    </widget>
-   <zorder>scrollArea</zorder>
-   <zorder>campo_grafico</zorder>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>0</y>
+      <width>171</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_increase">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>170</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QCommandLinkButton" name="btn_show">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>450</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mostrar todo</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_leave">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>510</y>
+      <width>171</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+    </property>
+    <property name="text">
+     <string>Cerrar </string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

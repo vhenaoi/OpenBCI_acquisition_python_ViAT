@@ -11,35 +11,36 @@ from linearFIR import filter_design
 from nonlinear import hampelFilter
 import scipy.signal as signal
 import os
-import sys
 from datetime import datetime
-#import errno
 import pandas as pd
-import csv
 from serial.tools import list_ports
 import subprocess
-import pymysql
 from Stimulation_Acuity import Stimulus
-from datetime import timezone
 from pymongo import MongoClient
 from dataprocessing import Processing
+from plot_stft import TimeFrequency
+import pygame
 
 
 
 
 class Model(object):
     
-    def __init__(self, name_db, name_collection):
+    def __init__(self, name_db, name_collection,data=None):
         MONGO_URI = "mongodb://localhost:27017/"
         self.__client = MongoClient(MONGO_URI)
         self.__db = self.__client[name_db]
         self.__collection = self.__db[name_collection]        
         self.__fs = 250
         self.filtDesign()
+        self.data = data
         print("se diseño el filtro")
         self.cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
         self.processing = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
-
+        if not np.all(data)==None:
+            self.assign_data(data)
+        else:
+            self.__data=np.asarray([])
         
     def defineLocation(self):
         path = os.path.realpath(self.cwd)
@@ -101,18 +102,25 @@ class Model(object):
          
 
     def stopData(self):
-        save = Processing(self.p[0],self.p[1],self.date[0],self.cwd,self.processing)
-        save.run()
+        if not  os.path.isfile(self.cwd+ '/'+ str(self.p[0])+'_'+str(self.p[1])+'/'+self.date[0]+'/'+'Mark_'+self.p[0]+'_'+self.p[1]+'.csv'):
+            pass
+        else:
+            maxV = Processing(self.p[0],self.p[1],self.date[0],self.cwd+ str(self.p[0])+'_'+str(self.p[1]),self.processing)
+            maxV.run()
+            TimeFre = TimeFrequency(self.p[0],self.p[1],self.date[0],self.cwd+ str(self.p[0])+'_'+str(self.p[1]),self.processing)
+            TimeFre.plot_stft()
+        
         self.__inlet.close_stream()
         print('Stop Data Modelo')
         
     def startStimulus(self):
-        estimulo = Stimulus(self.p[0],self.p[1],self.cwd)
+        estimulo = Stimulus(self.p[0],self.p[1],self.cwd+ '/'+ str(self.p[0])+'_'+str(self.p[1]))
         estimulo.start_stimulus()
         
 
     def stopStimulus(self):
-        pass
+        pygame.quit()
+
       
 
     def startZ(self):
@@ -137,18 +145,18 @@ class Model(object):
     def readData(self):
         samples, timestamp = self.__inlet.pull_chunk()
         samples = np.transpose(np.asanyarray(samples))
-        self.sh = samples.shape[1]
-        self.s = samples
-        try:            
-            self.__data = np.roll(self.__data, samples.shape[1])
-            self.__data[0,0:samples.shape[1]] = samples[0,:] #FCz
-            self.__data[1,0:samples.shape[1]] = samples[1,:] - samples[0,:]; #Oz - FCz
-            self.__data[2,0:samples.shape[1]] = samples[2,:] - samples[0,:]; #O1 - FCz
-            self.__data[3,0:samples.shape[1]] = samples[3,:] - samples[0,:]; #PO7 - FCz
-            self.__data[4,0:samples.shape[1]] = samples[4,:] - samples[0,:]; #O2  - FCz
-            self.__data[5,0:samples.shape[1]] = samples[5,:] - samples[0,:]; #PO8 - FCz
-            self.__data[6,0:samples.shape[1]] = samples[6,:] - samples[0,:]; #PO3 - FCz
-            self.__data[7,0:samples.shape[1]] = samples[7,:] - samples[0,:]; #PO4 - FCz
+        try:  
+            self.sh = samples.shape[1]
+            self.s = samples
+            self.__data = np.roll(self.__data, self.sh)
+            self.__data[0,0:self.sh] = samples[0,:] #FCz
+            self.__data[1,0:self.sh] = samples[1,:] - samples[0,:]; #Oz - FCz
+            self.__data[2,0:self.sh] = samples[2,:] - samples[0,:]; #O1 - FCz
+            self.__data[3,0:self.sh] = samples[3,:] - samples[0,:]; #PO7 - FCz
+            self.__data[4,0:self.sh] = samples[4,:] - samples[0,:]; #O2  - FCz
+            self.__data[5,0:self.sh] = samples[5,:] - samples[0,:]; #PO8 - FCz
+            self.__data[6,0:self.sh] = samples[6,:] - samples[0,:]; #PO3 - FCz
+            self.__data[7,0:self.sh] = samples[7,:] - samples[0,:]; #PO4 - FCz
             
             
             
@@ -156,17 +164,17 @@ class Model(object):
             return 
 
         self.__dataT = {'C1':samples[0,:],
-                        'C2':self.__data[1,0:samples.shape[1]],
-                        'C3':self.__data[2,0:samples.shape[1]],
-                        'C4':self.__data[3,0:samples.shape[1]],
-                        'C5':self.__data[4,0:samples.shape[1]],
-                        'C6':self.__data[5,0:samples.shape[1]],
-                        'C7':self.__data[6,0:samples.shape[1]],
-                        'C8':self.__data[7,0:samples.shape[1]]}
+                        'C2':self.__data[1,0:self.sh],
+                        'C3':self.__data[2,0:self.sh],
+                        'C4':self.__data[3,0:self.sh],
+                        'C5':self.__data[4,0:self.sh],
+                        'C6':self.__data[5,0:self.sh],
+                        'C7':self.__data[6,0:self.sh],
+                        'C8':self.__data[7,0:self.sh]}
         now = datetime.now()
         self.date = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
 #        cwd = os.getcwd()
-        loc = self.cwd + '/'+self.date[0]
+        loc = self.cwd + '/'+ str(self.p[0])+'_'+str(self.p[1]) + '/'+self.date[0]
         name = '/'  + 'Record_'+str(self.p[0])+'_'+str(self.p[1])+'.csv'
         if not  os.path.isdir(loc):
             os.mkdir(loc)
@@ -295,11 +303,16 @@ class Model(object):
     def add_into_collection_one(self, data):
         self.__collection.insert_one(data)
         self.p = data['d'],data['cc']
+        loc = self.cwd + '/'+ str(self.p[0])+'_'+str(self.p[1])
+        if not  os.path.isdir(loc):
+            os.mkdir(loc)
+        else:
+            pass
         return True
     
-    def add_into_collection_many(self, datas):
-        self.__collection.insert_many(datas)
-        print("Documentos agregados con éxito")
+#    def add_into_collection_many(self, datas):
+#        self.__collection.insert_many(datas)
+#        print("Documentos agregados con éxito")
         
     def search_one(self, consult, proj):
         result = self.__collection.find_one(consult, proj)
@@ -310,6 +323,11 @@ class Model(object):
                            result.get("estimulo", None),result.get("edad", None),result.get("tiempo", None),
                            result.get("rp", None),result.get("ubicacion")]
             self.p = info_result[0],info_result[3]
+            loc = self.cwd + '/'+ str(self.p[0])+'_'+str(self.p[1])
+            if not  os.path.isdir(loc):
+                os.mkdir(loc)
+            else:
+                pass
             return info_result
         except:
             return False
@@ -350,25 +368,27 @@ class Model(object):
         self.__bd[collection].drop()
         
     def delete_db(self, db):
-        self.__client[db].drop()
-        
-    # Mtodo assign_data() donde reasigna valores a variables y organiza la seal. 
-    def init_assign_data(self,data=None):
-        if not np.all(data)==None:
-            self.assign_data(data)
-        else:
-            self.__data=np.asarray([])
+        self.__client[db].drop()        
             
     def assign_data(self,data):
         self.__data=data
+        
     # Mtodo devlver_segmento() para permitir el avance en el tiempo de la se.
     def return_segment(self,x_min,x_max):
         if x_min>=x_max:
             return None
         return self.__data[:,x_min:x_max]
+    
     # Mtodo escalar_senal() para realizar la amplitud o disminucin de la sel.
     def signal_scale(self,x_min,x_max,escala):
         copia_datos=self.__data[:,x_min:x_max].copy()
         return copia_datos*escala
+    
+    def file_location(self,i,cc):
+        path_subject = self.cwd+ '/'+ str(i)+'_'+str(cc)
+        return path_subject
+
+
+
 
         

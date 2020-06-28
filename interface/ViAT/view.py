@@ -28,27 +28,31 @@ DataBase: Allows you to view current information in the database
 
 from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QFileDialog, QMessageBox, QDialog
 from PyQt5.QtGui import QIntValidator
-from PyQt5 import QtCore, QtWidgets
-from matplotlib.figure import Figure
+from PyQt5 import QtCore, QtWidgets,QtGui
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QLCDNumber
+from PyQt5.QtCore import QBasicTimer
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QTreeWidgetItem
+from PyQt5.Qt import Qt
+
+from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.pyplot as plt
 
 import scipy.io as sio
 import numpy as np
 from scipy.signal import welch
 import pandas as pd
-from PyQt5.QtGui import QIcon, QPixmap
 import wmi
 from Stimulation_Acuity import Stimulus
 from randData import RandData
 import os
-from PyQt5.QtWidgets import QWidget, QProgressBar, QPushButton, QLCDNumber
-from PyQt5.QtCore import QBasicTimer
 import pygame
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 import time
 import traceback
 import sys
@@ -59,14 +63,15 @@ import csv
 import subprocess
 import errno
 import pyqtgraph as pg
-
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtWidgets import QTreeWidgetItem
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.uic import loadUi
-from PyQt5.QtGui import QIcon, QPixmap
 from datetime import datetime
+import random
 
+#from PySide2 import QtWidgets 
+#from PySide2 import QtCore 
+#from PySide2 import QtGui 
+#from PySide2.QtUiTools import QUiLoader
+#from PySide2.QtWidgets import QApplication
+#from PySide2.QtCore import QFile, QIODevice
 # In[]
 class WorkerSignals(QObject):
     '''
@@ -130,7 +135,7 @@ class Worker(QRunnable):
             self.signals.finished.emit()  # Done
 
 # In[]
-class ViAT(QMainWindow):
+class ViAT(QtWidgets.QMainWindow):
     '''First user view
     
     Load a .ui type view designed in Qt designer
@@ -141,8 +146,9 @@ class ViAT(QMainWindow):
         super(ViAT, self).__init__()
         #The designed view is exported in qt designer
         loadUi('ViAT.ui', self)
+#        QFile("ViAT.ui")
         self.setWindowTitle('Inicio')
-        self.setWindowIcon(QIcon('icono.png')) #window icon
+        self.setWindowIcon(QtGui.QIcon('icono.png')) #window icon
         self.setup() 
         self.show()
 
@@ -157,7 +163,7 @@ class ViAT(QMainWindow):
         self.startRegistration.clicked.connect(self.loadRegistration)
         self.patientData.clicked.connect(self.loadData)
         self.exit.clicked.connect(self.end)
-        pixmap = QPixmap('Logo.png')
+        pixmap = QtGui.QPixmap('Logo.png')
         self.logo.setPixmap(pixmap)
 
     def loadRegistration(self):
@@ -175,13 +181,14 @@ class ViAT(QMainWindow):
         exit()
 
 # In[]
-class LoadRegistration(QDialog):
+class LoadRegistration(QtWidgets.QDialog):
     def __init__(self, LR, controlador , controller):
         super(LoadRegistration, self).__init__()
         loadUi("Agregardatos.ui", self)
+#        QFile("Agregardatos.ui")
         self.setup()
         self.setWindowTitle('Base de datos')
-        self.setWindowIcon(QIcon('icono.png'))
+        self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
         self.show()
         self.__parentLoadRegistration = LR
@@ -200,9 +207,9 @@ class LoadRegistration(QDialog):
         self.btn_update.setEnabled(False)
         self.next.setEnabled(False)
         self.save.clicked.connect(self.location)
-        pixmap1 = QPixmap('blanclogo.png')
+        pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
-        pixmap2 = QPixmap('save.png')
+        pixmap2 = QtGui.QPixmap('save.png')
         self.savelogo.setPixmap(pixmap2)
         self.snellen.setPlaceholderText("20/20")
         self.correction.setPlaceholderText("NaN")
@@ -418,7 +425,7 @@ class LoadRegistration(QDialog):
         self.hide()
 
 # In[]
-class DataAcquisition(QMainWindow):
+class DataAcquisition(QtWidgets.QMainWindow):
     '''Electrodes and devices
     
         Verify that the application can continue with the registration
@@ -437,8 +444,9 @@ class DataAcquisition(QMainWindow):
         super(DataAcquisition, self).__init__()
         #The designed view is exported in qt designer
         loadUi('Adquisicion.ui', self)
+#        QFile('Adquisicion.ui')
         self.setWindowTitle('Adquisición')
-        self.setWindowIcon(QIcon('icono.png'))
+        self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
         self.show()
         self.__parentDataAcquisition = DA
@@ -471,9 +479,9 @@ class DataAcquisition(QMainWindow):
         self.O2.clicked.connect(self.startMeasurement)
         self.Oz.clicked.connect(self.startMeasurement)
         
-        pixmap = QPixmap('M.png')
+        pixmap = QtGui.QPixmap('M.png')
         self.mounting.setPixmap(pixmap)
-        pixmap1 = QPixmap('blanclogo.png')
+        pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         
     def info(self):
@@ -598,7 +606,7 @@ class DataAcquisition(QMainWindow):
         print("THREAD COMPLETE!")
 
 # In[]
-class AcquisitionSignal(QMainWindow):
+class AcquisitionSignal(QtWidgets.QMainWindow):
     '''
         This module allows to start the visual stimulation, and allows 
         to visualize the acquired signals in real time.
@@ -617,8 +625,9 @@ class AcquisitionSignal(QMainWindow):
         super(AcquisitionSignal, self).__init__()
         #The designed view is exported in qt designer
         loadUi('Adquisicion_accion.ui', self)
+#        QFile('Adquisicion_accion.ui')
         self.setWindowTitle('Adquisición')
-        self.setWindowIcon(QIcon('icono.png'))
+        self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
         self.show()
         self.counter = 0
@@ -635,7 +644,7 @@ class AcquisitionSignal(QMainWindow):
         
 
     def setup(self):
-        pixmap1 = QPixmap('blanclogo.png')
+        pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         self.play.clicked.connect(self.startPlay)
         self.stop.setEnabled(False)
@@ -660,6 +669,7 @@ class AcquisitionSignal(QMainWindow):
         x = msg.exec_()
 
     def startPlay(self):
+        self.ban = True
         self.stop.setEnabled(True)
         self.stop.clicked.connect(self.stopEnd)
         self.play.setEnabled(False)
@@ -683,7 +693,7 @@ class AcquisitionSignal(QMainWindow):
 
     def execute_this_fn(self, progress_callback):
         veces=0
-        while veces<10:
+        while veces<10 and self.ban is True:
             time.sleep(veces) #increment one second when entering while
             value = self.alert.value()
             if value < 100:
@@ -693,8 +703,11 @@ class AcquisitionSignal(QMainWindow):
                 self.timer.stop()
             veces=veces+1
 #        time.sleep(15)  # if the while is not used for the progress bar
-        self.my_controller.startStimulus()
-        self.my_controller.stopStimulus()
+        if self.ban is True:
+            self.my_controller.startStimulus()
+            self.my_controller.stopStimulus()
+        else:
+            pass
 
 
     
@@ -815,9 +828,11 @@ class AcquisitionSignal(QMainWindow):
 
     def haltGraph(self):
         self.timer.stop()
+        self.ban = False 
         self.my_controller.stopData()
         self.stopDevice.setEnabled(True)
         print("detener senal")
+        
         
     def displaysignal(self):
         self.__registry = GraphicalInterface(self,self.__controlador, self.my_controller)
@@ -831,8 +846,9 @@ class DataBase(QDialog):
     def __init__(self, DB,controlador , controller):
         super(DataBase, self).__init__()
         loadUi("Buscardatos.ui", self)
+#        QFile("Buscardatos.ui")
         self.setWindowTitle('Base de datos')
-        self.setWindowIcon(QIcon('icono.png'))
+        self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
         self.show()
         self.setup_TreeWidget()
@@ -860,7 +876,7 @@ class DataBase(QDialog):
         self.back.clicked.connect(self.loadStart)
         self.display.clicked.connect(self.displaysignal)
 
-        pixmap1 = QPixmap('blanclogo.png')
+        pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         
     def show_everything(self):
@@ -914,77 +930,38 @@ class DataBase(QDialog):
         self.hide()
     
     def displaysignal(self):
-        self.__registry = GraphicalInterface(self,self.__controlador, self.my_controller)
+        self.__registry = GraphicalInterface(self,self.__controlador)
         self.__registry.show()
         self.hide()
         
     	
 # In[]
 
-"""
-Se crea la clase MyGraphCanvas() donde se define el espacio para graficar la seal que el usuario
-desee abrir. Adems, se inicializa con la funcin senoidal. 
-"""
-class MyGraphCanvas(FigureCanvas):
-    # Constructor con las dimensiones de la ventana y un campo para graficar. 
-    def __init__(self, parent= None,width=5, height=5, dpi=100):    
-        self.fig=Figure(figsize=(width, height), dpi=dpi)
-        self.axes=self.fig.add_subplot(111)
-        self.compute_initial_figure()
-        FigureCanvas.__init__(self,self.fig)
-    # Mtodo con la grfica inicial, en este caso la funcin senoidal
-    def compute_initial_figure(self):
-        t = np.arange(0.0, 3.0, 0.01)
-        s = np.sin(2*np.pi*t)
-        self.axes.plot(t,s)
-    # Mtodo para graficar la seal
-    def graph_data(self,datos):
-        # Se limpia el campo donde se grafica la seal para evitar que queden superpuestas
-        self.axes.clear()
-        for c in range(datos.shape[0]):
-            self.axes.plot(datos[c,:]+c*10)
-        self.axes.set_xlabel("Muestras")
-        self.axes.set_ylabel("Voltaje (uV)")
-        self.axes.set_title('Registro EEG - Visualización ViAT')
-        self.axes.figure.canvas.draw()       
-
-"""
-Se crea la clase MyGraphCanvas01() donde se define el espacio para graficar el periodograma para los 
-parametros que el usuario le pase al programa.
-"""
-class MyGraphCanvas01(FigureCanvas):
-    # Constructor con tamao del campo grfico y un campo para graficar la rutina de Welch
-    def __init__(self,parent= None,width=5, height=5, dpi=100):
-        self.fig01=Figure(figsize=(width, height), dpi=dpi)
-        self.axes_welch=self.fig01.add_subplot(111)
-        FigureCanvas.__init__(self,self.fig01)
-    def save_graphic(self,nombre):
-        self.fig01.savefig(nombre+'.png')
-        
-class GraphicalInterface(QMainWindow):
-    # Constructor con lanzador para la ventana
-    def __init__(self,IG,controlador , controller):
-        super(GraphicalInterface,self).__init__()
+class GraphicalInterface(QtWidgets.QMainWindow):
+    def __init__(self, IG, controlador):
+        super(GraphicalInterface,self).__init__(IG)
         loadUi ('visualizacion.ui',self)
         self.setup()
         self.show()
+        
         self.__x_min=0
         self.__x_max=0
         self.setWindowTitle('Visualización')
-        self.setWindowIcon(QIcon('icono.png'))
-        self.setup()
-        self.show()
+        self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup_TreeWidget()
         self.__parentGraphicInterface = IG
         self.__controlador = controlador
-        self.my_controller = controller
-    # Se configuran las seales y los slots de los botones.
-    def setup(self):
-        # Validadores para campos graficos y datos solamente numricos
-        layout=QVBoxLayout()
+        self.setFocusPolicy(Qt.StrongFocus)
+    
+    def setup(self): 
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.ax = self.figure.add_subplot(111)
+        layout = QtGui.QVBoxLayout()
+        layout.addWidget(self.canvas)
         self.campo_grafico.setLayout(layout)
-        self.__sc=MyGraphCanvas(self.campo_grafico,width=5,height=5,dpi=100)
-        layout.addWidget(self.__sc)
+#        self.campo_grafico.setCentralWidget(layout)
+        
         self.btn_load.clicked.connect(self.load_signal)
         self.btn_ahead.clicked.connect(self.forward_signal)
         self.btn_behind.clicked.connect(self.delay_signal)
@@ -999,10 +976,35 @@ class GraphicalInterface(QMainWindow):
         self.btn_search.clicked.connect(self.find)
         self.table.itemDoubleClicked.connect(self.dbclick)
         self.back.clicked.connect(self.loadStart)
+        self.btn_show.clicked.connect(self.show_everything)
 
-        pixmap1 = QPixmap('blanclogo.png')
+        pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
+                 
         
+    def compute_initial_figure(self):
+        t = np.arange(0.0, 3.0, 0.01)
+        s = np.sin(2*np.pi*t)
+        self.axes.plot(t,s)
+    # Mtodo para graficar la seal
+    def graph_data(self,datos):
+        # Se limpia el campo donde se grafica la seal para evitar que queden superpuestas 
+        self.ax.cla()
+#        self.figure = plt.figure()
+#        self.canvas = FigureCanvas(self.figure)
+#        self.ax = self.figure.add_subplot(111)
+#        layout = QVBoxLayout()
+#        layout.addWidget(self.canvas)
+#        self.campo_grafico.setLayout(layout)
+        
+        print(datos.shape)
+        for c in range(datos.shape[0]):
+            self.ax.plot(datos[c,:]+c*10)
+        self.ax.set_xlabel("Muestras")
+        self.ax.set_ylabel("Voltaje (uV)")
+        self.ax.set_title('Registro EEG - Visualización ViAT')
+        
+        self.canvas.draw()
     def setup_TreeWidget(self):
     		self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
     		self.table.setColumnWidth(0, 150)
@@ -1015,31 +1017,35 @@ class GraphicalInterface(QMainWindow):
     def toclose(self):
         self.close()
     # Asignacin de controlador para hacer la conexin en el modelo MVC
-    def assign_controller(self,controller):
-        self.my_controller=controller
+    def assign_controller(self,controlador):
+        self.__controlador=controlador
     # Mtodo para adelantar la seal un segundo en el tiempo. Esto corresponde a 2000 puntos en la seal
     def forward_signal(self):
         self.__x_min=self.__x_min+2000
         self.__x_max=self.__x_max+2000
-        self.__sc.graph_data(self.my_controller.returnDataSenal(self.__x_min,self.__x_max))
+        self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
     # Mtodo para atrasar la seal un segundo en el tiempo. Esto corresponde a 2000 puntos en la seal
     def delay_signal(self):
         if self.__x_min<2000:
             return
         self.__x_min=self.__x_min-2000
         self.__x_max=self.__x_max-2000
-        self.__sc.graph_data(self.my_controller.returnDataSenal(self.__x_min,self.__x_max))
+        self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
     # Mtodo para aumentar la amplitud de la seal
     def increase_signal(self):
-        self.__sc.graph_data(self.my_controller.scaleSignal(self.__x_min,self.__x_max,2))
+        self.graph_data(self.__controlador.scaleSignal(self.__x_min,self.__x_max,2))
     # Mtodo para disminuir la amplitud de la seal
     def decrease_signal(self):
-        self.__sc.graph_data(self.my_controller.scaleSignal(self.__x_min,self.__x_max,0.5))
+        self.graph_data(self.__controlador.scaleSignal(self.__x_min,self.__x_max,0.5))
     # Mtodo de cargar la seal a la vista
     def load_signal(self):
-        archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir seal","","Todos los archivos (*);;Archivos mat (*.mat)*")
+        archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir seal","","Todos los archivos (*);;Archivos csv (*.csv)*")
         if archivo_cargado != "":
             d = pd.read_csv(archivo_cargado, header=None)
+#            d = pd.read_csv(archivo_cargado,';')
+#            d = d.drop([9], axis=1)
+#            d = d.drop([0], axis=1)
+#            d = d.drop([0], axis=0)
             d = d.values
             d = d[0:8,:]*100000
             d[1] = d[1,:] - d[0,:]
@@ -1052,14 +1058,15 @@ class GraphicalInterface(QMainWindow):
             print(d.size/250)
             senal_continua = d
             self.__senal=senal_continua
-            self.my_controller.ReceiveData(senal_continua)
+            self.__controlador.ReceiveData(senal_continua)
             self.__x_min=0
             self.__x_max=2000
-            self.__sc.graph_data(self.my_controller.returnDataSenal(self.__x_min,self.__x_max))
+            self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
             self.btn_ahead.setEnabled(True)
             self.btn_behind.setEnabled(True)
             self.btn_increase.setEnabled(True)
             self.btn_decrease.setEnabled(True)
+            
     def show_everything(self):
         results = self.__controlador.get_integrants()
         self.see(results)
@@ -1084,10 +1091,36 @@ class GraphicalInterface(QMainWindow):
             buttonReply = QMessageBox.question(self, 'Buscar información',
                 u"¿Desea ir a la ubicación del registro de %s?"%data.text(0),
                 QMessageBox.Yes | QMessageBox.No)
-            path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-            path = os.path.realpath(path)
             if buttonReply == QMessageBox.Yes:
-                os.startfile(path)
+                path = self.__controlador.file_location(data.text(0),data.text(3))
+                archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir senal", path,"Todos los archivos (*);;Archivos csv (*.csv)*")
+                if archivo_cargado != "":
+                    d = pd.read_csv(archivo_cargado, header=None)
+#                    d = pd.read_csv(archivo_cargado,';')
+#                    d = d.T
+#                    d = d.drop([9], axis=1)
+#                    d = d.drop([0], axis=1)
+#                    d = d.drop('Unnamed: 0', axis=0)
+                    d = d.values
+                    d = d[0:8,:]*100000
+                    d[1] = d[1,:] - d[0,:]
+                    d[2] = d[2,:] - d[0,:]
+                    d[3] = d[3,:] - d[0,:]
+                    d[4] = d[4,:] - d[0,:]
+                    d[5] = d[5,:] - d[0,:]
+                    d[6] = d[6,:] - d[0,:]
+                    d[7] = d[7,:] - d[0,:]
+                    print(d.size/250)
+                    senal_continua = d
+                    self.__senal=senal_continua
+                    self.__controlador.ReceiveData(senal_continua)
+                    self.__x_min=0
+                    self.__x_max=2000
+                    self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
+                    self.btn_ahead.setEnabled(True)
+                    self.btn_behind.setEnabled(True)
+                    self.btn_increase.setEnabled(True)
+                    self.btn_decrease.setEnabled(True)
             if buttonReply == QMessageBox.No:
                 pass
             if buttonReply == QMessageBox.Cancel:

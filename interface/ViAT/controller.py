@@ -4,21 +4,23 @@ Created on 2020
 
 @author: Verónica Henao Isaza
 """
+from PyQt5.QtWidgets import QApplication
+import sys
 
 from view import ViAT
-import sys
-from PyQt5.QtWidgets import QApplication, QScrollArea
-from model import Model
-import os
-
-from sys import argv
-from sys import exit
-from PyQt5.QtWidgets import QApplication
-
 from view import DataBase
-from view import LoadRegistration
+#from view import LoadRegistration
+
+from model import Model
+
 import subprocess
 
+#from PySide2 import QtWidgets 
+#from PySide2 import QtCore 
+#from PySide2 import QtGui 
+#from PySide2.QtUiTools import QUiLoader
+#from PySide2.QtWidgets import QApplication
+#from PySide2.QtCore import QFile, QIODevice
 
 # In[]
 class Principal(object):
@@ -85,14 +87,6 @@ class Controller(object):
     def laplace_controller(self,laplace1,laplace2,laplace3):
         self.system.laplace(laplace1,laplace2,laplace3)
         
-    def ReceiveData(self,data):
-        self.system.init_assign_data(data)
-        
-    def returnDataSenal(self,x_min,x_max):
-        return self.system.return_segment(x_min,x_max)
-    
-    def scaleSignal(self,x_min,x_max,escala):
-        return self.system.signal_scale(x_min,x_max,escala)
         
 # In[]
 class Controlador:
@@ -131,6 +125,18 @@ class Controlador:
     def delete(self, dato):
         consult = {"cc": dato}
         self.system.delete_data(consult)
+        
+    def ReceiveData(self,data):
+        self.system.assign_data(data)
+        
+    def returnDataSenal(self,x_min,x_max):
+        return self.system.return_segment(x_min,x_max)
+    
+    def scaleSignal(self,x_min,x_max,escala):
+        return self.system.signal_scale(x_min,x_max,escala)
+    
+    def file_location(self,i,cc):
+        return self.system.file_location(i,cc)
         
     
         
