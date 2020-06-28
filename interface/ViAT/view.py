@@ -986,17 +986,10 @@ class GraphicalInterface(QtWidgets.QMainWindow):
         t = np.arange(0.0, 3.0, 0.01)
         s = np.sin(2*np.pi*t)
         self.axes.plot(t,s)
-    # Mtodo para graficar la seal
-    def graph_data(self,datos):
-        # Se limpia el campo donde se grafica la seal para evitar que queden superpuestas 
-        self.ax.cla()
-#        self.figure = plt.figure()
-#        self.canvas = FigureCanvas(self.figure)
-#        self.ax = self.figure.add_subplot(111)
-#        layout = QVBoxLayout()
-#        layout.addWidget(self.canvas)
-#        self.campo_grafico.setLayout(layout)
         
+    # Graph signal
+    def graph_data(self,datos):
+        self.ax.cla()        
         print(datos.shape)
         for c in range(datos.shape[0]):
             self.ax.plot(datos[c,:]+c*10)
@@ -1013,48 +1006,73 @@ class GraphicalInterface(QtWidgets.QMainWindow):
     		self.table.setColumnWidth(3, 110)
     		self.table.setColumnWidth(4, 110)
     		self.table.setColumnWidth(5, 110)    
-    # Mtodo para cerrar el programa
+    # Close program
     def toclose(self):
         self.close()
-    # Asignacin de controlador para hacer la conexin en el modelo MVC
+        
+    # Controller assignment to make connection in MVC model
     def assign_controller(self,controlador):
         self.__controlador=controlador
-    # Mtodo para adelantar la seal un segundo en el tiempo. Esto corresponde a 2000 puntos en la seal
+        
+    # Advance the signal one second in time. This corresponds to 2000 points in the signal
     def forward_signal(self):
         self.__x_min=self.__x_min+2000
         self.__x_max=self.__x_max+2000
         self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
-    # Mtodo para atrasar la seal un segundo en el tiempo. Esto corresponde a 2000 puntos en la seal
+        
+    # Delaying the signal one second in time. This corresponds to 2000 points in the signal
     def delay_signal(self):
         if self.__x_min<2000:
             return
         self.__x_min=self.__x_min-2000
         self.__x_max=self.__x_max-2000
         self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
-    # Mtodo para aumentar la amplitud de la seal
+        
+    # Increase signal amplitude
     def increase_signal(self):
         self.graph_data(self.__controlador.scaleSignal(self.__x_min,self.__x_max,2))
-    # Mtodo para disminuir la amplitud de la seal
+        
+    # Decrease signal amplitude
     def decrease_signal(self):
         self.graph_data(self.__controlador.scaleSignal(self.__x_min,self.__x_max,0.5))
-    # Mtodo de cargar la seal a la vista
+        
+    # Load the signal in sight
     def load_signal(self):
         archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir seal","","Todos los archivos (*);;Archivos csv (*.csv)*")
         if archivo_cargado != "":
-            d = pd.read_csv(archivo_cargado, header=None)
-#            d = pd.read_csv(archivo_cargado,';')
-#            d = d.drop([9], axis=1)
-#            d = d.drop([0], axis=1)
-#            d = d.drop([0], axis=0)
-            d = d.values
-            d = d[0:8,:]*100000
-            d[1] = d[1,:] - d[0,:]
-            d[2] = d[2,:] - d[0,:]
-            d[3] = d[3,:] - d[0,:]
-            d[4] = d[4,:] - d[0,:]
-            d[5] = d[5,:] - d[0,:]
-            d[6] = d[6,:] - d[0,:]
-            d[7] = d[7,:] - d[0,:]
+            if self.type.currentIndex() == 0:
+                d = pd.read_csv(archivo_cargado, header=None)
+                d = d.values
+                d = d[0:8,:]*100000
+                d[1] = d[1,:] - d[0,:]
+                d[2] = d[2,:] - d[0,:]
+                d[3] = d[3,:] - d[0,:]
+                d[4] = d[4,:] - d[0,:]
+                d[5] = d[5,:] - d[0,:]
+                d[6] = d[6,:] - d[0,:]
+                d[7] = d[7,:] - d[0,:]
+            else:
+                d = pd.read_csv(archivo_cargado,';',header=None)
+                d = d.drop([0], axis=0)
+                d = d.T
+                d = d.drop([9], axis=1)
+                d = d.drop([0], axis=0)
+                index=list(range(0,len(d[1])))
+                d[0] = index
+                d = d.set_index(d[0])
+                d = d.drop([8], axis=0)
+                d = d.astype(float)
+                d = d.values
+                d = d[0:8,:]*500
+                d[0] = d[0,:]
+                d[1] = d[1,:] + 1000
+                d[2] = d[2,:] + 2000
+                d[3] = d[3,:] + 3000
+                d[4] = d[4,:] + 4000
+                d[5] = d[5,:] + 5000
+                d[6] = d[6,:] + 6000
+                d[7] = d[7,:] + 7000
+
             print(d.size/250)
             senal_continua = d
             self.__senal=senal_continua
@@ -1095,21 +1113,27 @@ class GraphicalInterface(QtWidgets.QMainWindow):
                 path = self.__controlador.file_location(data.text(0),data.text(3))
                 archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir senal", path,"Todos los archivos (*);;Archivos csv (*.csv)*")
                 if archivo_cargado != "":
-                    d = pd.read_csv(archivo_cargado, header=None)
-#                    d = pd.read_csv(archivo_cargado,';')
-#                    d = d.T
-#                    d = d.drop([9], axis=1)
-#                    d = d.drop([0], axis=1)
-#                    d = d.drop('Unnamed: 0', axis=0)
+                    d = pd.read_csv(archivo_cargado,';',header=None)
+                    d = d.drop([0], axis=0)
+                    d = d.T
+                    d = d.drop([9], axis=1)
+                    d = d.drop([0], axis=0)
+                    index=list(range(0,len(d[1])))
+                    d[0] = index
+                    d = d.set_index(d[0])
+                    d = d.drop([8], axis=0)
+                    d = d.astype(float)
                     d = d.values
-                    d = d[0:8,:]*100000
-                    d[1] = d[1,:] - d[0,:]
-                    d[2] = d[2,:] - d[0,:]
-                    d[3] = d[3,:] - d[0,:]
-                    d[4] = d[4,:] - d[0,:]
-                    d[5] = d[5,:] - d[0,:]
-                    d[6] = d[6,:] - d[0,:]
-                    d[7] = d[7,:] - d[0,:]
+                    d = d[0:8,:]*500
+                    d[0] = d[0,:]
+                    d[1] = d[1,:] + 1000
+                    d[2] = d[2,:] + 2000
+                    d[3] = d[3,:] + 3000
+                    d[4] = d[4,:] + 4000
+                    d[5] = d[5,:] + 5000
+                    d[6] = d[6,:] + 6000
+                    d[7] = d[7,:] + 7000
+
                     print(d.size/250)
                     senal_continua = d
                     self.__senal=senal_continua

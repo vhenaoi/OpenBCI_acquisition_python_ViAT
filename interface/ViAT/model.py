@@ -105,9 +105,9 @@ class Model(object):
         if not  os.path.isfile(self.cwd+ '/'+ str(self.p[0])+'_'+str(self.p[1])+'/'+self.date[0]+'/'+'Mark_'+self.p[0]+'_'+self.p[1]+'.csv'):
             pass
         else:
-            maxV = Processing(self.p[0],self.p[1],self.date[0],self.cwd+ str(self.p[0])+'_'+str(self.p[1]),self.processing)
+            maxV = Processing(self.p[0],self.p[1],self.date[0],self.cwd,self.processing)
             maxV.run()
-            TimeFre = TimeFrequency(self.p[0],self.p[1],self.date[0],self.cwd+ str(self.p[0])+'_'+str(self.p[1]),self.processing)
+            TimeFre = TimeFrequency(self.p[0],self.p[1],self.date[0],self.cwd,self.processing)
             TimeFre.plot_stft()
         
         self.__inlet.close_stream()

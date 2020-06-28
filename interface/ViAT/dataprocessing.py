@@ -83,6 +83,6 @@ class Processing(object):
 if __name__ == '__main__':
     path_in = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
     path_out = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
-    estimulo = Processing('H1','1152207135','06-27-2020',path_in,path_out)
+    estimulo = Processing('H1','1152207135','06-28-2020',path_in,path_out)
 #    Record,Mark,NoMark,index,listMark,start,end,Markdata,maxValue,values,frec = estimulo.run()
     estimulo.run()
