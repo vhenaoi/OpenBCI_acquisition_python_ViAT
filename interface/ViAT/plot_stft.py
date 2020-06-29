@@ -34,7 +34,7 @@ class TimeFrequency(object):
         plt.xlabel('Time [sec]')
         cbar=plt.colorbar(im, ax=ax0) # imagen ploteada y la figura donde esta en el subplot
         cbar.set_label('Amplitude [uV]')
-        img = ('Time-Frequency')
+        img = ('Time-Frequency Oz-FCz')
         plt.savefig(self.path_save + '/' + img + '_' + name + '.jpg')
         ini = self.loc+'/'+'Record_' + name +'.csv'
         fig = self.path_save + '/' + img + '_' + name + '.jpg'
@@ -44,6 +44,6 @@ if __name__ == '__main__':
     path_in = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
 #    path_in = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Prueba procesamiento\Multitaper\C2'
     path_out = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
-    run = TimeFrequency('H1','1152207135','06-22-2020',path_in,path_out)
+    run = TimeFrequency('H1','1152207135','06-28-2020',path_in,path_out)
 #    run = TimeFrequency('acuity','both','06-20-2020',path_in,path_out)
     ini,fig, signal2 = run.plot_stft()

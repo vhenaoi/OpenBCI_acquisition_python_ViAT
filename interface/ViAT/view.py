@@ -420,7 +420,7 @@ class LoadRegistration(QtWidgets.QDialog):
         self.hide()
 
     def dataAcquisition(self):
-        self.__registry = DataAcquisition(self, self.my_controller)
+        self.__registry = DataAcquisition(self,self.__controlador,self.my_controller)
         self.__registry.show()
         self.hide()
 
@@ -440,7 +440,7 @@ class DataAcquisition(QtWidgets.QMainWindow):
         through the controller
     '''
     #Contains restrictions to follow the actions in an orderly manner
-    def __init__(self, DA, controller):
+    def __init__(self, DA, controlador, controller):
         super(DataAcquisition, self).__init__()
         #The designed view is exported in qt designer
         loadUi('Adquisicion.ui', self)
@@ -452,6 +452,7 @@ class DataAcquisition(QtWidgets.QMainWindow):
         self.__parentDataAcquisition = DA
         self.threadpool = QThreadPool() #creating a group of threads in qt
         self.my_controller = controller
+        self.__controlador = controlador
 
     def setup(self):
         self.back.clicked.connect(self.loadStart)
@@ -497,7 +498,7 @@ class DataAcquisition(QtWidgets.QMainWindow):
 
     def executeAcquisition(self):
         self.next.setEnabled(False) #Revisar genera delay
-        self.__registry = AcquisitionSignal(self, self.my_controller)
+        self.__registry = AcquisitionSignal(self,self.__controlador,self.my_controller)
         self.__registry.show()
         self.hide()
         
@@ -621,7 +622,7 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
         :param variable controller: allows me to communicate with the model 
         through the controller    
     '''
-    def __init__(self, AS, controller):
+    def __init__(self, AS, controlador, controller):
         super(AcquisitionSignal, self).__init__()
         #The designed view is exported in qt designer
         loadUi('Adquisicion_accion.ui', self)
@@ -640,6 +641,7 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.recurring_timer)
         self.timer.start()
         self.my_controller = controller
+        self.__controlador = controlador
         self.step = 0
         
 
@@ -835,7 +837,7 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
         
         
     def displaysignal(self):
-        self.__registry = GraphicalInterface(self,self.__controlador, self.my_controller)
+        self.__registry = GraphicalInterface(self,self.__controlador)
         self.__registry.show()
         self.hide()
         

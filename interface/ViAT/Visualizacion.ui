@@ -402,7 +402,7 @@ QPushButton:pressed {
 </string>
     </property>
     <property name="text">
-     <string>Cerrar </string>
+     <string>Salir</string>
     </property>
    </widget>
    <widget class="QComboBox" name="type">
