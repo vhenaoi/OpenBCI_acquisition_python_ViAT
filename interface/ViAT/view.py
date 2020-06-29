@@ -60,7 +60,6 @@ from pylsl import StreamInfo, StreamOutlet
 from pylsl import StreamInlet, resolve_stream
 from datetime import datetime
 import csv
-import subprocess
 import errno
 import pyqtgraph as pg
 from datetime import datetime
