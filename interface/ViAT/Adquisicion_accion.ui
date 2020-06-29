@@ -6,9 +6,73 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1057</width>
-    <height>757</height>
+    <width>1341</width>
+    <height>673</height>
    </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
   </property>
   <property name="windowTitle">
    <string>Adquisicion</string>
@@ -19,8 +83,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1021</width>
-      <height>691</height>
+      <width>1341</width>
+      <height>631</height>
      </rect>
     </property>
     <property name="font">
@@ -40,8 +104,8 @@
        <rect>
         <x>0</x>
         <y>-20</y>
-        <width>1021</width>
-        <height>681</height>
+        <width>1341</width>
+        <height>711</height>
        </rect>
       </property>
       <property name="palette">
@@ -149,14 +213,14 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1021</width>
-         <height>681</height>
+         <width>1341</width>
+         <height>711</height>
         </rect>
        </property>
        <widget class="QLabel" name="logo">
         <property name="geometry">
          <rect>
-          <x>840</x>
+          <x>1160</x>
           <y>20</y>
           <width>171</width>
           <height>111</height>
@@ -169,8 +233,8 @@
        <widget class="QWidget" name="verticalLayoutWidget_2">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>580</y>
+          <x>250</x>
+          <y>510</y>
           <width>831</width>
           <height>71</height>
          </rect>
@@ -182,6 +246,9 @@
             <font>
              <pointsize>12</pointsize>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permite cambiar de vista para visualizar una señal previamente adquirida.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
@@ -231,6 +298,9 @@ QPushButton:pressed {
            <property name="acceptDrops">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione para detener la adquisición.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
     border: 2px solid gray;
@@ -269,6 +339,9 @@ QPushButton:pressed {
              <pointsize>12</pointsize>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione para volver a la vista anterior.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
     border: 2px solid gray;
@@ -296,7 +369,7 @@ QPushButton:pressed {
 </string>
            </property>
            <property name="text">
-            <string>Atras</string>
+            <string>Atrás</string>
            </property>
            <property name="autoDefault">
             <bool>false</bool>
@@ -309,6 +382,9 @@ QPushButton:pressed {
             <font>
              <pointsize>12</pointsize>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione para salir del programa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
@@ -346,8 +422,8 @@ QPushButton:pressed {
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>90</y>
+          <x>240</x>
+          <y>20</y>
           <width>771</width>
           <height>131</height>
          </rect>
@@ -403,6 +479,9 @@ width: 10px;
              <pointsize>12</pointsize>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Inicia a cargar la estimulación.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
     border: 2px solid gray;
@@ -441,6 +520,9 @@ QPushButton:pressed {
              <pointsize>12</pointsize>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permite iniciar de nuevo la estimulación.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
     border: 2px solid gray;
@@ -474,63 +556,11 @@ QPushButton:pressed {
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="adquisitionInfo">
-        <property name="geometry">
-         <rect>
-          <x>970</x>
-          <y>630</y>
-          <width>41</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Footlight MT Light</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Presione para obtener más información&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
-    color: rgb(0, 0, 0);
-    border: 2px solid #0e213e;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
-        );
-    }</string>
-        </property>
-        <property name="text">
-         <string>?</string>
-        </property>
-       </widget>
        <widget class="QWidget" name="horizontalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>230</y>
+          <x>160</x>
+          <y>160</y>
           <width>966</width>
           <height>281</height>
          </rect>
@@ -597,11 +627,14 @@ QPushButton:pressed {
        <widget class="QComboBox" name="welch">
         <property name="geometry">
          <rect>
-          <x>240</x>
-          <y>510</y>
+          <x>380</x>
+          <y>440</y>
           <width>125</width>
           <height>20</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Elija el canal al que le desea aplicar el método de Welch.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QComboBox {
@@ -703,11 +736,16 @@ QComboBox QAbstractItemView {
        <widget class="QComboBox" name="laplace1">
         <property name="geometry">
          <rect>
-          <x>590</x>
-          <y>510</y>
+          <x>730</x>
+          <y>440</y>
           <width>101</width>
           <height>20</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QComboBox {
@@ -809,8 +847,8 @@ QComboBox QAbstractItemView {
        <widget class="QComboBox" name="laplace2">
         <property name="geometry">
          <rect>
-          <x>760</x>
-          <y>510</y>
+          <x>900</x>
+          <y>440</y>
           <width>101</width>
           <height>20</height>
          </rect>
@@ -915,8 +953,8 @@ QComboBox QAbstractItemView {
        <widget class="QComboBox" name="laplace3">
         <property name="geometry">
          <rect>
-          <x>890</x>
-          <y>510</y>
+          <x>1030</x>
+          <y>440</y>
           <width>101</width>
           <height>20</height>
          </rect>
@@ -1021,8 +1059,8 @@ QComboBox QAbstractItemView {
        <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>510</y>
+          <x>160</x>
+          <y>440</y>
           <width>211</width>
           <height>16</height>
          </rect>
@@ -1034,8 +1072,8 @@ QComboBox QAbstractItemView {
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>510</x>
-          <y>510</y>
+          <x>650</x>
+          <y>440</y>
           <width>61</width>
           <height>21</height>
          </rect>
@@ -1047,8 +1085,8 @@ QComboBox QAbstractItemView {
        <widget class="QLabel" name="label_4">
         <property name="geometry">
          <rect>
-          <x>736</x>
-          <y>510</y>
+          <x>876</x>
+          <y>440</y>
           <width>21</width>
           <height>21</height>
          </rect>
@@ -1065,8 +1103,8 @@ QComboBox QAbstractItemView {
        <widget class="QLabel" name="label_5">
         <property name="geometry">
          <rect>
-          <x>866</x>
-          <y>510</y>
+          <x>1006</x>
+          <y>440</y>
           <width>31</width>
           <height>21</height>
          </rect>
@@ -1083,14 +1121,66 @@ QComboBox QAbstractItemView {
        <widget class="QLabel" name="label_6">
         <property name="geometry">
          <rect>
-          <x>700</x>
-          <y>510</y>
+          <x>840</x>
+          <y>440</y>
           <width>21</width>
           <height>16</height>
          </rect>
         </property>
         <property name="text">
          <string>^2</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="adquisitionInfo">
+        <property name="geometry">
+         <rect>
+          <x>1100</x>
+          <y>540</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>MS Shell Dlg 2</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Presione para obtener más información&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    border: 2px solid #0e213e;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
+        );
+    }</string>
+        </property>
+        <property name="text">
+         <string>?</string>
         </property>
        </widget>
       </widget>
@@ -1290,7 +1380,7 @@ QPushButton:pressed {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>10</y>
+          <y>0</y>
           <width>991</width>
           <height>596</height>
          </rect>
@@ -1567,103 +1657,130 @@ QPushButton:pressed {
              </property>
             </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QPushButton" name="playGraph">
-               <property name="minimumSize">
-                <size>
-                 <width>101</width>
-                 <height>23</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-               </property>
-               <property name="text">
-                <string>Visualizar</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="stopGraph">
-               <property name="minimumSize">
-                <size>
-                 <width>101</width>
-                 <height>23</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(255, 255, 255);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:hover {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background: rgb(222, 222, 222);
-    selection-background-color: darkgray;
-    }
-
-QPushButton:pressed {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 0 8px;
-    background:rgb(176, 176, 176);
-    selection-background-color: darkgray;
-    }
-</string>
-               </property>
-               <property name="text">
-                <string>Detener</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
           </layout>
          </item>
         </layout>
        </widget>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="playGraph">
+      <property name="geometry">
+       <rect>
+        <x>1070</x>
+        <y>200</y>
+        <width>241</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>101</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione para iniciar la visualización de la señal despues de poner a cargar el estímulo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+      </property>
+      <property name="text">
+       <string>Visualizar</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="stopGraph">
+      <property name="geometry">
+       <rect>
+        <x>1070</x>
+        <y>240</y>
+        <width>241</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>101</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Detener visualización.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(255, 255, 255);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background: rgb(222, 222, 222);
+    selection-background-color: darkgray;
+    }
+
+QPushButton:pressed {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    background:rgb(176, 176, 176);
+    selection-background-color: darkgray;
+    }
+</string>
+      </property>
+      <property name="text">
+       <string>Detener</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="logo_2">
+      <property name="geometry">
+       <rect>
+        <x>1170</x>
+        <y>0</y>
+        <width>171</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
      </widget>
     </widget>
    </widget>
@@ -1673,7 +1790,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1057</width>
+     <width>1341</width>
      <height>21</height>
     </rect>
    </property>

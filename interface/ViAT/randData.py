@@ -9,8 +9,6 @@ from random import random as rand
 
 from pylsl import StreamInfo, StreamOutlet
 import numpy as np
-from datetime import datetime
-
 
 
 class RandData(object):
@@ -27,19 +25,17 @@ class RandData(object):
         self.outlet = StreamOutlet(self.info)
         print('Enviando datos')
 
-    def sample(self):        
+    def sample(self):
         while True:
             # make a new random 8-channel sample; this is converted into a
             # pylsl.vectorf (the data type that is expected by push_sample)
-            self.mysample = np.array([rand(), rand(), rand(), rand(),rand(), 
+            self.mysample = np.array([rand(), rand(), rand(), rand(), rand(),
                                       rand(), rand(), rand()])
             # now send it and wait for a bit
             self.outlet.push_sample(self.mysample)
 #            print(self.mysample)
             time.sleep(0.003)
-            
 
-            
 
 # In[To run individually]
 if __name__ == '__main__':

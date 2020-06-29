@@ -28,7 +28,7 @@ DataBase: Allows you to view current information in the database
 
 from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QFileDialog, QMessageBox, QDialog
 from PyQt5.QtGui import QIntValidator
-from PyQt5 import QtCore, QtWidgets,QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
 from PyQt5.QtGui import QIcon, QPixmap
@@ -65,34 +65,39 @@ import pyqtgraph as pg
 from datetime import datetime
 import random
 
-#from PySide2 import QtWidgets 
-#from PySide2 import QtCore 
-#from PySide2 import QtGui 
-#from PySide2.QtUiTools import QUiLoader
-#from PySide2.QtWidgets import QApplication
-#from PySide2.QtCore import QFile, QIODevice
+# from PySide2 import QtWidgets
+# from PySide2 import QtCore
+# from PySide2 import QtGui
+# from PySide2.QtUiTools import QUiLoader
+# from PySide2.QtWidgets import QApplication
+# from PySide2.QtCore import QFile, QIODevice
 # In[]
+
+
 class WorkerSignals(QObject):
     '''
     Supported signals are:
 
     finished
         No data
-    
+
     error
         `tuple` (exctype, value, traceback.format_exc() )
-    
+
     result
         `object` data returned from processing, anything
 
     '''
-    finished = pyqtSignal() # with no data to indicate when the task is complete
-    error = pyqtSignal(tuple) # which receives a tuple of Exception type, 
-                              # Exception value and formatted traceback.
-    result = pyqtSignal(object) # receiving any object type from the executed function.
+    finished = pyqtSignal()  # with no data to indicate when the task is complete
+    error = pyqtSignal(tuple)  # which receives a tuple of Exception type,
+    # Exception value and formatted traceback.
+    # receiving any object type from the executed function.
+    result = pyqtSignal(object)
     progress = pyqtSignal(int)
 
 # In[]
+
+
 class Worker(QRunnable):
     '''
     Worker thread
@@ -104,6 +109,7 @@ class Worker(QRunnable):
     :param kwargs: Keywords to pass to the callback function
 
     '''
+
     def __init__(self, fn, *args, **kwargs):
         super(Worker, self).__init__()
         # Store constructor arguments (re-used for processing)
@@ -134,27 +140,30 @@ class Worker(QRunnable):
             self.signals.finished.emit()  # Done
 
 # In[]
+
+
 class ViAT(QtWidgets.QMainWindow):
     '''First user view
-    
+
     Load a .ui type view designed in Qt designer
-    
+
     :setup: this function contains the condition to move to the other views
     '''
+
     def __init__(self):
         super(ViAT, self).__init__()
-        #The designed view is exported in qt designer
+        # The designed view is exported in qt designer
         loadUi('ViAT.ui', self)
 #        QFile("ViAT.ui")
         self.setWindowTitle('Inicio')
-        self.setWindowIcon(QtGui.QIcon('icono.png')) #window icon
-        self.setup() 
+        self.setWindowIcon(QtGui.QIcon('icono.png'))  # window icon
+        self.setup()
         self.show()
 
     def assignController(self, controller):
         # create connection to controller
         self.my_controller = controller
-        
+
     def assign_controller(self, controlador):
         self.__controlador = controlador
 
@@ -166,36 +175,39 @@ class ViAT(QtWidgets.QMainWindow):
         self.logo.setPixmap(pixmap)
 
     def loadRegistration(self):
-        self.__registry = LoadRegistration(self,self.__controlador,self.my_controller)
+        self.__registry = LoadRegistration(
+            self, self.__controlador, self.my_controller)
         self.__registry.show()
         self.hide()
 
     def loadData(self):
-        self.__registry = DataBase(self,self.__controlador,self.my_controller)
+        self.__registry = DataBase(
+            self, self.__controlador, self.my_controller)
         self.__registry.show()
         self.hide()
 
     def end(self):
         self.hide()
+        self.my_controller.stopDevice()
         exit()
 
 # In[]
+
+
 class LoadRegistration(QtWidgets.QDialog):
-    def __init__(self, LR, controlador , controller):
+    def __init__(self, LR, controlador, controller):
         super(LoadRegistration, self).__init__()
         loadUi("Agregardatos.ui", self)
-#        QFile("Agregardatos.ui")
+        # QFile("Agregardatos.ui")
         self.setup()
         self.setWindowTitle('Base de datos')
         self.setWindowIcon(QtGui.QIcon('icono.png'))
-        self.setup()
         self.show()
         self.__parentLoadRegistration = LR
         self.__controlador = controlador
         self.my_controller = controller
         self.__loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-#        self.__loc = os.getcwd()
-        
+
     def setup(self):
         self.btn_search.clicked.connect(self.find)
         self.btn_add.clicked.connect(self.add)
@@ -203,6 +215,7 @@ class LoadRegistration(QtWidgets.QDialog):
         self.back.clicked.connect(self.loadStart)
         self.next.clicked.connect(self.dataAcquisition)
         self.btn_update.clicked.connect(self.upgrade)
+        self.infoAdquisition.clicked.connect(self.info)
         self.btn_update.setEnabled(False)
         self.next.setEnabled(False)
         self.save.clicked.connect(self.location)
@@ -213,17 +226,24 @@ class LoadRegistration(QtWidgets.QDialog):
         self.snellen.setPlaceholderText("20/20")
         self.correction.setPlaceholderText("NaN")
         self.time.setPlaceholderText("NaN")
-        
+
+    def info(self):
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("Dirijase al campo de CC y digite la cedula del sujeto a registrar, para verificar que no se encuentre ya en la base de datos, y si no esta llene todos los campos presentados a continuación y presione agregar, en el botón 'ver ubicación'confirme la ubicación donde quedara guardado el registro, al finalizar presione el botón 'Siguiente'. Si el sujeto ya se encuentra en la base de datos y desea modificar un campo, presione 'Actualizar'. Si desea observar todos los sujetos en la base de datos presione 'Mostrar Pacientes'. Para volver al menú anterior presione 'Atrás'.")
+        msg.setWindowTitle("Ayuda")
+        x = msg.exec_()
+
     def assign_controller(self, controlador):
         self.__controlador = controlador
-        
+
     def location(self):
         self.my_controller.defineLocation()
-    
+
     def upgrade(self):
         if not (self.d.text() and self.nombre.text() and
-                self.apellidos.text() and self.cc.text() and 
-                self.snellen.text() and self.correction.text()  and 
+                self.apellidos.text() and self.cc.text() and
+                self.snellen.text() and self.correction.text() and
                 self.edad.text() and self.time.text() and self.rp.text()):
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
@@ -246,24 +266,23 @@ class LoadRegistration(QtWidgets.QDialog):
             if self.stimulus.currentIndex() == 0:
                 self.stimu = 'Vernier'
             else:
-                 self.stimu = 'Grating'
+                self.stimu = 'Grating'
             data = {
-                    "d":self.d.text(),
-        			"nombre":self.nombre.text(),
-        			"apellidos": self.apellidos.text(),
-        			"cc":self.cc.text(),
-                    "sexo":(self.sex),
-                    "dominante":(self.domi),
-        			"gafas":(self.glass),
-        			"snellen":(self.snellen.text()),
-        			"corregida":(self.correction.text()),
-        			"estimulo":(self.stimu),
-        			"edad":(self.edad.text()),
-        			"tiempo":(self.time.text()),
-        			"rp":(self.rp.text()),
-                    "ubicacion":(str(self.__loc))
-                    }
-    
+                "d": self.d.text(),
+                "nombre": self.nombre.text(),
+                "apellidos": self.apellidos.text(),
+                "cc": self.cc.text(),
+                "sexo": (self.sex),
+                "dominante": (self.domi),
+                "gafas": (self.glass),
+                "snellen": (self.snellen.text()),
+                "corregida": (self.correction.text()),
+                "estimulo": (self.stimu),
+                "edad": (self.edad.text()),
+                "tiempo": (self.time.text()),
+                "rp": (self.rp.text()),
+                "ubicacion": (str(self.__loc))
+            }
             band = self.__controlador.add_data(data)
             if band == True:
                 msg = QMessageBox(self)
@@ -271,18 +290,17 @@ class LoadRegistration(QtWidgets.QDialog):
                 msg.setText("Información Actualizada")
                 msg.show()
             self.activate()
-    def deactivate(self):
-       self.nombre.setEnabled(False)
-       self.apellidos.setEnabled(False)
-       self.d.setEnabled(False)
-       self.cc.setEnabled(False)
-       self.sexo.setEnabled(False)
-       self.dominante.setEnabled(False)
-       self.btn_search.setEnabled(False)
-       self.btn_update.setEnabled(True)
-       
 
-        
+    def deactivate(self):
+        self.nombre.setEnabled(False)
+        self.apellidos.setEnabled(False)
+        self.d.setEnabled(False)
+        self.cc.setEnabled(False)
+        self.sexo.setEnabled(False)
+        self.dominante.setEnabled(False)
+        self.btn_search.setEnabled(False)
+        self.btn_update.setEnabled(True)
+
     def find(self):
         find = self.cc.text()
         result = self.__controlador.get_one(find)
@@ -294,10 +312,10 @@ class LoadRegistration(QtWidgets.QDialog):
             msg.setIcon(QMessageBox.Information)
             msg.setText("Información no encontrada")
             msg.show()
-            
+
             self.activate()
         self.next.setEnabled(True)
-            
+
     def activate(self):
         self.nombre.setEnabled(True)
         self.apellidos.setEnabled(True)
@@ -326,7 +344,7 @@ class LoadRegistration(QtWidgets.QDialog):
         self.time.setPlaceholderText("NaN")
         self.time.setText("")
         self.rp.setText("")
-    
+
     def show_info(self, result):
         info = result
         print(info)
@@ -339,7 +357,7 @@ class LoadRegistration(QtWidgets.QDialog):
         else:
             self.sexo.setCurrentIndex(1)
         if str(info[5]) == 'Derecho':
-            self.dominante.setCurrentIndex(0) 
+            self.dominante.setCurrentIndex(0)
         else:
             self.dominante.setCurrentIndex(1)
         if str(info[6]) == 'Si':
@@ -349,16 +367,16 @@ class LoadRegistration(QtWidgets.QDialog):
         self.snellen.setText(str(info[7]))
         self.correction.setText(str(info[8]))
         if str(info[9]) == 'Vernier':
-            self.stimulus.setCurrentIndex(0)     
+            self.stimulus.setCurrentIndex(0)
         self.edad.setText(str(info[10]))
         self.time.setText(str(info[11]))
         self.rp.setText(str(info[12]))
         self.btn_add.setEnabled(False)
-            
+
     def add(self):
         if not (self.d.text() and self.nombre.text() and
-                self.apellidos.text() and self.cc.text() and 
-                self.snellen.text() and self.correction.text()  and 
+                self.apellidos.text() and self.cc.text() and
+                self.snellen.text() and self.correction.text() and
                 self.edad.text() and self.time.text() and self.rp.text()):
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
@@ -381,25 +399,24 @@ class LoadRegistration(QtWidgets.QDialog):
             if self.stimulus.currentIndex() == 0:
                 self.stimu = 'Vernier'
             else:
-                 self.stimu = 'Grating'
+                self.stimu = 'Grating'
             data = {
-                "d":self.d.text(),
-    			"nombre":self.nombre.text(),
-    			"apellidos": self.apellidos.text(),
-    			"cc":self.cc.text(),
-                "sexo":(self.sex),
-                "dominante":(self.domi),
-    			"gafas":(self.glass),
-    			"snellen":(self.snellen.text()),
-    			"corregida":(self.correction.text()),
-    			"estimulo":(self.stimu),
-    			"edad":(self.edad.text()),
-    			"tiempo":(self.time.text()),
-    			"rp":(self.rp.text()),
-                "ubicacion":(str(self.__loc))
-                }
+                "d": self.d.text(),
+                "nombre": self.nombre.text(),
+                "apellidos": self.apellidos.text(),
+                "cc": self.cc.text(),
+                "sexo": (self.sex),
+                "dominante": (self.domi),
+                "gafas": (self.glass),
+                "snellen": (self.snellen.text()),
+                "corregida": (self.correction.text()),
+                "estimulo": (self.stimu),
+                "edad": (self.edad.text()),
+                "tiempo": (self.time.text()),
+                "rp": (self.rp.text()),
+                "ubicacion": (str(self.__loc))
+            }
 
-            
             band = self.__controlador.add_data(data)
             if band == True:
                 msg = QMessageBox(self)
@@ -408,50 +425,56 @@ class LoadRegistration(QtWidgets.QDialog):
                 msg.show()
             self.activate()
         self.next.setEnabled(True)
-        
+
     def see(self):
-            self.__registry = DataBase(self,self.__controlador,self.my_controller)
-            self.__registry.show()
-            self.hide()
-        
+        self.__registry = DataBase(
+            self, self.__controlador, self.my_controller)
+        self.__registry.show()
+        self.hide()
+
     def loadStart(self):
         self.__parentLoadRegistration.show()
         self.hide()
 
     def dataAcquisition(self):
-        self.__registry = DataAcquisition(self,self.__controlador,self.my_controller)
+        self.__registry = DataAcquisition(
+            self, self.__controlador, self.my_controller)
         self.__registry.show()
         self.hide()
 
 # In[]
+
+
 class DataAcquisition(QtWidgets.QMainWindow):
     '''Electrodes and devices
-    
+
         Verify that the application can continue with the registration
-    
+
         :setup: This function allows to:
                 1. Initiate communication with OpenBCI
                 2. Verify the existence of a second connected display 
                 to show stimulation
                 3. Observe the impedance at each electrode
-                
+
         :param variable controller: allows me to communicate with the model 
         through the controller
     '''
-    #Contains restrictions to follow the actions in an orderly manner
+    # Contains restrictions to follow the actions in an orderly manner
+
     def __init__(self, DA, controlador, controller):
         super(DataAcquisition, self).__init__()
-        #The designed view is exported in qt designer
+        # The designed view is exported in qt designer
         loadUi('Adquisicion.ui', self)
-#        QFile('Adquisicion.ui')
+        # QFile('Adquisicion.ui')
         self.setWindowTitle('Adquisición')
         self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
         self.show()
         self.__parentDataAcquisition = DA
-        self.threadpool = QThreadPool() #creating a group of threads in qt
+        self.threadpool = QThreadPool()  # creating a group of threads in qt
         self.my_controller = controller
         self.__controlador = controlador
+        self.banDataAcquisition = 0
 
     def setup(self):
         self.back.clicked.connect(self.loadStart)
@@ -460,6 +483,8 @@ class DataAcquisition(QtWidgets.QMainWindow):
         self.StopZ.setEnabled(False)
         self.detectDevice.setEnabled(False)
         self.startDevice.clicked.connect(self.Startdevice)
+        self.next.clicked.connect(self.executeAcquisition)
+        self.StopZ.clicked.connect(self.StopMeasurement)
         self.FCz.setEnabled(False)
         self.Oz.setEnabled(False)
         self.O1.setEnabled(False)
@@ -478,43 +503,50 @@ class DataAcquisition(QtWidgets.QMainWindow):
         self.O1.clicked.connect(self.startMeasurement)
         self.O2.clicked.connect(self.startMeasurement)
         self.Oz.clicked.connect(self.startMeasurement)
-        
+
         pixmap = QtGui.QPixmap('M.png')
         self.mounting.setPixmap(pixmap)
         pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
-        
+
     def info(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("Comience identificando que el dispositivo esta conectado y que puede comenzar a adquirir los datos, se abrirá una ventana negra en la cual se muestran los datos adquiridos, presione 'Miminizar' y a continuación verifique que la pantalla de estimulación se encuentra conectada y ahora, para verificar la impedancia presione cualquiera de los electrodos de la configuración. Antes de pasar a la siguiente etapa recuerde detener la medición de la impedancia ")
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("Comience identificando que el dispositivo esta conectado y que puede comenzar a adquirir los datos,se abrirá una ventana negra la cual le anuncia que se ha comenzado la adquisición,presione 'Miminizar' y a continuación verifique que la pantalla de estimulación se encuentra conectada. Para verificar la impedancia presione cualquiera de los electrodos de la configuración. Antes de pasar a la siguiente etapa recuerde detener la medición de la impedancia ")
         msg.setWindowTitle("Ayuda")
         x = msg.exec_()
-        
+
     def loadStart(self):
         self.__parentDataAcquisition.show()
         self.hide()
 
     def executeAcquisition(self):
-        self.next.setEnabled(False) #Revisar genera delay
-        self.__registry = AcquisitionSignal(self,self.__controlador,self.my_controller)
-        self.__registry.show()
-        self.hide()
-        
-        
+        if self.banDataAcquisition == True:
+            self.next.setEnabled(False)  # Revisar genera delay
+            self.__registry = AcquisitionSignal(
+                self, self.__controlador, self.my_controller)
+            self.__registry.show()
+            self.hide()
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText(
+                "Detenga la medición de la impedancia antes de continuar")
+            msg.setWindowTitle("Alerta!")
+            x = msg.exec_()
+
     def returnLastZ(self):
         return self.my_controller.returnLastZ()
 
     def startMeasurement(self):
         self.my_controller.startZ()
         self.StopZ.setEnabled(True)
-        self.StopZ.clicked.connect(self.StopMeasurement)
-        
-        print("Iniciar medicion")
-        self.timer = QtCore.QTimer(self) #creating a time thread
-        self.timer.timeout.connect(self.printZ)
-        self.timer.start(22)  # speed in milliseconds discriminated by human eye
 
+        print("Iniciar medicion")
+        self.timer = QtCore.QTimer(self)  # creating a time thread
+        self.timer.timeout.connect(self.printZ)
+        # speed in milliseconds discriminated by human eye
+        self.timer.start(22)
 
     def fGND(self):
         self.GND.setEnabled(False)
@@ -531,7 +563,7 @@ class DataAcquisition(QtWidgets.QMainWindow):
         msg.setText("Verifique la conexion del electrodo")
         msg.setWindowTitle("Alerta!")
         x = msg.exec_()
-        
+
     def printZ(self):
         Z = self.returnLastZ()
         self.impedanceFCZ.display(Z[0])
@@ -542,30 +574,29 @@ class DataAcquisition(QtWidgets.QMainWindow):
         self.impedancePO8.display(Z[5])
         self.impedancePO3.display(Z[6])
         self.impedancePO4.display(Z[7])
-    
+
     def StopMeasurement(self):
+        self.banDataAcquisition = 1
         self.timer.stop()
         self.my_controller.stopZ()
         print("detener impedancia")
         self.next.setEnabled(True)
-        self.next.clicked.connect(self.executeAcquisition)
 
     def Startdevice(self):
-        #use worker function explained at startup
+        # use worker function explained at startup
         self.worker = Worker(self.execute_this_fn)
         self.worker.signals.result.connect(self.print_output)  # s
         self.worker.signals.finished.connect(self.thread_complete)
         self.worker.signals.progress.connect(self.progress_fn)  # n
         # Execute
         self.threadpool.start(self.worker)
-        
-        
+
         self.detectDevice.setEnabled(True)
         self.startDevice.setEnabled(False)
         self.detectDevice.clicked.connect(self.device)
-        
+
     def device(self):
-       
+
         self.FCz.setEnabled(True)
         self.Oz.setEnabled(True)
         self.O1.setEnabled(True)
@@ -576,28 +607,28 @@ class DataAcquisition(QtWidgets.QMainWindow):
         self.PO4.setEnabled(True)
         self.my_controller.startData()
 
-        ##Allows to detect if there is a second screen connected
-#        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
-#        displays = [x for x in obj if 'DISPLAY' in str(x)]
-#        num=len(displays)
-#        if num==3:
-#            self.next.setEnabled(True)
-#            self.next.clicked.connect(self.executeAcquisition)
-#        else:
-#            msg = QMessageBox()
-#            msg.setIcon(QMessageBox.Warning)
-#            msg.setText("Debe conectar una segunda pantalla para poder iniciar la adquisición")
-#            msg.setWindowTitle("Alerta!")
-#            num=0
-#            x = msg.exec_()
+        # Allows to detect if there is a second screen connected
+        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
+        displays = [x for x in obj if 'DISPLAY' in str(x)]
+        num = len(displays)
+        if num == 3:
+            self.next.setEnabled(True)
+            self.next.clicked.connect(self.executeAcquisition)
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText(
+                "Debe conectar una segunda pantalla para poder iniciar la adquisición")
+            msg.setWindowTitle("Alerta!")
+            num = 0
+            x = msg.exec_()
         self.detectDevice.setEnabled(False)
-       
+
     def progress_fn(self, n):
         pass
 
     def execute_this_fn(self, progress_callback):
         self.my_controller.startDevice()
-        
 
     def print_output(self, s):
         print(s)
@@ -606,66 +637,67 @@ class DataAcquisition(QtWidgets.QMainWindow):
         print("THREAD COMPLETE!")
 
 # In[]
+
+
 class AcquisitionSignal(QtWidgets.QMainWindow):
     '''
         This module allows to start the visual stimulation, and allows 
         to visualize the acquired signals in real time.
 
         It is divided into two sections:
-        
+
         1. The first view allows you to start and restart the stimulus. 
         Disconnecting the device will observe the results of the subject 
         that has been registered
         2. The second part only allows to view the signals in real time
-    
+
         :param variable controller: allows me to communicate with the model 
         through the controller    
     '''
+
     def __init__(self, AS, controlador, controller):
         super(AcquisitionSignal, self).__init__()
-        #The designed view is exported in qt designer
+        # The designed view is exported in qt designer
         loadUi('Adquisicion_accion.ui', self)
-#        QFile('Adquisicion_accion.ui')
+        # QFile('Adquisicion_accion.ui')
         self.setWindowTitle('Adquisición')
         self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
         self.show()
         self.counter = 0
         self.__parentAcquisitionSignal = AS
-        self.threadpool = QThreadPool() #creating a group of threads in qt
+        self.threadpool = QThreadPool()  # creating a group of threads in qt
         print("Multithreading with maximum %d threads" %
-        self.threadpool.maxThreadCount())
-        self.timer = QTimer()  #creating a time thread
+              self.threadpool.maxThreadCount())
+        self.timer = QTimer()  # creating a time thread
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.recurring_timer)
         self.timer.start()
         self.my_controller = controller
         self.__controlador = controlador
         self.step = 0
-        
 
     def setup(self):
         pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
         self.play.clicked.connect(self.startPlay)
         self.stop.setEnabled(False)
-#        self.patientData.clicked.connect(self.loadData)
         self.back.clicked.connect(self.loadStart)
         self.exit.clicked.connect(self.end)
         self.playGraph.clicked.connect(self.startGraph)
         self.stopGraph.clicked.connect(self.haltGraph)
         self.adquisitionInfo.clicked.connect(self.info)
         self.stopDevice.clicked.connect(self.stopProcess)
+        self.display.setEnabled(True)
         self.display.clicked.connect(self.displaysignal)
-    
-    def closeData(self,data):
+
+    def closeData(self, data):
         data.close()
-        
-        
+
     def info(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("En la parte superior encontrara dos pestañas, la de inicio, en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal adquirida en tiempo real. Primero debe presionar el botón inicio en la pestaña actual, luego, pase a la pestaña de visualización y presione 'visualiza', en la primera pestaña podra observar una barra de proceso que le anunciara que el estimulo esta a punto de presentarse. Al terminar podra visualizar los resultados de la estimulación en esta misma pestaña, para visualizar resultados anteriores o de otro pacientes, dirijase a 'Base de datos pacientes'  ")
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("En la parte superior encontrara dos pestañas, cargar estimulación,en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal adquirida en tiempo real.Primero debe presionar el botón inicio en la pestaña actual,luego, pase a la pestaña de visualización y presione 'visualizar',en la primera pestaña podra observar una barra de proceso que le anunciara que el estímulo esta a punto de presentarse.En esta pestaña podra interactuar con la señal aplicando el método de Welch a cada uno de los canales o modificando la configuración de Laplace segun el interes del registro.Podra reiniciar el estimulo las veces que sea necesario sin necesidad de detener la adquisición ni la visualización de la señal. En la parte inferior podra observar 4 botónes que le permiten ir a la vista anterior, desconectar el dispositivo de adquisición, visualizar las señales adquiridas previamente o salir del programa.")
         msg.setWindowTitle("Ayuda")
         x = msg.exec_()
 
@@ -691,49 +723,42 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
     def progress_fn(self, n):
         pass
 
-
     def execute_this_fn(self, progress_callback):
-        veces=0
-        while veces<10 and self.ban is True:
-            time.sleep(veces) #increment one second when entering while
+        veces = 0
+        while veces < 10 and self.ban is True:
+            time.sleep(veces)  # increment one second when entering while
             value = self.alert.value()
             if value < 100:
-                value = value + 10 #progress bar
+                value = value + 10  # progress bar
                 self.alert.setValue(value)
             else:
                 self.timer.stop()
-            veces=veces+1
-#        time.sleep(15)  # if the while is not used for the progress bar
+            veces = veces+1
+        # time.sleep(15)  # if the while is not used for the progress bar
         if self.ban is True:
             self.my_controller.startStimulus()
             self.my_controller.stopStimulus()
         else:
             pass
 
-
-    
     def print_output(self, s):
         print(s)
 
     def thread_complete(self):
         print("COMPLETE!")
 
-    def stopEnd(self):#Reset
+    def stopEnd(self):  # Reset
         self.play.setEnabled(True)
         pygame.quit()
         self.alert.setValue(0)
 
-    def loadData(self):
-        self.__registry = DataBase(self,self.__controlador,self.my_controller)
-        self.__registry.show()
-        self.hide()
-
     def loadStart(self):
         self.__parentAcquisitionSignal.show()
         self.hide()
-    
+
     def end(self):
         self.hide()
+        self.my_controller.stopDevice()
         exit()
 
     def recurring_timer(self):
@@ -741,10 +766,10 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
 
     def returnLastData(self):
         return self.my_controller.returnLastData()
-    
+
     def stopProcess(self):
-        self.my_controller.stopDevice()   
-    
+        self.my_controller.stopDevice()
+
     def graphData(self):
         ''' This function allows to graph and save the registry data
             data arrives from the model, where it is acquired by the device 
@@ -754,41 +779,42 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
         '''
         if self.welch.currentIndex() == 0:
             c = 0
-            pen=('#208A8A')
+            pen = ('#208A8A')
         elif self.welch.currentIndex() == 1:
             c = 1
-            pen=('#CD10B4')
+            pen = ('#CD10B4')
         elif self.welch.currentIndex() == 2:
             c = 2
-            pen=('#1014CD')
+            pen = ('#1014CD')
         elif self.welch.currentIndex() == 3:
             c = 3
-            pen=('#10CD14')
+            pen = ('#10CD14')
         elif self.welch.currentIndex() == 4:
             c = 4
-            pen=('#F7FB24')
+            pen = ('#F7FB24')
         elif self.welch.currentIndex() == 5:
             c = 5
-            pen=('#FBB324')
+            pen = ('#FBB324')
         elif self.welch.currentIndex() == 6:
             c = 6
-            pen=('#E53923')
+            pen = ('#E53923')
         else:
             c = 7
-            pen=('#806123')
-        
-        self.my_controller.laplace_controller(self.laplace1.currentIndex(),self.laplace2.currentIndex(),self.laplace3.currentIndex())
+            pen = ('#806123')
+
+        self.my_controller.laplace_controller(self.laplace1.currentIndex(
+        ), self.laplace2.currentIndex(), self.laplace3.currentIndex())
         data, Powers, freq, laplace, Plaplace, flaplace = self.returnLastData()
-       
+
         data = data - np.mean(data, 0)
         if data.ndim == 0:
             print("Lista vacia")
             return
         self.welchPlot.clear()
-        self.welchPlot.plot(x=freq,y=Powers[c,:],pen=pen)
+        self.welchPlot.plot(x=freq, y=Powers[c, :], pen=pen)
         self.welchPlot.repaint()
         self.welchLaplace.clear()
-        self.welchLaplace.plot(x=flaplace,y=Plaplace[0,:], pen=('#0D6B9D'))
+        self.welchLaplace.plot(x=flaplace, y=Plaplace[0, :], pen=('#0D6B9D'))
         self.welchLaplace.repaint()
         self.viewSignalOz.clear()
         self.viewSignalOz.plot(np.round(data[1, :], 1), pen=('#CD10B4'))
@@ -812,13 +838,13 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
         self.viewSignalPO4.plot(np.round(data[7, :], 1), pen=('#806123'))
         self.viewSignalPO4.repaint()
 
-
     def startGraph(self):
         '''
         call the data in the controller
         '''
         self.my_controller.startData()
         self.stopDevice.setEnabled(False)
+        self.display.setEnabled(False)
 
         print("Iniciar senal")
         self.timer = QtCore.QTimer(self)
@@ -829,25 +855,25 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
 
     def haltGraph(self):
         self.timer.stop()
-        self.ban = False 
+        self.ban = False
         self.my_controller.stopData()
         self.stopDevice.setEnabled(True)
+        self.display.setEnabled(True)
         print("detener senal")
-        
-        
+
     def displaysignal(self):
-        self.__registry = GraphicalInterface(self,self.__controlador)
+        self.__registry = GraphicalInterface(self, self.__controlador)
         self.__registry.show()
         self.hide()
-        
-    
+
+
 # In[]
-        
+
 class DataBase(QDialog):
-    def __init__(self, DB,controlador , controller):
+    def __init__(self, DB, controlador, controller):
         super(DataBase, self).__init__()
         loadUi("Buscardatos.ui", self)
-#        QFile("Buscardatos.ui")
+        # QFile("Buscardatos.ui")
         self.setWindowTitle('Base de datos')
         self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup()
@@ -856,19 +882,19 @@ class DataBase(QDialog):
         self.__parentDataBase = DB
         self.__controlador = controlador
         self.my_controller = controller
-        
+
     def setup_TreeWidget(self):
-    		self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
-    		self.table.setColumnWidth(0, 150)
-    		self.table.setColumnWidth(1, 110)
-    		self.table.setColumnWidth(2, 110)
-    		self.table.setColumnWidth(3, 110)
-    		self.table.setColumnWidth(4, 110)
-    		self.table.setColumnWidth(5, 110)
-            
+        self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
+        self.table.setColumnWidth(0, 150)
+        self.table.setColumnWidth(1, 110)
+        self.table.setColumnWidth(2, 110)
+        self.table.setColumnWidth(3, 110)
+        self.table.setColumnWidth(4, 110)
+        self.table.setColumnWidth(5, 110)
+
     def assign_controller(self, controlador):
         self.__controlador = controlador
-    
+
     def setup(self):
         self.line_search.setPlaceholderText("Cedula del sujeto")
         self.btn_show.clicked.connect(self.show_everything)
@@ -876,37 +902,43 @@ class DataBase(QDialog):
         self.table.itemDoubleClicked.connect(self.dbclick)
         self.back.clicked.connect(self.loadStart)
         self.display.clicked.connect(self.displaysignal)
+        self.infoAdquisition.clicked.connect(self.info)
 
         pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
-        
+
+    def info(self):
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("En el primer campo que encuentra podra digitar la CC de un sujeto para buscar su información en la base de datos, o presionar 'Mostrar todo' para visualizar todos los sujetos presentes en la base de datos.Existe un menú desplegable debajo de este campo, este permite eliminar un sujeto de la base de datos o direccionar al usuario al registro del sujeto.En el botón 'Visualizar señales' se dirigira a la vista que le permite buscar y visualizar señales previamente adquiridas.Para volver al menú anterior presione 'Atrás'.")
+
     def show_everything(self):
         results = self.__controlador.get_integrants()
         self.see(results)
-        
-            
+
     def find(self):
-    		find = self.line_search.text()
-    		self.line_search.setText("")
-    		self.line_search.setPlaceholderText("Cedula del sujeto")
-    		results = self.__controlador.search_integrantes(find)
-    		self.see(results)
-            
+        find = self.line_search.text()
+        self.line_search.setText("")
+        self.line_search.setPlaceholderText("Cedula del sujeto")
+        results = self.__controlador.search_integrantes(find)
+        self.see(results)
+
     def see(self, results):
         self.table.clear()
         for result in results:
             item = QTreeWidgetItem(self.table)
             for i in range(14):
-                item.setText(i,str(result[i]))
-                        
+                item.setText(i, str(result[i]))
+
     def dbclick(self):
         if self.options.currentIndex() == 0:
             data = self.table.currentItem()
-            buttonReply = QMessageBox.question(self, 'Borrar información', 
-    			u"¿Desea eliminar a %s de la lista de sujetos?"%data.text(0), 
-    			QMessageBox.Yes | QMessageBox.No)
+            buttonReply = QMessageBox.question(self, 'Borrar información',
+                                               u"¿Desea eliminar a %s de la lista de sujetos?" % data.text(
+                                                   0),
+                                               QMessageBox.Yes | QMessageBox.No)
             if buttonReply == QMessageBox.Yes:
-                self.__controlador.delete(data.text(0))
+                self.__controlador.delete(data.text(3))
                 self.show_everything()
             if buttonReply == QMessageBox.No:
                 pass
@@ -915,9 +947,10 @@ class DataBase(QDialog):
         else:
             data = self.table.currentItem()
             buttonReply = QMessageBox.question(self, 'Buscar información',
-                u"¿Desea ir a la ubicación del registro de %s?"%data.text(0),
-                QMessageBox.Yes | QMessageBox.No)
-            path = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
+                                               u"¿Desea ir a la ubicación del registro de %s?" % data.text(
+                                                   0),
+                                               QMessageBox.Yes | QMessageBox.No)
+            path = self.__controlador.file_location(data.text(0), data.text(3))
             path = os.path.realpath(path)
             if buttonReply == QMessageBox.Yes:
                 os.startfile(path)
@@ -929,45 +962,44 @@ class DataBase(QDialog):
     def loadStart(self):
         self.__parentDataBase.show()
         self.hide()
-    
+
     def displaysignal(self):
-        self.__registry = GraphicalInterface(self,self.__controlador)
+        self.__registry = GraphicalInterface(self, self.__controlador)
         self.__registry.show()
         self.hide()
-        
-    	
+
+
 # In[]
 
 class GraphicalInterface(QtWidgets.QMainWindow):
     def __init__(self, IG, controlador):
-        super(GraphicalInterface,self).__init__(IG)
-        loadUi ('visualizacion.ui',self)
+        super(GraphicalInterface, self).__init__(IG)
+        loadUi('visualizacion.ui', self)
         self.setup()
         self.show()
-        
-        self.__x_min=0
-        self.__x_max=0
+
+        self.__x_min = 0
+        self.__x_max = 0
         self.setWindowTitle('Visualización')
         self.setWindowIcon(QtGui.QIcon('icono.png'))
         self.setup_TreeWidget()
         self.__parentGraphicInterface = IG
         self.__controlador = controlador
         self.setFocusPolicy(Qt.StrongFocus)
-    
-    def setup(self): 
+
+    def setup(self):
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.ax = self.figure.add_subplot(111)
         layout = QtGui.QVBoxLayout()
         layout.addWidget(self.canvas)
         self.campo_grafico.setLayout(layout)
-#        self.campo_grafico.setCentralWidget(layout)
-        
+
         self.btn_load.clicked.connect(self.load_signal)
         self.btn_ahead.clicked.connect(self.forward_signal)
         self.btn_behind.clicked.connect(self.delay_signal)
         self.btn_increase.clicked.connect(self.increase_signal)
-        self.btn_decrease.clicked.connect(self.decrease_signal)    
+        self.btn_decrease.clicked.connect(self.decrease_signal)
         self.btn_leave.clicked.connect(self.toclose)
         self.btn_ahead.setEnabled(False)
         self.btn_behind.setEnabled(False)
@@ -978,180 +1010,194 @@ class GraphicalInterface(QtWidgets.QMainWindow):
         self.table.itemDoubleClicked.connect(self.dbclick)
         self.back.clicked.connect(self.loadStart)
         self.btn_show.clicked.connect(self.show_everything)
+        self.infoAdquisition.clicked.connect(self.info)
 
         pixmap1 = QtGui.QPixmap('blanclogo.png')
         self.logo.setPixmap(pixmap1)
-                 
-        
+
+    def info(self):
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("En esta vista prodra visualizar señales previamente regustradas por ViAT o en el software OpenViBE,en el menú desplegle a la derecha elija el tipo de archivo que va a buscar y presione 'Cargar señal'. Los botónes en la parte inferior de este botón le permiten desplazar la señal en el tiempo y realizar un ajuste de la señal para visualizarla mejor. En el campo siguiente podra interactuar nuevamente con la base de datos buscando un sujeto con su CC para visualizar la señal de manera más agil. Si desea observar todos los sujetos en la base de datos presione 'Mostrar Pacientes'. Para volver al menú anterior presione 'Atrás'.")
+
     def compute_initial_figure(self):
         t = np.arange(0.0, 3.0, 0.01)
         s = np.sin(2*np.pi*t)
-        self.axes.plot(t,s)
-        
+        self.axes.plot(t, s)
+
     # Graph signal
-    def graph_data(self,datos):
-        self.ax.cla()        
+    def graph_data(self, datos):
+        self.ax.cla()
         print(datos.shape)
         for c in range(datos.shape[0]):
-            self.ax.plot(datos[c,:]+c*10)
+            self.ax.plot(datos[c, :]+c*10)
         self.ax.set_xlabel("Muestras")
         self.ax.set_ylabel("Voltaje (uV)")
         self.ax.set_title('Registro EEG - Visualización ViAT')
-        
+
         self.canvas.draw()
+
     def setup_TreeWidget(self):
-    		self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
-    		self.table.setColumnWidth(0, 150)
-    		self.table.setColumnWidth(1, 110)
-    		self.table.setColumnWidth(2, 110)
-    		self.table.setColumnWidth(3, 110)
-    		self.table.setColumnWidth(4, 110)
-    		self.table.setColumnWidth(5, 110)    
+        self.table.setStyleSheet('Background-color:rgba(255, 215, 255,20);')
+        self.table.setColumnWidth(0, 150)
+        self.table.setColumnWidth(1, 110)
+        self.table.setColumnWidth(2, 110)
+        self.table.setColumnWidth(3, 110)
+        self.table.setColumnWidth(4, 110)
+        self.table.setColumnWidth(5, 110)
     # Close program
+
     def toclose(self):
         self.close()
-        
+
     # Controller assignment to make connection in MVC model
-    def assign_controller(self,controlador):
-        self.__controlador=controlador
-        
+    def assign_controller(self, controlador):
+        self.__controlador = controlador
+
     # Advance the signal one second in time. This corresponds to 2000 points in the signal
     def forward_signal(self):
-        self.__x_min=self.__x_min+2000
-        self.__x_max=self.__x_max+2000
-        self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
-        
+        self.__x_min = self.__x_min+2000
+        self.__x_max = self.__x_max+2000
+        self.graph_data(self.__controlador.returnDataSenal(
+            self.__x_min, self.__x_max))
+
     # Delaying the signal one second in time. This corresponds to 2000 points in the signal
     def delay_signal(self):
-        if self.__x_min<2000:
+        if self.__x_min < 2000:
             return
-        self.__x_min=self.__x_min-2000
-        self.__x_max=self.__x_max-2000
-        self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
-        
+        self.__x_min = self.__x_min-2000
+        self.__x_max = self.__x_max-2000
+        self.graph_data(self.__controlador.returnDataSenal(
+            self.__x_min, self.__x_max))
+
     # Increase signal amplitude
     def increase_signal(self):
-        self.graph_data(self.__controlador.scaleSignal(self.__x_min,self.__x_max,2))
-        
+        self.graph_data(self.__controlador.scaleSignal(
+            self.__x_min, self.__x_max, 2))
+
     # Decrease signal amplitude
     def decrease_signal(self):
-        self.graph_data(self.__controlador.scaleSignal(self.__x_min,self.__x_max,0.5))
-        
+        self.graph_data(self.__controlador.scaleSignal(
+            self.__x_min, self.__x_max, 0.5))
+
     # Load the signal in sight
     def load_signal(self):
-        archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir seal","","Todos los archivos (*);;Archivos csv (*.csv)*")
+        archivo_cargado, _ = QFileDialog.getOpenFileName(
+            self, "Abrir seal", "", "Todos los archivos (*);;Archivos csv (*.csv)*")
         if archivo_cargado != "":
             if self.type.currentIndex() == 0:
                 d = pd.read_csv(archivo_cargado, header=None)
                 d = d.values
-                d = d[0:8,:]*100000
-                d[1] = d[1,:] - d[0,:]
-                d[2] = d[2,:] - d[0,:]
-                d[3] = d[3,:] - d[0,:]
-                d[4] = d[4,:] - d[0,:]
-                d[5] = d[5,:] - d[0,:]
-                d[6] = d[6,:] - d[0,:]
-                d[7] = d[7,:] - d[0,:]
+                d = d[0:8, :]*100000
+                d[1] = d[1, :] - d[0, :]
+                d[2] = d[2, :] - d[0, :]
+                d[3] = d[3, :] - d[0, :]
+                d[4] = d[4, :] - d[0, :]
+                d[5] = d[5, :] - d[0, :]
+                d[6] = d[6, :] - d[0, :]
+                d[7] = d[7, :] - d[0, :]
             else:
-                d = pd.read_csv(archivo_cargado,';',header=None)
+                d = pd.read_csv(archivo_cargado, ';', header=None)
                 d = d.drop([0], axis=0)
                 d = d.T
                 d = d.drop([9], axis=1)
                 d = d.drop([0], axis=0)
-                index=list(range(0,len(d[1])))
+                index = list(range(0, len(d[1])))
                 d[0] = index
                 d = d.set_index(d[0])
                 d = d.drop([8], axis=0)
                 d = d.astype(float)
                 d = d.values
-                d = d[0:8,:]*500
-                d[0] = d[0,:]
-                d[1] = d[1,:] + 1000
-                d[2] = d[2,:] + 2000
-                d[3] = d[3,:] + 3000
-                d[4] = d[4,:] + 4000
-                d[5] = d[5,:] + 5000
-                d[6] = d[6,:] + 6000
-                d[7] = d[7,:] + 7000
+                d = d[0:8, :]*500
+                d[0] = d[0, :]
+                d[1] = d[1, :] + 1000
+                d[2] = d[2, :] + 2000
+                d[3] = d[3, :] + 3000
+                d[4] = d[4, :] + 4000
+                d[5] = d[5, :] + 5000
+                d[6] = d[6, :] + 6000
+                d[7] = d[7, :] + 7000
 
             print(d.size/250)
             senal_continua = d
-            self.__senal=senal_continua
+            self.__senal = senal_continua
             self.__controlador.ReceiveData(senal_continua)
-            self.__x_min=0
-            self.__x_max=2000
-            self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
+            self.__x_min = 0
+            self.__x_max = 2000
+            self.graph_data(self.__controlador.returnDataSenal(
+                self.__x_min, self.__x_max))
             self.btn_ahead.setEnabled(True)
             self.btn_behind.setEnabled(True)
             self.btn_increase.setEnabled(True)
             self.btn_decrease.setEnabled(True)
-            
+
     def show_everything(self):
         results = self.__controlador.get_integrants()
         self.see(results)
-        
-            
+
     def find(self):
-    		find = self.line_search.text()
-    		self.line_search.setText("")
-    		self.line_search.setPlaceholderText("Cedula del sujeto")
-    		results = self.__controlador.search_integrantes(find)
-    		self.see(results)
-            
+        find = self.line_search.text()
+        self.line_search.setText("")
+        self.line_search.setPlaceholderText("Cedula del sujeto")
+        results = self.__controlador.search_integrantes(find)
+        self.see(results)
+
     def see(self, results):
         self.table.clear()
         for result in results:
             item = QTreeWidgetItem(self.table)
             for i in range(14):
-                item.setText(i,str(result[i]))
-                        
-    def dbclick(self):
-            data = self.table.currentItem()
-            buttonReply = QMessageBox.question(self, 'Buscar información',
-                u"¿Desea ir a la ubicación del registro de %s?"%data.text(0),
-                QMessageBox.Yes | QMessageBox.No)
-            if buttonReply == QMessageBox.Yes:
-                path = self.__controlador.file_location(data.text(0),data.text(3))
-                archivo_cargado, _ = QFileDialog.getOpenFileName(self, "Abrir senal", path,"Todos los archivos (*);;Archivos csv (*.csv)*")
-                if archivo_cargado != "":
-                    d = pd.read_csv(archivo_cargado,';',header=None)
-                    d = d.drop([0], axis=0)
-                    d = d.T
-                    d = d.drop([9], axis=1)
-                    d = d.drop([0], axis=0)
-                    index=list(range(0,len(d[1])))
-                    d[0] = index
-                    d = d.set_index(d[0])
-                    d = d.drop([8], axis=0)
-                    d = d.astype(float)
-                    d = d.values
-                    d = d[0:8,:]*500
-                    d[0] = d[0,:]
-                    d[1] = d[1,:] + 1000
-                    d[2] = d[2,:] + 2000
-                    d[3] = d[3,:] + 3000
-                    d[4] = d[4,:] + 4000
-                    d[5] = d[5,:] + 5000
-                    d[6] = d[6,:] + 6000
-                    d[7] = d[7,:] + 7000
+                item.setText(i, str(result[i]))
 
-                    print(d.size/250)
-                    senal_continua = d
-                    self.__senal=senal_continua
-                    self.__controlador.ReceiveData(senal_continua)
-                    self.__x_min=0
-                    self.__x_max=2000
-                    self.graph_data(self.__controlador.returnDataSenal(self.__x_min,self.__x_max))
-                    self.btn_ahead.setEnabled(True)
-                    self.btn_behind.setEnabled(True)
-                    self.btn_increase.setEnabled(True)
-                    self.btn_decrease.setEnabled(True)
-            if buttonReply == QMessageBox.No:
-                pass
-            if buttonReply == QMessageBox.Cancel:
-                pass
+    def dbclick(self):
+        data = self.table.currentItem()
+        buttonReply = QMessageBox.question(self, 'Buscar información',
+                                           u"¿Desea ir a la ubicación del registro de %s?" % data.text(
+                                               0),
+                                           QMessageBox.Yes | QMessageBox.No)
+        if buttonReply == QMessageBox.Yes:
+            path = self.__controlador.file_location(data.text(0), data.text(3))
+            archivo_cargado, _ = QFileDialog.getOpenFileName(
+                self, "Abrir senal", path, "Todos los archivos (*);;Archivos csv (*.csv)*")
+            if archivo_cargado != "":
+                d = pd.read_csv(archivo_cargado, ';', header=None)
+                d = d.drop([0], axis=0)
+                d = d.T
+                d = d.drop([9], axis=1)
+                d = d.drop([0], axis=0)
+                index = list(range(0, len(d[1])))
+                d[0] = index
+                d = d.set_index(d[0])
+                d = d.drop([8], axis=0)
+                d = d.astype(float)
+                d = d.values
+                d = d[0:8, :]*500
+                d[0] = d[0, :]
+                d[1] = d[1, :] + 1000
+                d[2] = d[2, :] + 2000
+                d[3] = d[3, :] + 3000
+                d[4] = d[4, :] + 4000
+                d[5] = d[5, :] + 5000
+                d[6] = d[6, :] + 6000
+                d[7] = d[7, :] + 7000
+
+                print(d.size/250)
+                senal_continua = d
+                self.__senal = senal_continua
+                self.__controlador.ReceiveData(senal_continua)
+                self.__x_min = 0
+                self.__x_max = 2000
+                self.graph_data(self.__controlador.returnDataSenal(
+                    self.__x_min, self.__x_max))
+                self.btn_ahead.setEnabled(True)
+                self.btn_behind.setEnabled(True)
+                self.btn_increase.setEnabled(True)
+                self.btn_decrease.setEnabled(True)
+        if buttonReply == QMessageBox.No:
+            pass
+        if buttonReply == QMessageBox.Cancel:
+            pass
 
     def loadStart(self):
         self.__parentGraphicInterface.show()
         self.hide()
-        

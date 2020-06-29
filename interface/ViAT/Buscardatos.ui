@@ -6,100 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>431</height>
+    <width>1341</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTreeWidget" name="table">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>110</y>
-     <width>701</width>
-     <height>261</height>
-    </rect>
-   </property>
-   <column>
-    <property name="text">
-     <string>ID</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Nombre</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Apellidos</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>CC</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Sexo</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Ojo dominante</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Gafas</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Snellen</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Snellen corregido</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Estimulo</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Edad</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Tiempo</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Responsable</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Ubicación</string>
-    </property>
-   </column>
-  </widget>
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>781</width>
-     <height>431</height>
+     <width>1341</width>
+     <height>611</height>
     </rect>
    </property>
    <property name="palette">
@@ -174,18 +94,24 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>779</width>
-      <height>429</height>
+      <width>1339</width>
+      <height>609</height>
      </rect>
     </property>
     <widget class="QCommandLinkButton" name="btn_show">
      <property name="geometry">
       <rect>
-       <x>600</x>
-       <y>370</y>
+       <x>1100</x>
+       <y>460</y>
        <width>161</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>12</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Mostrar todo</string>
@@ -194,8 +120,8 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>50</y>
+       <x>50</x>
+       <y>160</y>
        <width>361</width>
        <height>41</height>
       </rect>
@@ -203,6 +129,11 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLineEdit" name="line_search">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
     border: 2px solid gray;
@@ -228,6 +159,14 @@
           <width>111</width>
           <height>21</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione el botón para buscar la cédula del sujeto&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
@@ -265,7 +204,7 @@ QPushButton:pressed {
     <widget class="QLabel" name="logo">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>1150</x>
        <y>0</y>
        <width>171</width>
        <height>111</height>
@@ -278,16 +217,19 @@ QPushButton:pressed {
     <widget class="QPushButton" name="back">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>380</y>
-       <width>91</width>
-       <height>31</height>
+       <x>50</x>
+       <y>480</y>
+       <width>203</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <pointsize>12</pointsize>
       </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione para volver a la vista anterior.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -316,17 +258,25 @@ QPushButton:pressed {
 </string>
      </property>
      <property name="text">
-      <string>Atras</string>
+      <string>Atrás</string>
      </property>
     </widget>
     <widget class="QComboBox" name="options">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>90</y>
+       <x>950</x>
+       <y>160</y>
        <width>361</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Elija la acción al presionar doble click sobre un sujeto.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QComboBox {
@@ -398,16 +348,19 @@ QComboBox QAbstractItemView {
     <widget class="QPushButton" name="display">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>380</y>
-       <width>151</width>
-       <height>31</height>
+       <x>260</x>
+       <y>480</y>
+       <width>203</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <pointsize>12</pointsize>
       </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione para cambiar de vista a Visualizar señal.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -439,10 +392,172 @@ QPushButton:pressed {
       <string>Visualizar señales</string>
      </property>
     </widget>
+    <widget class="QTreeWidget" name="table">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>200</y>
+       <width>1261</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Nombre</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Apellidos</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>CC</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Sexo</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Ojo dominante</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Gafas</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Snellen</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Snellen corregido</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Estimulo</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Edad</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Tiempo</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Responsable</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Ubicación</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="infoAdquisition">
+     <property name="geometry">
+      <rect>
+       <x>1270</x>
+       <y>460</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>MS Shell Dlg 2</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Presione para obtener más información&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    border: 2px solid #0e213e;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #1c437d
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #6587ba
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #15325e
+        );
+    }</string>
+     </property>
+     <property name="text">
+      <string>?</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="clinicHistory">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>20</y>
+       <width>401</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Book Antiqua</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>BUSCAR SUJETOS EN LA BASE DE DATOS</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
   </widget>
-  <zorder>scrollArea</zorder>
-  <zorder>table</zorder>
  </widget>
  <resources/>
  <connections/>

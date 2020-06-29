@@ -18,7 +18,7 @@ from datetime import datetime
 import csv
 import os
 import pandas as pd
- 
+
 
 '''
 pygame: Pygame adds functionality on top of the excellent SDL library.
@@ -38,19 +38,21 @@ csv: Save data
 
 '''
 
+
 class Stimulus(object):
     '''
     The frecuencia of stimulation is 7.5Hz and represents different level 
     vernier acuity at 6 point.    
     '''
-    def __init__(self,id_Subject,cc_Subject,loc):
+
+    def __init__(self, id_Subject, cc_Subject, loc):
         """
         See :func:`start_stimulus` for details
-        
+
         StreamInfo: The StreamInfo object stores the declaration of a data
         stream, to describe its properties and then construct a 
         StreamOutlet with it to create the stream on the network.
-        
+
         StreamOutlet:  Outlets are used to make streaming data 
         (and the meta-data) available on the lab network.
         """
@@ -62,16 +64,14 @@ class Stimulus(object):
         self.__width = 300  # 1680
         self.__height = 300  # 1050
         self.__size = 300, 300  # 1680, 1050
-#        self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.__screen = pygame.display.set_mode(self.__size)
         pygame.display.flip()
-#        self.info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'float32', 'myuidw43536')
-#        self.__outlet = StreamOutlet(self.info,1,3)
+        # self.info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'float32', 'myuidw43536')
+        # self.__outlet = StreamOutlet(self.info,1,3)
         self.id = id_Subject
         self.cc = cc_Subject
-        self.loc=loc
-    
-        
+        self.loc = loc
 
     def display(self, imagen):
         '''
@@ -95,39 +95,38 @@ class Stimulus(object):
             pygame.display.flip()
         except:
             pygame.quit()
-            
-    def save(self,Mark):
+
+    def save(self, Mark):
         """
         Allows you to save the timestamp when changing images.
         For this particular stimulus, it allows separating the acuities 
         into 6 levels
-        
+
         """
         now = datetime.now()
-        d = (now.strftime("%m-%d-%Y"),now.strftime("%H-%M-%S"))
-        date = {'H':[str(d[1])]}
-        loc = self.loc +'/'+d[0]
+        d = (now.strftime("%m-%d-%Y"), now.strftime("%H-%M-%S"))
+        date = {'H': [str(d[1])]}
+        loc = self.loc + '/'+d[0]
 #        loc = self.loc+ '/'+d[0]
-        file = loc + '/'  + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
-        if not  os.path.isfile(file):
-            header=True
+        file = loc + '/' + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
+        if not os.path.isfile(file):
+            header = True
         else:
-            header=False
-        M = pd.DataFrame(date,columns=['H'])
-        M['M']=Mark
-        M.to_csv(file ,mode='a',header=header,index=True, sep=';')
+            header = False
+        M = pd.DataFrame(date, columns=['H'])
+        M['M'] = Mark
+        M.to_csv(file, mode='a', header=header, index=True, sep=';')
 
-        
     def start_stimulus(self):
         """Start Vernier stimulation 
-       
+
         The stimulus is repeated 3 times, the first time to stimulate the right
         eye, the second time to stimulate the left eye, and the third time to 
         stimulate both eyes: range(0,3)
-        
+
         num: traverse levels of visual acuity range(1,7) for 6 levels of visual
         acuity
-        
+
         timestamp: Return POSIX timestamp as float
         push_sample: Push a sample into the outlet.
         Each entry in the list corresponds to one channel.
@@ -136,30 +135,30 @@ class Stimulus(object):
         timestamp -- Optionally the capture time of the sample, in agreement 
                      with local_clock(); if omitted, the current 
                      time is used. (default 0.0)
-                     
+
         event.get(): Pygame will register all events from the user into an 
         event queue
         """
         try:
-            cont = 0 # counter that controls the frequency (7.5 Hz) in
-            #conjunction with time.sleep
+            cont = 0  # counter that controls the frequency (7.5 Hz) in
+            # conjunction with time.sleep
             RUNNING, PAUSE = 0, 1
             state = RUNNING
             pause_text = pygame.font.SysFont('Consolas', 32).render(
                 'Pausa', True, pygame.color.Color('White'))
             for i in range(0, 1):  # time of stimulation
                 for num in range(0, 7):  # acuity levels
-                    self.save(num+1)        
+                    self.save(num+1)
                     while (cont <= 8):  # Doble de tiempo de estimulacion
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:
                                 break
                             if e.type == pygame.KEYDOWN:
-                                if e.key == pygame.K_p: # key p: pause
+                                if e.key == pygame.K_p:  # key p: pause
                                     state = PAUSE
-                                if e.key == pygame.K_s: # key s: start
+                                if e.key == pygame.K_s:  # key s: start
                                     state = RUNNING
-                                if e.key == pygame.K_ESCAPE: # key escape: exit
+                                if e.key == pygame.K_ESCAPE:  # key escape: exit
                                     pygame.quit()
                         if state == RUNNING:
                             self.display('0.jpg')
@@ -171,15 +170,17 @@ class Stimulus(object):
                             self.__screen.blit(pause_text, (100, 100))
                     cont = 0
                 self.display('0.1.jpg')
-                time.sleep(4) #Rest
-#            self.__outlet.close_stream()
-            self.save(8) 
+                time.sleep(4)  # Rest
+                # self.__outlet.close_stream()
+            self.save(8)
             pygame.quit()
         except:
             pygame.quit()
 
+
 # In[To run individually]
 if __name__ == '__main__':
-    
-    estimulo = Stimulus('H1','1152207135',r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records\H1_1152207135')
+
+    estimulo = Stimulus(
+        'H1', '1152207135', r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records\H1_1152207135')
     estimulo.start_stimulus()
