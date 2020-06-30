@@ -1120,10 +1120,10 @@ QPushButton:pressed {
     <widget class="QPushButton" name="save">
      <property name="geometry">
       <rect>
-       <x>1060</x>
-       <y>400</y>
-       <width>131</width>
-       <height>20</height>
+       <x>850</x>
+       <y>380</y>
+       <width>211</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="font">
@@ -1161,7 +1161,7 @@ QPushButton:pressed {
 </string>
      </property>
      <property name="text">
-      <string>Ver ubicación</string>
+      <string>Definir ubicación</string>
      </property>
      <property name="icon">
       <iconset theme="save">
@@ -1171,8 +1171,8 @@ QPushButton:pressed {
     <widget class="QLabel" name="savelogo">
      <property name="geometry">
       <rect>
-       <x>1100</x>
-       <y>360</y>
+       <x>1020</x>
+       <y>380</y>
        <width>51</width>
        <height>41</height>
       </rect>

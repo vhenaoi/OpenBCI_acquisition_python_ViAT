@@ -8,11 +8,7 @@ from PyQt5.QtWidgets import QApplication
 import sys
 
 from view import ViAT
-from view import DataBase
-#from view import LoadRegistration
-
 from model import Model
-
 import subprocess
 
 # from PySide2 import QtWidgets
@@ -84,9 +80,12 @@ class Controller(object):
 
     def stopStimulus(self):
         self.system.stopStimulus()
-
-    def defineLocation(self):
-        self.system.defineLocation()
+   
+    def newLocation(self,location):
+        self.system.newLocation(location)
+    
+    def location(self):
+        return self.system.location()
 
     def laplace_controller(self, laplace1, laplace2, laplace3):
         self.system.laplace(laplace1, laplace2, laplace3)
@@ -97,11 +96,6 @@ class Controlador:
     def __init__(self, view, system):
         self.__view = view
         self.system = system
-
-    def see(self, controlador):
-        self.integrantes = DataBase()
-        self.integrantes.assign_controller(controlador)
-        self.integrantes.show()
 
     def add_data(self, datos):
         return self.system.add_into_collection_one(datos)

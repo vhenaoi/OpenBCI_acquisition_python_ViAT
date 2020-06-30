@@ -4,7 +4,6 @@ Created on 2020
 @author: Verónica Henao Isaza
 
 '''
-
 import numpy as np
 from pylsl import StreamInlet, resolve_stream
 from linearFIR import filter_design
@@ -23,8 +22,21 @@ import pygame
 
 
 class Model(object):
+    '''
+    It contains the data and the functionality of the application, that is, 
+    it is responsible for performing the functions of updating, searching, 
+    consulting, data processing.
+    '''
 
     def __init__(self, name_db, name_collection, data=None):
+        '''
+        Receives: Name of the database, name of the collection of the database,
+        data for graphics.
+        Function: Make the connection to the mongo database,
+        design the filters by calling filtDesign () and define the storage 
+        locations of the files.
+        '''
+        
         MONGO_URI = "mongodb://localhost:27017/"
         self.__client = MongoClient(MONGO_URI)
         self.__db = self.__client[name_db]
@@ -33,23 +45,46 @@ class Model(object):
         self.filtDesign()
         self.data = data
         print("se diseño el filtro")
-        self.cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-        self.processing = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Processing'
+        self.path_app = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT'
+        self.cwd = self.path_app+'/'+'Records'
+        self.processing = self.path_app+'/'+'Processing'
         if not np.all(data) == None:
             self.assign_data(data)
         else:
             self.__data = np.asarray([])
 
-    def defineLocation(self):
-        path = os.path.realpath(self.cwd)
-        os.startfile(path)
-        # if not  os.path.isdir(path):
-            # self.cwd = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
-        # else:
-            # self.cwd = os.getcwd()
-
+    def newLocation(self,location):
+        '''
+        Receive: The new location
+        Function: Select the location of the new records to acquire
+        '''
+        
+        if location != "":
+            self.path_app = location
+            print(self.path_app)
+            self.cwd = location+'/'+'Records'
+            self.processing = location+'/'+'Processing'
+            if not os.path.isdir(self.cwd):
+                os.mkdir(self.cwd)
+                print(self.cwd)
+            if not os.path.isdir(self.processing):
+                os.mkdir(self.processing) 
+                print(self.processing)
+        else:
+            pass
+        
+    def location(self):
+        '''
+        
+        '''
+        
+        return self.cwd,self.processing
+    
     def startDevice(self):
-
+        '''
+        
+        '''
+        
         # servidor = Server()
         # servidor.port()
         # data = RandData()
@@ -77,16 +112,21 @@ class Model(object):
             os.popen(
                 r'TASKKILL /F /FI "WINDOWTITLE eq C:\Users\veroh\Anaconda3\python.exe"')
 
-        self.__channels = 8
-        self.__data = np.zeros((self.__channels, 2500))
-        self.streams_EEG = resolve_stream('type', 'EEG')
+#        self.__channels = 8
+#        self.__data = np.zeros((self.__channels, 2500))
+#        self.streams_EEG = resolve_stream('type', 'EEG')
 
     def stopDevice(self):
+        '''
+        '''
+        
         os.popen(
             r'TASKKILL /F /FI "WINDOWTITLE eq C:\Users\veroh\Anaconda3\python.exe"')
 
     def startData(self):
-
+        '''
+        '''
+        
         self.__channels = 8
         self.__data = np.zeros((self.__channels, 2500))
         self.streams_EEG = resolve_stream('type', 'EEG')
@@ -94,6 +134,9 @@ class Model(object):
         self.__inlet.pull_chunk()
 
     def stopData(self):
+        '''
+        '''
+        
         if not os.path.isfile(self.cwd + '/' + str(self.p[0])+'_'+str(self.p[1])+'/'+self.date[0]+'/'+'Mark_'+self.p[0]+'_'+self.p[1]+'.csv'):
             pass
         else:
@@ -108,24 +151,36 @@ class Model(object):
         print('Stop Data Modelo')
 
     def startStimulus(self):
-        estimulo = Stimulus(
+        '''
+        '''
+        
+        s = Stimulus(
             self.p[0], self.p[1], self.cwd + '/' + str(self.p[0])+'_'+str(self.p[1]))
-        estimulo.start_stimulus()
+        s.start_stimulus()
 
     def stopStimulus(self):
+        '''
+        '''
+        
         pygame.quit()
 
     def startZ(self):
-
+        '''
+        '''
+        
         self.__inlet = StreamInlet(self.streams_EEG[0], max_buflen=250)
 
     def stopZ(self):
-
+        '''
+        '''
+        
         self.__inlet.close_stream()
         print('Stop impedance')
 
     def readZ(self):
-
+        '''
+        '''
+        
         sample, timestamp = self.__inlet.pull_sample()
         self.Z = []
         for i in range(0, 8):
@@ -133,6 +188,9 @@ class Model(object):
             self.Z.append(Z_i/1000)
 
     def readData(self):
+        '''
+        '''
+        
         samples, timestamp = self.__inlet.pull_chunk()
         samples = np.transpose(np.asanyarray(samples))
         try:
@@ -189,12 +247,18 @@ class Model(object):
             r.to_csv(loc + name, mode='a', header=header, index=True, sep=';')
 
     def filtDesign(self):
+        '''
+        '''
+        
         order, self.lowpass = filter_design(
             self.__fs, locutoff=0, hicutoff=50, revfilt=0)
         order, self.highpass = filter_design(
             self.__fs, locutoff=5, hicutoff=0, revfilt=1)
 
     def filtData(self):
+        '''
+        '''
+        
         self.readData()
 
         self.senal_filtrada_pasaaltas = signal.filtfilt(
@@ -212,6 +276,9 @@ class Model(object):
             self.lowpass, 1, self.laplace_filtrada_pasaaltas)
 
     def Pot(self):
+        '''
+        '''
+        
         self.filtData()
         nblock = 250
         noverlap = nblock/2
@@ -223,6 +290,9 @@ class Model(object):
                                             self.__fs, nperseg=self.__fs*2, noverlap=noverlap)
 
     def laplace(self, laplace1, laplace2, laplace3):
+        '''
+        '''
+        
         self.readData()
 
         if laplace1 == 0:
@@ -279,19 +349,31 @@ class Model(object):
             self.s[one, :]*2)-self.s[two, :]-self.s[three, :]
 
     def returnLastData(self):
+        '''
+        '''
+        
         self.Pot()
         return (self.senal_filtrada_pasabandas, self.Pxx, self.f,
                 self.laplace_filtrada_pasabandas, self.Pxxtg, self.ftg)  # [0:6,:]
 
     def returnLastZ(self):
+        '''
+        '''
+        
         self.readZ()
         return self.Z
 
     def returnLastStimulus(self):
+        '''
+        '''
+        
         self.readData()
         return
 
     def add_into_collection_one(self, data):
+        '''
+        '''
+        
         self.__collection.insert_one(data)
         self.p = data['d'], data['cc']
         loc = self.cwd + '/' + str(self.p[0])+'_'+str(self.p[1])
@@ -301,11 +383,10 @@ class Model(object):
             pass
         return True
 
-    # def add_into_collection_many(self, datas):
-        # self.__collection.insert_many(datas)
-        # print("Documentos agregados con éxito")
-
     def search_one(self, consult, proj):
+        '''
+        '''
+        
         result = self.__collection.find_one(consult, proj)
         try:
             info_result = [result.get("d", None), result.get("nombre", None), result.get("apellidos", None),
@@ -327,6 +408,9 @@ class Model(object):
             return False
 
     def search_many(self, consult, proj, view=False):
+        '''
+        '''
+        
         results = self.__collection.find(consult, proj)
         if view == True:
             for result in results:
@@ -344,44 +428,35 @@ class Model(object):
             info_integrantes.append(info)
         return info_integrantes
 
-    def update_info(self, consult, data):
-        self.__collection.update(consult, data)
-
     def delete_data(self, data):
+        '''
+        '''
+        
         self.__collection.delete_one(data)
-
-    def show_database(self):
-        dbs = self.__client.list_database_names()
-        for i in dbs:
-            print(i)
-        return dbs
-
-    def show_collections(self):
-        collections = self.db.list_collection_names()
-        for collection in collections:
-            print(collection)
-        return collections
-
-    def delete_collection(self, collection):
-        self.__bd[collection].drop()
-
-    def delete_db(self, db):
-        self.__client[db].drop()
-
+       
     def assign_data(self, data):
+        '''
+        '''
         self.__data = data
 
-    # Mtodo devlver_segmento() para permitir el avance en el tiempo de la se.
     def return_segment(self, x_min, x_max):
+        '''
+        '''
+        
         if x_min >= x_max:
             return None
         return self.__data[:, x_min:x_max]
 
-    # Mtodo escalar_senal() para realizar la amplitud o disminucin de la sel.
     def signal_scale(self, x_min, x_max, escala):
-        copia_datos = self.__data[:, x_min:x_max].copy()
-        return copia_datos*escala
+        '''
+        '''
+        
+        copy_data = self.__data[:, x_min:x_max].copy()
+        return copy_data*escala
 
     def file_location(self, i, cc):
+        '''
+        '''
+        
         path_subject = self.cwd + '/' + str(i)+'_'+str(cc)
         return path_subject

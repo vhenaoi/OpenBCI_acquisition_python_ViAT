@@ -206,7 +206,7 @@ class LoadRegistration(QtWidgets.QDialog):
         self.__parentLoadRegistration = LR
         self.__controlador = controlador
         self.my_controller = controller
-        self.__loc = r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records'
+        self.__locR,self.__locP = self.my_controller.location()
 
     def setup(self):
         self.btn_search.clicked.connect(self.find)
@@ -230,7 +230,7 @@ class LoadRegistration(QtWidgets.QDialog):
     def info(self):
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Information)
-        msg.setText("Dirijase al campo de CC y digite la cedula del sujeto a registrar, para verificar que no se encuentre ya en la base de datos, y si no esta llene todos los campos presentados a continuación y presione agregar, en el botón 'ver ubicación'confirme la ubicación donde quedara guardado el registro, al finalizar presione el botón 'Siguiente'. Si el sujeto ya se encuentra en la base de datos y desea modificar un campo, presione 'Actualizar'. Si desea observar todos los sujetos en la base de datos presione 'Mostrar Pacientes'. Para volver al menú anterior presione 'Atrás'.")
+        msg.setText("Diríjase al campo de CC y digite la cédula del sujeto a registrar, para verificar que no se encuentre ya en la base de datos, si no está llene todos los campos presentados a continuación y presione agregar, en el botón 'definir ubicación‘ podrá modificar la ubicación donde desea que quede guardado el registro, al finalizar presione el botón 'Siguiente'. Si el sujeto ya se encuentra en la base de datos y desea modificar un campo, presione 'Actualizar'. Si desea observar todos los sujetos en la base de datos presione 'Mostrar Pacientes'. Para volver al menú anterior presione 'Atrás'.")
         msg.setWindowTitle("Ayuda")
         x = msg.exec_()
 
@@ -238,7 +238,8 @@ class LoadRegistration(QtWidgets.QDialog):
         self.__controlador = controlador
 
     def location(self):
-        self.my_controller.defineLocation()
+        location = QFileDialog.getExistingDirectory(self, "Select Directory")
+        self.my_controller.newLocation(location)
 
     def upgrade(self):
         if not (self.d.text() and self.nombre.text() and
@@ -281,7 +282,7 @@ class LoadRegistration(QtWidgets.QDialog):
                 "edad": (self.edad.text()),
                 "tiempo": (self.time.text()),
                 "rp": (self.rp.text()),
-                "ubicacion": (str(self.__loc))
+                "ubicacion": (str(self.__locR))
             }
             band = self.__controlador.add_data(data)
             if band == True:
@@ -414,7 +415,7 @@ class LoadRegistration(QtWidgets.QDialog):
                 "edad": (self.edad.text()),
                 "tiempo": (self.time.text()),
                 "rp": (self.rp.text()),
-                "ubicacion": (str(self.__loc))
+                "ubicacion": (str(self.__locR))
             }
 
             band = self.__controlador.add_data(data)
@@ -1082,11 +1083,11 @@ class GraphicalInterface(QtWidgets.QMainWindow):
 
     # Load the signal in sight
     def load_signal(self):
-        archivo_cargado, _ = QFileDialog.getOpenFileName(
+        uploaded_file, _ = QFileDialog.getOpenFileName(
             self, "Abrir seal", "", "Todos los archivos (*);;Archivos csv (*.csv)*")
-        if archivo_cargado != "":
+        if uploaded_file != "":
             if self.type.currentIndex() == 0:
-                d = pd.read_csv(archivo_cargado, header=None)
+                d = pd.read_csv(uploaded_file, header=None)
                 d = d.values
                 d = d[0:8, :]*100000
                 d[1] = d[1, :] - d[0, :]
@@ -1097,7 +1098,7 @@ class GraphicalInterface(QtWidgets.QMainWindow):
                 d[6] = d[6, :] - d[0, :]
                 d[7] = d[7, :] - d[0, :]
             else:
-                d = pd.read_csv(archivo_cargado, ';', header=None)
+                d = pd.read_csv(uploaded_file, ';', header=None)
                 d = d.drop([0], axis=0)
                 d = d.T
                 d = d.drop([9], axis=1)
@@ -1157,10 +1158,10 @@ class GraphicalInterface(QtWidgets.QMainWindow):
                                            QMessageBox.Yes | QMessageBox.No)
         if buttonReply == QMessageBox.Yes:
             path = self.__controlador.file_location(data.text(0), data.text(3))
-            archivo_cargado, _ = QFileDialog.getOpenFileName(
+            uploaded_file, _ = QFileDialog.getOpenFileName(
                 self, "Abrir senal", path, "Todos los archivos (*);;Archivos csv (*.csv)*")
-            if archivo_cargado != "":
-                d = pd.read_csv(archivo_cargado, ';', header=None)
+            if uploaded_file != "":
+                d = pd.read_csv(uploaded_file, ';', header=None)
                 d = d.drop([0], axis=0)
                 d = d.T
                 d = d.drop([9], axis=1)

@@ -30,11 +30,10 @@ class Processing(object):
         try:
             if not os.path.isdir(path):
                 os.mkdir(path)
+            if not os.path.isdir(path_new):
+                os.mkdir(path_new)
             else:
-                if not os.path.isdir(path_new):
-                    os.mkdir(path_new)
-                else:
-                    pass
+                pass
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
