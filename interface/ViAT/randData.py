@@ -12,12 +12,16 @@ import numpy as np
 
 
 class RandData(object):
+
     # first create a new stream info (here we set the name to BioSemi,
     # the content-type to EEG, 8 channels, 100 Hz, and float-valued data) The
     # last value would be the serial number of the device or some other more or
     # less locally unique identifier for the stream as far as available (you
     # could also omit it but interrupted connections wouldn't auto-recover)
     def __init__(self):
+        '''
+        Define variables for StreamInfo and for StreamOutlet
+        '''
         self.info = StreamInfo('BioSemi', 'EEG', 8, 250,
                                'float32', 'myuid34234')
 
@@ -26,6 +30,10 @@ class RandData(object):
         print('Enviando datos')
 
     def sample(self):
+        '''
+        Creates an array of random data in a continuous cycle and generates 
+        a push_sample, pushing one sample per channel to the output.
+        '''
         while True:
             # make a new random 8-channel sample; this is converted into a
             # pylsl.vectorf (the data type that is expected by push_sample)

@@ -7,7 +7,17 @@ from datetime import datetime
 
 
 class Processing(object):
+    '''
+    Spectral estimation with multitapering
+    '''
+
     def __init__(self, id_Subject, cc_Subject, date, loc, save):
+        '''
+        Rec: ID of the subject registered in the database,
+            ID of the subject registered in the database, date of registration,
+            location of the registration and location to save.
+        Func: Set the variables with the received elements.
+        '''
         self.__subject = id_Subject
         self.__cc = cc_Subject
         self.__date = date
@@ -15,6 +25,12 @@ class Processing(object):
         self.path_save = save
 
     def run(self):
+        '''
+        Create the directory to save the processing results, read the 
+        registration and mark data, compare both files and separate the 
+        signal by each mark, then take each group of marks and apply 
+        Multitaper processing
+        '''
         self.__record = pd.DataFrame()
         name = str(self.__subject)+'_'+str(self.__cc)
         path_Record = self.loc + '/'+name+'/' + self.__date + '/Record_'+name+'.csv'

@@ -61,9 +61,12 @@ class Stimulus(object):
         Icon = pygame.image.load('icono.png')
         pygame.display.set_icon(Icon)
         pygame.display.set_caption('Agudeza de Vernier')
-        self.__width = 300  # 1680
-        self.__height = 300  # 1050
-        self.__size = 300, 300  # 1680, 1050
+#        self.__width = 300 
+        self.__width = 1680
+#        self.__height = 300
+        self.__height = 1050
+#        self.__size = 300, 300  
+        self.__size = 1680, 1050
         # self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.__screen = pygame.display.set_mode(self.__size)
         pygame.display.flip()
@@ -107,7 +110,6 @@ class Stimulus(object):
         d = (now.strftime("%m-%d-%Y"), now.strftime("%H-%M-%S"))
         date = {'H': [str(d[1])]}
         loc = self.loc + '/'+d[0]
-#        loc = self.loc+ '/'+d[0]
         file = loc + '/' + 'Mark_'+str(self.id)+'_'+str(self.cc)+'.csv'
         if not os.path.isfile(file):
             header = True
@@ -119,10 +121,6 @@ class Stimulus(object):
 
     def start_stimulus(self):
         """Start Vernier stimulation 
-
-        The stimulus is repeated 3 times, the first time to stimulate the right
-        eye, the second time to stimulate the left eye, and the third time to 
-        stimulate both eyes: range(0,3)
 
         num: traverse levels of visual acuity range(1,7) for 6 levels of visual
         acuity

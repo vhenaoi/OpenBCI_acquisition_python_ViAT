@@ -36,7 +36,7 @@ class Model(object):
         design the filters by calling filtDesign () and define the storage 
         locations of the files.
         '''
-        
+
         MONGO_URI = "mongodb://localhost:27017/"
         self.__client = MongoClient(MONGO_URI)
         self.__db = self.__client[name_db]
@@ -53,12 +53,12 @@ class Model(object):
         else:
             self.__data = np.asarray([])
 
-    def newLocation(self,location):
+    def newLocation(self, location):
         '''
         Receive: The new location
         Function: Select the location of the new records to acquire
         '''
-        
+
         if location != "":
             self.path_app = location
             print(self.path_app)
@@ -68,23 +68,24 @@ class Model(object):
                 os.mkdir(self.cwd)
                 print(self.cwd)
             if not os.path.isdir(self.processing):
-                os.mkdir(self.processing) 
+                os.mkdir(self.processing)
                 print(self.processing)
         else:
             pass
-        
+
     def location(self):
         '''
-        
+        Redefine the location of the new records to acquire
         '''
-        
-        return self.cwd,self.processing
-    
+
+        return self.cwd, self.processing
+
     def startDevice(self):
         '''
-        
+        Start sending the data, use the subprocess.Popen function to start a
+        new process without stopping the existing one.
         '''
-        
+
         # servidor = Server()
         # servidor.port()
         # data = RandData()
@@ -96,18 +97,18 @@ class Model(object):
             output = self.__process.communicate()[0].decode('utf-8')
             print(output)
             # if (Rand):
-                # msg = QMessageBox(self.ventana_principal)
-                # msg.setIcon(QMessageBox.Information)
-                # msg.setText("El dispositivo ha sido detectado")
-                # msg.setWindowTitle("Información")
-                # msg.show()
+            # msg = QMessageBox(self.ventana_principal)
+            # msg.setIcon(QMessageBox.Information)
+            # msg.setText("El dispositivo ha sido detectado")
+            # msg.setWindowTitle("Información")
+            # msg.show()
             # else:
-                # msg = QMessageBox(self.ventana_principal)
-                # msg.setIcon(QMessageBox.Warning)
-                # msg.setText("El dispositivo no ha sido detectado o no se encuentra conectado")
-                # msg.setWindowTitle("Alerta!")
-                # msg.show()
-                # self.boton_iniciar.setEnabled(False)
+            # msg = QMessageBox(self.ventana_principal)
+            # msg.setIcon(QMessageBox.Warning)
+            # msg.setText("El dispositivo no ha sido detectado o no se encuentra conectado")
+            # msg.setWindowTitle("Alerta!")
+            # msg.show()
+            # self.boton_iniciar.setEnabled(False)
         except KeyboardInterrupt:
             os.popen(
                 r'TASKKILL /F /FI "WINDOWTITLE eq C:\Users\veroh\Anaconda3\python.exe"')
@@ -118,15 +119,24 @@ class Model(object):
 
     def stopDevice(self):
         '''
+        Stop sending the data and close the process.
         '''
-        
+
         os.popen(
             r'TASKKILL /F /FI "WINDOWTITLE eq C:\Users\veroh\Anaconda3\python.exe"')
 
     def startData(self):
         '''
+        Defines a matrix of zeros for the data with the number of channels
+        and the number of samples.
+        Use the resolve_stream function of the pylsl library to receive the
+        data sent by the Server.py server or the randData.py data simulator.
+        Using the StreamInlet object to receive transmission data 
+        (and metadata) from the lab network, it takes the available 
+        transmissions and finally does a pull_chunk () that extracts a chunk 
+        of samples from the input.
         '''
-        
+
         self.__channels = 8
         self.__data = np.zeros((self.__channels, 2500))
         self.streams_EEG = resolve_stream('type', 'EEG')
@@ -135,8 +145,11 @@ class Model(object):
 
     def stopData(self):
         '''
+        Stops the action of receiving the data by closing the stream with 
+        close_stream () and calls the dataprocessing.py and plot_stft.py
+        processing modules
         '''
-        
+
         if not os.path.isfile(self.cwd + '/' + str(self.p[0])+'_'+str(self.p[1])+'/'+self.date[0]+'/'+'Mark_'+self.p[0]+'_'+self.p[1]+'.csv'):
             pass
         else:
@@ -152,35 +165,45 @@ class Model(object):
 
     def startStimulus(self):
         '''
+        call the stimulation module Stimulation_Acuity.py and start it.
         '''
-        
+
         s = Stimulus(
             self.p[0], self.p[1], self.cwd + '/' + str(self.p[0])+'_'+str(self.p[1]))
         s.start_stimulus()
 
     def stopStimulus(self):
         '''
+        Stops stimulation by closing the pygame.
         '''
-        
+
         pygame.quit()
 
     def startZ(self):
         '''
+        Start receiving data with StreamInlet to later find the impedance 
+        of the data.
         '''
-        
+
         self.__inlet = StreamInlet(self.streams_EEG[0], max_buflen=250)
 
     def stopZ(self):
         '''
+        Close the reception of the data with close_stream at 
+        the end of the reading of the impedance.
         '''
-        
+
         self.__inlet.close_stream()
         print('Stop impedance')
 
     def readZ(self):
         '''
+        Do a pull_sample () to take a value and perform the ohm-law operation.
+        V = received rms voltage. i = device current = 6 nA
+        Z = (V * √2) / i
+        The value of Z is divided by 1000 before being presented in the view.
         '''
-        
+
         sample, timestamp = self.__inlet.pull_sample()
         self.Z = []
         for i in range(0, 8):
@@ -189,8 +212,11 @@ class Model(object):
 
     def readData(self):
         '''
+        Do a pull_chunk () to take a number of values and make a difference
+        between the reference channel and each of the channels of interest.
+        Create a Dataframe of each result to store it in a .csv file
         '''
-        
+
         samples, timestamp = self.__inlet.pull_chunk()
         samples = np.transpose(np.asanyarray(samples))
         try:
@@ -248,8 +274,9 @@ class Model(object):
 
     def filtDesign(self):
         '''
+        Design a low pass filter and a high pass filter
         '''
-        
+
         order, self.lowpass = filter_design(
             self.__fs, locutoff=0, hicutoff=50, revfilt=0)
         order, self.highpass = filter_design(
@@ -257,8 +284,10 @@ class Model(object):
 
     def filtData(self):
         '''
+        Call the readData () function and use the filtfit function of
+        scipy.signal to apply a filter to the received data in real time.
         '''
-        
+
         self.readData()
 
         self.senal_filtrada_pasaaltas = signal.filtfilt(
@@ -277,8 +306,10 @@ class Model(object):
 
     def Pot(self):
         '''
+        Apply the Welch method to the channel or user-defined configuration
+        in the interface
         '''
-        
+
         self.filtData()
         nblock = 250
         noverlap = nblock/2
@@ -291,8 +322,12 @@ class Model(object):
 
     def laplace(self, laplace1, laplace2, laplace3):
         '''
+        Rec: From the drop-down menu of the graphical interface, take the
+        values of the channels of interest.
+        Func: Create an array to perform the Laplace operation with the 
+        delivered values.
         '''
-        
+
         self.readData()
 
         if laplace1 == 0:
@@ -350,30 +385,34 @@ class Model(object):
 
     def returnLastData(self):
         '''
+        Run Pot () and return the values to the view to graph them.
         '''
-        
+
         self.Pot()
         return (self.senal_filtrada_pasabandas, self.Pxx, self.f,
                 self.laplace_filtrada_pasabandas, self.Pxxtg, self.ftg)  # [0:6,:]
 
     def returnLastZ(self):
         '''
+        Run readZ () and return the values of the impedance.
         '''
-        
+
         self.readZ()
         return self.Z
 
     def returnLastStimulus(self):
         '''
+        Run readData ()
         '''
-        
+
         self.readData()
         return
 
     def add_into_collection_one(self, data):
         '''
+        Add a subject to the database
         '''
-        
+
         self.__collection.insert_one(data)
         self.p = data['d'], data['cc']
         loc = self.cwd + '/' + str(self.p[0])+'_'+str(self.p[1])
@@ -385,8 +424,9 @@ class Model(object):
 
     def search_one(self, consult, proj):
         '''
+        Search for a person from the database
         '''
-        
+
         result = self.__collection.find_one(consult, proj)
         try:
             info_result = [result.get("d", None), result.get("nombre", None), result.get("apellidos", None),
@@ -409,8 +449,9 @@ class Model(object):
 
     def search_many(self, consult, proj, view=False):
         '''
+        Returns the list of members of the database
         '''
-        
+
         results = self.__collection.find(consult, proj)
         if view == True:
             for result in results:
@@ -430,33 +471,38 @@ class Model(object):
 
     def delete_data(self, data):
         '''
+        Delete a subject from the database
         '''
-        
+
         self.__collection.delete_one(data)
-       
+
     def assign_data(self, data):
         '''
+        Deliver the data to be graphed from a .csv file
         '''
         self.__data = data
 
     def return_segment(self, x_min, x_max):
         '''
+        Allow signal advance in time
         '''
-        
+
         if x_min >= x_max:
             return None
         return self.__data[:, x_min:x_max]
 
     def signal_scale(self, x_min, x_max, escala):
         '''
+        Allow to expand or decrease the signal
         '''
-        
+
         copy_data = self.__data[:, x_min:x_max].copy()
         return copy_data*escala
 
     def file_location(self, i, cc):
         '''
+        It allows to find a file of a certain subject.
         '''
-        
+
         path_subject = self.cwd + '/' + str(i)+'_'+str(cc)
         return path_subject

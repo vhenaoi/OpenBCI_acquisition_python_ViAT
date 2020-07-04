@@ -71,10 +71,19 @@ import random
 # from PySide2.QtUiTools import QUiLoader
 # from PySide2.QtWidgets import QApplication
 # from PySide2.QtCore import QFile, QIODevice
+
+'''
+Manages how data is displayed in the graphical interface by means of the 
+commands it sends to the controller and the data it returns from the
+ operations performed on the model.
+It is composed of 6 views designed in QtDesigner and by 8 classes that 
+control each of the views and two additional ones for the control of threads 
+for the processes that are carried out simultaneously
+'''
 # In[]
 
 
-class WorkerSignals(QObject):
+class WorkerSignals(QtCore.QObject):
     '''
     Supported signals are:
 
@@ -88,17 +97,18 @@ class WorkerSignals(QObject):
         `object` data returned from processing, anything
 
     '''
-    finished = pyqtSignal()  # with no data to indicate when the task is complete
-    error = pyqtSignal(tuple)  # which receives a tuple of Exception type,
+    finished = QtCore.pyqtSignal()  # with no data to indicate when the task is complete
+    # which receives a tuple of Exception type,
+    error = QtCore.pyqtSignal(tuple)
     # Exception value and formatted traceback.
     # receiving any object type from the executed function.
-    result = pyqtSignal(object)
-    progress = pyqtSignal(int)
+    result = QtCore.pyqtSignal(object)
+    progress = QtCore.pyqtSignal(int)
 
 # In[]
 
 
-class Worker(QRunnable):
+class Worker(QtCore.QRunnable):
     '''
     Worker thread
 
@@ -121,7 +131,7 @@ class Worker(QRunnable):
         # Add the callback to our kwargs
         self.kwargs['progress_callback'] = self.signals.progress
 
-    @pyqtSlot()
+    @QtCore.pyqtSlot()
     def run(self):
         '''
         Initialise the runner function with passed args, kwargs.
@@ -148,6 +158,11 @@ class ViAT(QtWidgets.QMainWindow):
     Load a .ui type view designed in Qt designer
 
     :setup: this function contains the condition to move to the other views
+
+    Run the main ViAT.ui view with the menu to scroll through the application.
+        1. Start registration: Go to view 2.
+        2. Patient database: Lets you go to view 6
+        3. Exit: Exit the application.
     '''
 
     def __init__(self):
@@ -195,6 +210,27 @@ class ViAT(QtWidgets.QMainWindow):
 
 
 class LoadRegistration(QtWidgets.QDialog):
+    '''
+    Run the AddData.ui view (Figure 2). It has the function of creating and
+    managing a database of each subject registered with the ViAT tool.
+     :setup: This function allows to:
+        1. Free writing fields
+        2. Verification button
+        3. Drop-down menu buttons
+        4. It allows the user to have the autonomy to choose the location of
+            the files resulting from the stimulation (Registration, marks,
+            processing with multitaper and processing with time frequency)
+        5. Allows the user to navigate to the database to search for a subject
+            view 5
+        6. It allows adding a subject, after completing all the fields.
+        7. When verifying a subject from the database, allow them to be
+            manipulated and updated with the “Update” button. If you want to
+            delete any of the records, you must go to the database and confirm
+            this action.
+        8. Lets you go to the next view.
+        9. It is the help button
+    '''
+
     def __init__(self, LR, controlador, controller):
         super(LoadRegistration, self).__init__()
         loadUi("Agregardatos.ui", self)
@@ -206,7 +242,7 @@ class LoadRegistration(QtWidgets.QDialog):
         self.__parentLoadRegistration = LR
         self.__controlador = controlador
         self.my_controller = controller
-        self.__locR,self.__locP = self.my_controller.location()
+        self.__locR, self.__locP = self.my_controller.location()
 
     def setup(self):
         self.btn_search.clicked.connect(self.find)
@@ -459,6 +495,12 @@ class DataAcquisition(QtWidgets.QMainWindow):
 
         :param variable controller: allows me to communicate with the model 
         through the controller
+
+        Run the Acquisition.ui view. It has the function of
+        preparing the registration, locating the user, observing the suggested
+        electrode assembly (10-10), measuring the impedance of each positioned
+        electrode, connecting the device and verifying the second screen in
+        which the stimulus will be presented.
     '''
     # Contains restrictions to follow the actions in an orderly manner
 
@@ -513,7 +555,7 @@ class DataAcquisition(QtWidgets.QMainWindow):
     def info(self):
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Information)
-        msg.setText("Comience identificando que el dispositivo esta conectado y que puede comenzar a adquirir los datos,se abrirá una ventana negra la cual le anuncia que se ha comenzado la adquisición,presione 'Miminizar' y a continuación verifique que la pantalla de estimulación se encuentra conectada. Para verificar la impedancia presione cualquiera de los electrodos de la configuración. Antes de pasar a la siguiente etapa recuerde detener la medición de la impedancia ")
+        msg.setText("Comience identificando que el dispositivo está conectado y que puede comenzar a adquirir los datos, se abrirá una ventana negra la cual le anuncia que se ha comenzado la adquisición, presione 'Minimizar' y a continuación verifique que la pantalla de estimulación se encuentra conectada. Para verificar la impedancia presione cualquiera de los electrodos de la configuración. Antes de pasar a la siguiente etapa recuerde detener la medición de la impedancia.")
         msg.setWindowTitle("Ayuda")
         x = msg.exec_()
 
@@ -698,13 +740,12 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
     def info(self):
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Information)
-        msg.setText("En la parte superior encontrara dos pestañas, cargar estimulación,en la que se encuentra actualmente y la de visualización, en la cual podra observar la señal adquirida en tiempo real.Primero debe presionar el botón inicio en la pestaña actual,luego, pase a la pestaña de visualización y presione 'visualizar',en la primera pestaña podra observar una barra de proceso que le anunciara que el estímulo esta a punto de presentarse.En esta pestaña podra interactuar con la señal aplicando el método de Welch a cada uno de los canales o modificando la configuración de Laplace segun el interes del registro.Podra reiniciar el estimulo las veces que sea necesario sin necesidad de detener la adquisición ni la visualización de la señal. En la parte inferior podra observar 4 botónes que le permiten ir a la vista anterior, desconectar el dispositivo de adquisición, visualizar las señales adquiridas previamente o salir del programa.")
+        msg.setText("En la parte superior encontrará dos pestañas, cargar estimulación, en la que se encuentra actualmente y la de visualización, en la cual podrá observar la señal adquirida en tiempo real. Primero debe presionar el botón inicio en la pestaña actual, luego, pase a la pestaña de visualización y presione 'visualizar’, en la primera pestaña podrá observar una barra de proceso que le anunciara que el estímulo está a punto de presentarse. En esta pestaña podrá interactuar con la señal aplicando el método de Welch a cada uno de los canales o modificando la configuración de Laplace según el interés del registro. Podrá reiniciar el estímulo las veces que sea necesario sin necesidad de detener la adquisición. En la parte inferior podrá observar 4 botones que le permiten ir a la vista anterior, desconectar el dispositivo de adquisición, visualizar las señales adquiridas previamente o salir del programa.")
         msg.setWindowTitle("Ayuda")
         x = msg.exec_()
 
     def startPlay(self):
         self.ban = True
-        self.stop.setEnabled(True)
         self.stop.clicked.connect(self.stopEnd)
         self.play.setEnabled(False)
         try:
@@ -859,6 +900,7 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
         self.ban = False
         self.my_controller.stopData()
         self.stopDevice.setEnabled(True)
+        self.stop.setEnabled(True)
         self.display.setEnabled(True)
         print("detener senal")
 
@@ -871,6 +913,32 @@ class AcquisitionSignal(QtWidgets.QMainWindow):
 # In[]
 
 class DataBase(QDialog):
+    '''
+    Run the SearchData.ui view.
+    It has the function of displaying the subjects registered in the database.
+    :setup: This function allows to:
+        1. Allows to search a subject in the database by means of the
+        registered ID number.
+        2. It is a Menu that allows you to choose the function that you will
+        have when you double-click on a subject in the database, allowing you
+        to delete a record or route to the locally registered files of the
+        selected subject.
+        3. This button allows showing all the subjects in the local database
+        created in MongoDB when executing the program.
+        4. Lets you direct view 6, where previously registered signs are
+        observed.
+        5. Help button contains the following message: In the first field you
+        find, you can type the CC of a subject to search for their information
+        in the database, or press 'Show all' to view all the subjects present
+        in the database . There is a drop-down menu below this field, this
+        allows you to delete a subject from the database or direct the user
+        to the subject's registry. In the button 'Visualize signals' you will
+        go to the view that allows you to search and visualize previously
+        acquired signals. To return to the previous menu press 'Back'.
+        6. Back, this button allows you to return to the previous view,
+        this can be; View 1 or 2. According to the use given by the user.
+    '''
+
     def __init__(self, DB, controlador, controller):
         super(DataBase, self).__init__()
         loadUi("Buscardatos.ui", self)
@@ -897,7 +965,7 @@ class DataBase(QDialog):
         self.__controlador = controlador
 
     def setup(self):
-        self.line_search.setPlaceholderText("Cedula del sujeto")
+        self.line_search.setPlaceholderText("Cédula del sujeto")
         self.btn_show.clicked.connect(self.show_everything)
         self.btn_search.clicked.connect(self.find)
         self.table.itemDoubleClicked.connect(self.dbclick)
@@ -911,7 +979,8 @@ class DataBase(QDialog):
     def info(self):
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Information)
-        msg.setText("En el primer campo que encuentra podra digitar la CC de un sujeto para buscar su información en la base de datos, o presionar 'Mostrar todo' para visualizar todos los sujetos presentes en la base de datos.Existe un menú desplegable debajo de este campo, este permite eliminar un sujeto de la base de datos o direccionar al usuario al registro del sujeto.En el botón 'Visualizar señales' se dirigira a la vista que le permite buscar y visualizar señales previamente adquiridas.Para volver al menú anterior presione 'Atrás'.")
+        msg.setText("En el primer campo que encuentra podrá digitar la CC de un sujeto para buscar su información en la base de datos, o presionar 'Mostrar todo' para visualizar todos los sujetos presentes en la base de datos. Existe un menú desplegable debajo de este campo, este permite eliminar un sujeto de la base de datos o direccionar al usuario al registro del sujeto. En el botón 'Visualizar señales’ se dirigirá a la vista que le permite buscar y visualizar señales previamente adquiridas. Para volver al menú anterior presione 'Atrás'.")
+        msg.setWindowTitle("Ayuda")
 
     def show_everything(self):
         results = self.__controlador.get_integrants()
@@ -920,7 +989,7 @@ class DataBase(QDialog):
     def find(self):
         find = self.line_search.text()
         self.line_search.setText("")
-        self.line_search.setPlaceholderText("Cedula del sujeto")
+        self.line_search.setPlaceholderText("Cédula del sujeto")
         results = self.__controlador.search_integrantes(find)
         self.see(results)
 
@@ -973,6 +1042,41 @@ class DataBase(QDialog):
 # In[]
 
 class GraphicalInterface(QtWidgets.QMainWindow):
+    '''
+    Run the visualization.ui view.
+    It has the function of displaying the signals registered with the ViAT
+    software or the OpenViBE software.
+     :setup: This function allows to:
+        1. Menu. The signals acquired with OpenViBE have a different storage
+        structure than the one acquired by ViAT, for this reason it is
+        necessary for the user to specify what type the signal is before
+        loading it.
+        2. Load signal, opens the file explorer in the application folder
+        and allows you to search for the record you want to observe.
+        There is a folder called “Record” in the main folder, there you
+        should find all the records made by ViAT unless you have changed the
+        location of a record in View 2.
+        3. They are buttons to interact with the displayed signal.
+        They allow you to move the sign to the right or left and make a
+        small zoom of it.
+        4. It allows to search for a subject in the database and when it
+        appears in the table and double-click, the user will go to the
+        subject's records folder.
+        5. Help button contains the following message: In this view you will
+        be able to view signals previously registered by ViAT or in OpenViBE
+        software, in the drop-down menu on the right choose the type of file
+        to search and press 'Load signal'. The buttons at the bottom of this
+        button allow you to scroll the signal in time and adjust the signal
+        for better viewing. In the following field, you can interact with the
+        database again by searching for a subject with your CC to visualize the
+        signal in a more agile way. If you want to observe all the subjects in
+        the database press 'Show Patients'. To return to the previous menu press
+        'Back'.
+        6. Back, this button allows you to return to the previous view,
+        this can be; View 4 or 5. According to the use given by the user.
+        7. Close the program.
+    '''
+
     def __init__(self, IG, controlador):
         super(GraphicalInterface, self).__init__(IG)
         loadUi('visualizacion.ui', self)
@@ -1006,7 +1110,7 @@ class GraphicalInterface(QtWidgets.QMainWindow):
         self.btn_behind.setEnabled(False)
         self.btn_increase.setEnabled(False)
         self.btn_decrease.setEnabled(False)
-        self.line_search.setPlaceholderText("Cedula del sujeto")
+        self.line_search.setPlaceholderText("Cédula del sujeto")
         self.btn_search.clicked.connect(self.find)
         self.table.itemDoubleClicked.connect(self.dbclick)
         self.back.clicked.connect(self.loadStart)
@@ -1019,7 +1123,8 @@ class GraphicalInterface(QtWidgets.QMainWindow):
     def info(self):
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Information)
-        msg.setText("En esta vista prodra visualizar señales previamente regustradas por ViAT o en el software OpenViBE,en el menú desplegle a la derecha elija el tipo de archivo que va a buscar y presione 'Cargar señal'. Los botónes en la parte inferior de este botón le permiten desplazar la señal en el tiempo y realizar un ajuste de la señal para visualizarla mejor. En el campo siguiente podra interactuar nuevamente con la base de datos buscando un sujeto con su CC para visualizar la señal de manera más agil. Si desea observar todos los sujetos en la base de datos presione 'Mostrar Pacientes'. Para volver al menú anterior presione 'Atrás'.")
+        msg.setText("En esta vista podrá visualizar señales previamente registradas por ViAT o en el software OpenViBE, en el menú desplegable a la derecha elija el tipo de archivo que va a buscar y presione 'Cargar señal'. Los botones en la parte inferior de este botón le permiten desplazar la señal en el tiempo y realizar un ajuste de la señal para visualizarla mejor. En el campo siguiente podrá interactuar nuevamente con la base de datos buscando un sujeto con su CC para visualizar la señal de manera más ágil. Si desea observar todos los sujetos en la base de datos presione 'Mostrar Pacientes'. Para volver al menú anterior presione 'Atrás'.")
+        msg.setWindowTitle("Ayuda")
 
     def compute_initial_figure(self):
         t = np.arange(0.0, 3.0, 0.01)

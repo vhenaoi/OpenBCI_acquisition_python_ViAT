@@ -7,7 +7,17 @@ from matplotlib.ticker import MaxNLocator
 
 
 class TimeFrequency(object):
+    '''
+    This processing is given by calculating the short-time Fourier transform.
+    '''
+
     def __init__(self, id_Subject, cc_Subject, date, loc, save):
+        '''
+        Rec: ID of the subject registered in the database, ID of the subject
+            registered in the database, date of registration, location of the 
+            registration and location to save.
+        Func: Define variables and locations of the delivered files.
+        '''
         self.__subject = id_Subject
         self.__cc = cc_Subject
         self.__date = date
@@ -17,6 +27,12 @@ class TimeFrequency(object):
             str(self.__subject)+'_'+str(self.__cc) + '/' + date
 
     def plot_stft(self):
+        '''
+        Reads the log on the Oz-FCz channel and applies short-time Fourier 
+        transform stft from the scipy.signal library
+        STFTs can be used as a way to quantify the change in the frequency of a
+        non-stationary signal and the phase content over time.
+        '''
         name = str(self.__subject)+'_'+str(self.__cc)
         signal = pd.read_csv(self.loc+'/'+'Record_' +
                              name + '.csv', sep=';', index_col=0)

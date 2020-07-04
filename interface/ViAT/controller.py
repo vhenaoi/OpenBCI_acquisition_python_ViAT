@@ -22,6 +22,22 @@ import subprocess
 
 
 class Principal(object):
+    '''
+    It determines what processes the model must perform when the user interacts
+    with the system, and then communicates the results to the eye. It simply 
+    takes an order from the view and sends it to the controller, so the 
+    functions in this module refer to the same functions that are in the model.
+    The controller is made up of 3 classes:
+        • Main: Start the MongoDB database server in an application thread, 
+        start the application and define the variables of the view and 
+        the model. Enter the view and model to each of the controllers and 
+        assign the controllers to use in the view.
+        • Controller: Manages all the functions related to the data received
+        from the device and the signals graphed on the interface.
+        • Controller: Manages all the functions related to the subjects 
+        database and the interaction with MongoDB.
+    '''
+
     def __init__(self):
         cmd = r'C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe'
         process = subprocess.Popen(
@@ -80,10 +96,10 @@ class Controller(object):
 
     def stopStimulus(self):
         self.system.stopStimulus()
-   
-    def newLocation(self,location):
+
+    def newLocation(self, location):
         self.system.newLocation(location)
-    
+
     def location(self):
         return self.system.location()
 

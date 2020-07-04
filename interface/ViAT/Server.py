@@ -8,8 +8,21 @@ serial_openBCI = 'DQ0081'
 
 
 class Server(object):
+    '''
+    A server is a running application capable of serving a client's requests
+    and returning a matching response.
+    Useful libraries for creating this type of OpenBCI compliant server are
+    pyOpenBCI and pylsl.
+    pyOpenBCI provides a stable Python driver for all OpenBCI biosensors.
+    Pylsl provides a set of functions to create data transmitted in real 
+    time within a network.
+    '''
 
     def __init__(self):
+        '''
+        Define variables for StreamInfo and for StreamOutlet
+        '''
+
         # [Information]
         print("Creating LSL stream for EEG. \nName: OpenBCIEEG\nID: OpenBCItestEEG\n")
         self.__info_eeg = StreamInfo(
@@ -24,6 +37,13 @@ class Server(object):
     # In[Functions]
 
     def lslStreamers(self, sample):
+        '''
+        Rec: Samples from the device (Samples)
+        Func: Perform the data conversion suggested by OpenBCI and push the
+        data. Take out a piece of sample and push one sample per channel to 
+        the outlet.
+        '''
+
         try:
             SCALE_FACTOR_EEG = (4500000)/24/(2**23-1)  # uV/count
             SCALE_FACTOR_AUX = 0.002 / (2**4)
@@ -37,6 +57,10 @@ class Server(object):
             print('Corrupted data')
 
     def port(self):
+        '''
+        Rec: Samples from the device (Samples)
+        Func: Evaluate the list of ports in use and set the port to use.
+        '''
         Lista_puertos = list_ports.comports()
         print(Lista_puertos)
         for serial_device in Lista_puertos:
