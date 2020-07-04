@@ -1134,7 +1134,7 @@ class GraphicalInterface(QtWidgets.QMainWindow):
     # Graph signal
     def graph_data(self, datos):
         self.ax.cla()
-        print(datos.shape)
+#        print(datos.shape)
         for c in range(datos.shape[0]):
             self.ax.plot(datos[c, :]+c*10)
         self.ax.set_xlabel("Muestras")
