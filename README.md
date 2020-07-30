@@ -1,4 +1,4 @@
-Proyecto para el titulo de Bioingeniería de la universidad de Antioquia, Medellín, Colombia.
+Proyecto para el título de Bioingeniería de la universidad de Antioquia, Medellín, Colombia.
 
 Dirijase a la carpeta docuemntación para encontrar el manual de usuario de la herramienta.
 
