@@ -36,7 +36,6 @@ class Processing(object):
         path_Record = self.loc + '/'+name+'/' + self.__date + '/Record_'+name+'.csv'
         path_Mark = self.loc + '/'+name + '/' + self.__date + '/Mark_'+name+'.csv'
         self.__fs = 250
-        self.__time_stimuli = 4  # time to stimulation + time rest
         values = []
         frec = []
         now = datetime.now()

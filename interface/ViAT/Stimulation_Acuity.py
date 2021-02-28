@@ -61,12 +61,12 @@ class Stimulus(object):
         Icon = pygame.image.load('icono.png')
         pygame.display.set_icon(Icon)
         pygame.display.set_caption('Agudeza de Vernier')
-#        self.__width = 300 
-        self.__width = 1680
-#        self.__height = 300
-        self.__height = 1050
-#        self.__size = 300, 300  
-        self.__size = 1680, 1050
+        self.__width = 300 
+#        self.__width = 1680
+        self.__height = 300
+#        self.__height = 1050
+        self.__size = 300, 300  
+#        self.__size = 1680, 1050
         # self.__screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.__screen = pygame.display.set_mode(self.__size)
         pygame.display.flip()
@@ -146,7 +146,7 @@ class Stimulus(object):
                 'Pausa', True, pygame.color.Color('White'))
             for i in range(0, 1):  # time of stimulation
                 for num in range(0, 7):  # acuity levels
-                    self.save(num+1)
+#                    self.save(num+1)
                     while (cont <= 8):  # Doble de tiempo de estimulacion
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:
@@ -179,6 +179,5 @@ class Stimulus(object):
 # In[To run individually]
 if __name__ == '__main__':
 
-    estimulo = Stimulus(
-        'H1', '1152207135', r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records\H1_1152207135')
+    estimulo = Stimulus('H1', '1152207135', r'C:\Users\veroh\OneDrive - Universidad de Antioquia\Proyecto Banco de la republica\Trabajo de grado\Herramienta\HVA\GITLAB\interface\ViAT\Records\H1_1152207135')
     estimulo.start_stimulus()

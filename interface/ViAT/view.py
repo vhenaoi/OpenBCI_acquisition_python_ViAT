@@ -651,20 +651,20 @@ class DataAcquisition(QtWidgets.QMainWindow):
         self.my_controller.startData()
 
         # Allows to detect if there is a second screen connected
-        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
-        displays = [x for x in obj if 'DISPLAY' in str(x)]
-        num = len(displays)
-        if num == 3:
-            self.next.setEnabled(True)
-            self.next.clicked.connect(self.executeAcquisition)
-        else:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Warning)
-            msg.setText(
-                "Debe conectar una segunda pantalla para poder iniciar la adquisición")
-            msg.setWindowTitle("Alerta!")
-            num = 0
-            x = msg.exec_()
+#        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
+#        displays = [x for x in obj if 'DISPLAY' in str(x)]
+#        num = len(displays)
+#        if num == 3:
+#            self.next.setEnabled(True)
+#            self.next.clicked.connect(self.executeAcquisition)
+#        else:
+#            msg = QMessageBox()
+#            msg.setIcon(QMessageBox.Warning)
+#            msg.setText(
+#                "Debe conectar una segunda pantalla para poder iniciar la adquisición")
+#            msg.setWindowTitle("Alerta!")
+#            num = 0
+#            x = msg.exec_()
         self.detectDevice.setEnabled(False)
 
     def progress_fn(self, n):
