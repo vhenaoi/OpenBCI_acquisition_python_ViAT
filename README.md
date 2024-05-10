@@ -1,4 +1,4 @@
-## 1.	Refereed article
+## Refereed article
 *GithHub:* https://github.com/GRUNECO/Project_SSVEP/
 *Title of article* 	Development of a Tool for the Acquisition of SSVEP using Portable and Low-Cost Electroencephalography
 *Author(s)* 	Isaza, V. H., Villa, E. S., Castro, V. C., & Gomez, J. F. O.
