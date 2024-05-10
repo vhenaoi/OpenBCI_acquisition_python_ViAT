@@ -1,5 +1,5 @@
 ## Refereed article
-*GithHub:* https://github.com/GRUNECO/Project_SSVEP/<br>
+*General GitHub:* https://github.com/GRUNECO/Project_SSVEP/<br>
 *Title of article* 	Development of a Tool for the Acquisition of SSVEP using Portable and Low-Cost Electroencephalography<br>
 *Author(s)* 	Isaza, V. H., Villa, E. S., Castro, V. C., & Gomez, J. F. O.<br>
 *Title of publication* 	2023 IEEE 3rd Colombian BioCAS Workshop<br>
